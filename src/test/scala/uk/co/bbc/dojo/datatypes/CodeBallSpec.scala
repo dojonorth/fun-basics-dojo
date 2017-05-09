@@ -1,9 +1,8 @@
 package uk.co.bbc.dojo.datatypes
 
-import org.scalatest.{FunSpec, Matchers}
 import uk.co.bbc.dojo.dataypes._
 
-class CodeBallSpec extends FunSpec with Matchers {
+class CodeBallSpec extends CodemonBaseSpec {
 
   describe("#2 - Our tool of Codemon oppression") {
     it("will return the contained Codemon if one is inside") {

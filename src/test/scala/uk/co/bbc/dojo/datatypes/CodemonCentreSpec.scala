@@ -1,9 +1,8 @@
 package uk.co.bbc.dojo.datatypes
 
-import org.scalatest.{FunSpec, Matchers}
 import uk.co.bbc.dojo.dataypes._
 
-class CodemonCentreSpec extends FunSpec with Matchers {
+class CodemonCentreSpec extends CodemonBaseSpec {
   describe("#4 - The dystopian mass processing facility should") {
     it("be able to contain no Codeballs") {
       val centre = CodemonCentre()

@@ -1,9 +1,8 @@
 package uk.co.bbc.dojo.datatypes
 
-import org.scalatest.{FunSpec, Matchers}
 import uk.co.bbc.dojo.dataypes._
 
-class CodemonSpec extends FunSpec with Matchers {
+class CodemonSpec extends CodemonBaseSpec {
 
   describe("#1 - Our exciting new Codemon datatype") {
     it("should always return itself with the identity morphism") {
