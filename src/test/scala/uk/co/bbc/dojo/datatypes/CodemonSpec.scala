@@ -6,20 +6,20 @@ class CodemonSpec extends CodemonBaseSpec {
 
   describe("#1 - Our exciting new Codemon datatype") {
     it("should always return itself with the identity morphism") {
-      Rusa.identity shouldBe Rusa
-      RaabyChu.identity shouldBe RaabyChu
+      Codemon.identity(Rusa) shouldBe Rusa
+      Codemon.identity(RaabyChu) shouldBe RaabyChu
     }
 
     it("should feature a basic evolution morphism") {
-      Sikachu.evolve shouldBe RaabyChu
+      Codemon.evolve(Sikachu) shouldBe RaabyChu
     }
 
     it("should not evolve past its final form") {
-      RaabyChu.evolve shouldBe RaabyChu
+      Codemon.evolve(RaabyChu) shouldBe RaabyChu
     }
 
     it("should support multiple evolutions (associative law)") {
-      Rusa.evolve.evolve shouldBe RaabyChu
+      Codemon.evolve(Codemon.evolve(Rusa)) shouldBe RaabyChu
     }
   }
 }

@@ -13,7 +13,7 @@ class CodemonCentreSpec extends CodemonBaseSpec {
     it("do nothing when we apply a functor over an empty facility") {
       val centre = CodemonCentre()
 
-      val evolvedCentre = centre.map(codeBall => codeBall.map(codemon => codemon.evolve))
+      val evolvedCentre = centre.map(codeBall => codeBall.map(Codemon.evolve))
 
       evolvedCentre shouldBe centre
     }
@@ -30,7 +30,7 @@ class CodemonCentreSpec extends CodemonBaseSpec {
       val convicts = List(OccupiedCodeball(RaabyChu), OccupiedCodeball(Rusa))
 
       val centre = CodemonCentre(convicts: _*)
-      val evolvedCentre = centre.map(codeBall => codeBall.map(codemon => codemon.evolve))
+      val evolvedCentre = centre.map(codeBall => codeBall.map(Codemon.evolve))
 
       evolvedCentre.codeBalls shouldBe List(OccupiedCodeball(RaabyChu), OccupiedCodeball(Sikachu))
     }
