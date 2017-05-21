@@ -29,7 +29,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
     }
 
     it("should be able to facilitate mass Codemon evolution") {
-      val codemon = List(RaabyChu, Rusa)
+      val codemon = List[Codemon](RaabyChu, Rusa)
       val codeBox = CodeBox(codemon)
 
       def evolveAll(codeBox: CodeBox[Codemon]): CodeBox[Codemon] = codeBox.map(Codemon.evolve)
@@ -51,7 +51,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
       val anotherCodemon = List[Codemon](Rusa)
       val aFinalFewCodemon = List(Rusa, Sikachu)
 
-      val packedOuterCodebox = CodeBox(List(CodeBox(someCodemon), CodeBox(anotherCodemon), CodeBox(aFinalFewCodemon)))
+      val packedOuterCodebox = CodeBox[CodeBox[Codemon]](List(CodeBox(someCodemon), CodeBox(anotherCodemon), CodeBox(aFinalFewCodemon)))
 
       CodeBox.flatten(packedOuterCodebox) shouldBe CodeBox(someCodemon ++ anotherCodemon ++ aFinalFewCodemon)
     }
