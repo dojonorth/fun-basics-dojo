@@ -1,5 +1,6 @@
 package uk.co.bbc.dojo.dataypes
 
+// Our thing with (quite dull) functor capability
 sealed trait CodeBall {
   def chooseYou: Codemon
   def map(f: Codemon => Codemon): CodeBall
