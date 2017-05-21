@@ -58,7 +58,6 @@ class CodeBoxSpec extends CodemonBaseSpec {
   }
 
   //TODO: Restriction on Flatmap?
-  //TODO: Make writing these tests the exercise
   describe("#7 - The killer app, flatmap, should") {
     it("act as flaten if we pass the identity function") {
       val codemon = List[Codemon](RaabyChu, Sikachu)
@@ -71,23 +70,14 @@ class CodeBoxSpec extends CodemonBaseSpec {
       val codemon = List[Codemon](RaabyChu, Rusa, Sikachu)
       val codeBox: CodeBox[CodeBox[Codemon]] = CodeBox(List(CodeBox(codemon)))
 
-      def mapWrap[A,B](f: A => B): A => CodeBox[B] = (x: A) => CodeBox(List(f(x)))
-      def evolveAll(codeBox: CodeBox[Codemon]): CodeBox[Codemon] = codeBox.map(Codemon.evolve)
-      def combinedFunction: (CodeBox[Codemon]) => CodeBox[CodeBox[Codemon]] = mapWrap(evolveAll)
-
-      codeBox.flatMap(combinedFunction) shouldBe codeBox.map(evolveAll)
+      codeBox.flatMap(UtilityFunctions.evolveAllUsingFlatMap) shouldBe codeBox.map(UtilityFunctions.evolveAll)
     }
 
     it("allow us to throw away all but the Sikachus") {
       val codemon = List[Codemon](Sikachu, Sikachu, RaabyChu, Rusa, Sikachu)
       val codeBox: CodeBox[Codemon] = CodeBox(codemon)
 
-      def keepSickachus(codemon: Codemon): CodeBox[Codemon] = codemon match {
-        case Sikachu => CodeBox(List(Sikachu))
-        case _ => CodeBox(List())
-      }
-
-      codeBox.flatMap(keepSickachus) shouldBe CodeBox(List[Codemon](Sikachu, Sikachu, Sikachu))
+      codeBox.flatMap(UtilityFunctions.keepSickachus) shouldBe CodeBox(List[Codemon](Sikachu, Sikachu, Sikachu))
     }
 
     it("Allow us replace each RaabyChu with the equivalant Thousand Rusas") {
@@ -95,14 +85,9 @@ class CodeBoxSpec extends CodemonBaseSpec {
       val codeBox: CodeBox[Codemon] = CodeBox(codemon)
 
       val aThousandRusas = List.fill(1000)(Rusa)
-      def keepSickachus(codemon: Codemon): CodeBox[Codemon] = codemon match {
-        case RaabyChu => CodeBox(aThousandRusas)
-        case notARusa => CodeBox(List(notARusa))
-      }
-
       val expectedList = aThousandRusas ++ List(Rusa) ++ List(Sikachu) ++ aThousandRusas ++ List(Rusa)
 
-      codeBox.flatMap(keepSickachus) shouldBe CodeBox(expectedList)
+      codeBox.flatMap(UtilityFunctions.replaceRaabyChusWithAThousandRusas) shouldBe CodeBox(expectedList)
     }
   }
 }
