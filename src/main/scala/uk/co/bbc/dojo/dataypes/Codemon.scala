@@ -15,6 +15,6 @@ object Codemon {
 sealed trait Codemon
 
 //Objects
-object RaabyChu extends Codemon
-object Sikachu extends Codemon
-object Rusa extends Codemon
+case object RaabyChu extends Codemon
+case object Sikachu extends Codemon
+case object Rusa extends Codemon
