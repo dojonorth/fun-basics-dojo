@@ -21,7 +21,7 @@ class CodemonWorld(private val random: Random = new Random) {
 
     def riskyForcedEvolution(occupiedCodeball: OccupiedCodeball): CodeBall =
       random.nextInt(100) match {
-        case x if x < 75 => EmptyCodeball
+        case x if x < 75 => EmptyCodeball //75% chance of death
         case _ => occupiedCodeball.map(Codemon.evolve)
       }
 
@@ -33,13 +33,13 @@ class CodemonWorld(private val random: Random = new Random) {
   def codemonIndustry(numberOfThrows: Int): CodeBox[OccupiedCodeball] = {
     val codeBallHaul: CodeBox[CodeBall] = tryAndCapture(numberOfThrows)
     val capturedCodemon: CodeBox[Codemon] = codeBallHaul.flatMap(emptyOutCodeBalls)
-    val raabychusAndCorpses: CodeBox[CodeBall] = capturedCodemon.flatMap(codemon => CodeBox(List(forceMaxEvolution(codemon)))) //Could use map, but want to show repeated flatmaps
+    val raabychusAndCorpses: CodeBox[CodeBall] = capturedCodemon.flatMap(codemon => CodeBox(forceMaxEvolution(codemon))) //Could use map, but want to show repeated flatmaps
     val onlyRaabychus: CodeBox[Codemon] = raabychusAndCorpses.flatMap(emptyOutCodeBalls)
     onlyRaabychus.map(raabyChu => OccupiedCodeball(raabyChu))
   }
 
   private def emptyOutCodeBalls(codeBall: CodeBall): CodeBox[Codemon] = codeBall match {
-    case OccupiedCodeball(codemon) => CodeBox(List(codemon))
-    case EmptyCodeball => CodeBox(List())
+    case OccupiedCodeball(codemon) => CodeBox(codemon)
+    case EmptyCodeball => CodeBox()
   }
 }

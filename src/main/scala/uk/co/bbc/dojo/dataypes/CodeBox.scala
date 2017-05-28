@@ -4,14 +4,16 @@ object CodeBox {
   def identity[A](codeBox: CodeBox[A]): CodeBox[A] = codeBox
 
   def flatten[A](codebox: CodeBox[CodeBox[A]]): CodeBox[A] = {
+    def go(toFlatten: List[CodeBox[A]]): List[A] = toFlatten match {
+      case Nil => Nil
+      case (head: CodeBox[A]) :: tail => head.contents ++ go(tail)
+    }
+
     val newContents = go(codebox.contents)
     CodeBox(newContents)
   }
 
-  private def go[A](toFlatten: List[CodeBox[A]]): List[A] = toFlatten match {
-    case Nil => Nil
-    case (head: CodeBox[A]) :: tail => head.contents ++ go(tail)
-  }
+  def apply[A](boxContents: A*): CodeBox[A] = CodeBox(boxContents.toList)
 }
 
 // Now genericised the functor to allow changes between types
