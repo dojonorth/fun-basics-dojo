@@ -1,4 +1,4 @@
-package uk.co.bbc.dojo.dataypes
+package uk.co.bbc.dojo.exercise
 
 // Identity and sample evolve morphism
 object Codemon {

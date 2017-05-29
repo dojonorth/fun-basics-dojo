@@ -1,4 +1,4 @@
-package uk.co.bbc.dojo.dataypes
+package uk.co.bbc.dojo.exercise
 
 object UtilityFunctions {
   def evolveAll(codeBox: CodeBox[Codemon]): CodeBox[Codemon] = codeBox.map(Codemon.evolve)

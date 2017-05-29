@@ -1,4 +1,4 @@
-package uk.co.bbc.dojo.datatypes
+package uk.co.bbc.dojo.exercise
 
 import org.scalatest.{FunSpec, Matchers}
 

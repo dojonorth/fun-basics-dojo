@@ -1,4 +1,4 @@
-package uk.co.bbc.dojo.dataypes
+package uk.co.bbc.dojo.solution
 
 import scala.util.Random
 

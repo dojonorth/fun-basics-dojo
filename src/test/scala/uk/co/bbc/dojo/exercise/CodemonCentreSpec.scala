@@ -1,6 +1,6 @@
-package uk.co.bbc.dojo.datatypes
+package uk.co.bbc.dojo.exercise
 
-import uk.co.bbc.dojo.dataypes._
+import uk.co.bbc.dojo.exercise._
 
 class CodemonCentreSpec extends CodemonBaseSpec {
   describe("#4 - The dystopian mass processing facility should") {

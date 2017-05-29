@@ -1,4 +1,4 @@
-package uk.co.bbc.dojo.dataypes
+package uk.co.bbc.dojo.solution
 
 // Our thing with (quite dull) functor capability
 sealed trait CodeBall {

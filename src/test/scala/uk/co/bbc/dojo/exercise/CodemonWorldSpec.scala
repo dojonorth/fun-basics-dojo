@@ -1,6 +1,6 @@
-package uk.co.bbc.dojo.datatypes
+package uk.co.bbc.dojo.exercise
 
-import uk.co.bbc.dojo.dataypes._
+import uk.co.bbc.dojo.exercise._
 
 import scala.util.Random
 
