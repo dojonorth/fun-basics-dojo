@@ -2,11 +2,11 @@ package uk.co.bbc.dojo.dataypes
 
 import scala.util.Random
 
-class CodemonWorld(private val random: Random = new Random) {
+class CodemonWorld(private val statefulRandomNumberGenerator: Random = new Random) { //Random gene isn't very functional, but simplifies the code.
   def tryAndCapture(numberOfThrows: Int): CodeBox[CodeBall] = CodeBox(List.fill(numberOfThrows)(throwCodeball()))
 
   private def throwCodeball(): CodeBall =
-    random.nextInt(100) match {
+    statefulRandomNumberGenerator.nextInt(100) match {
       case x if x < 10 => OccupiedCodeball(Rusa) //10% chance
       case x if x < 30 => OccupiedCodeball(Sikachu) //20% chance
       case x if x == 99 => OccupiedCodeball(RaabyChu) //Super rare!
@@ -20,7 +20,7 @@ class CodemonWorld(private val random: Random = new Random) {
     }
 
     def riskyForcedEvolution(occupiedCodeball: OccupiedCodeball): CodeBall =
-      random.nextInt(100) match {
+      statefulRandomNumberGenerator.nextInt(100) match {
         case x if x < 75 => EmptyCodeball //75% chance of death
         case _ => occupiedCodeball.map(Codemon.evolve)
       }
