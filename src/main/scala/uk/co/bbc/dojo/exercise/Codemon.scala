@@ -2,13 +2,9 @@ package uk.co.bbc.dojo.exercise
 
 // Identity and sample evolve morphism
 object Codemon {
-  def identity(codemon: Codemon): Codemon = codemon
+  def identity(codemon: Codemon): Codemon = ??? //TODO: 1a Complete the identity function.
 
-  def evolve(codemon: Codemon): Codemon = codemon match {
-    case Rusa => Sikachu
-    case Sikachu => RaabyChu
-    case RaabyChu => RaabyChu
-  }
+  def evolve(codemon: Codemon): Codemon = ??? //TODO: 1b - 1d add in the evolve behaviour
 }
 
 //Category
