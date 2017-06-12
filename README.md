@@ -2,59 +2,73 @@
 Putting the 'fun' in functional since 2017™
 
 ## Disclaimer
-I'm currently doing my best to learn these concepts myself, and whilst I've done my best to ensure the correctness of everything I've written here, it's entirely possible that I've made mistakes - especially as we get towards the underlying theory becomes more nuanced. I've included references to the majority of concepts I've covered, so if something seems off, you should be able to independently verify it. If you do find anything that's wrong, then give me a shout and I'll correct it.
-
-TODO: Stress I'll have dropped the ball on some nuances.
+I'm currently doing my best to learn these concepts myself, and whilst I've done my best to ensure the correctness of everything I've written, it's entirely possible that I've made mistakes - especially in the nuances of the underlying category theory. I've included references to the majority of concepts I've covered, so if something seems off, you should be able to independently verify it. If you do find anything that's wrong, then give me a shout and I'll correct it.
 
 ## Goals
-Functional programming languages - and additionally many elements of non-functional programming - have their foundations rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus). Lambda calculus is primarily concerned with the application of functions - their composition; higher-order functions; currying etc [[1]](####1-Lambda Notes). Whilst lambda calculus provides much of the basic framework of functional programming, more recently ideas from another branch of mathematics have been increasingly leveraged by functional programmers. This branch is [Category Theory](https://en.wikipedia.org/wiki/Category_theory) and is at the centre of what this dojo focuses on.
+Functional programming languages - and additionally many elements of non-functional programming - have their foundations rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus). Lambda calculus is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. [[1]](####1-Lambda Notes). Whilst lambda calculus provides much of the basic framework of functional programming - in essence it *is* functional programming - recently ideas from another branch of mathematics have been increasingly leveraged by functional programmers. This branch is [Category Theory](https://en.wikipedia.org/wiki/Category_theory) and is what this dojo focuses on.
    
-Category theory is a vast and complicated field of mathematics and I'm not going to come close to covering all of it, because:
-1. It would take far too long
-2. More importantly, I only understand the tip of the iceberg myself.
+Category theory is a vast and crushingly abstract field of mathematics and I'm not going to come close to covering all of it, because:
+1. It would take far too long.
+2. A complete understanding isn't needed to apply these concepts. From my experience, it's fine to just understand the general concepts.
+3. Most importantly, I only understand the tip of the iceberg myself.
 
-Instead, this dojo is going to be whistlestop tour through a few of the core concepts, culminating in the monad. Hopefully, by the end of the dojo, you'll have a good understanding of these concepts and where they're applicable. If nothing else, you'll have a fighting chance if a future interviewer / pair-programming partner attempts to blind you with science by talking about applicative functors, free monads and the like... (although if you really want the tools to be able to take them on see [[2]](####2-General Category Theory)).
-
-TODO: Good introduction as to why it's useful here. Include some ideas: http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/
-
+Instead, this dojo is going to be whistlestop tour through a few of the core concepts that have become fashionable in the functional domain. Hopefully, by the end of the dojo, you'll have a good understanding of these concepts and where they're applicable. If nothing else, you'll have a fighting chance if a future interviewer / pair-programming partner attempts to blind you with science by talking about semigroups, free monads and the like... (although if you really want the tools to be able to take them on see [[2]](####2-General Category Theory)).
 
 ## The exercises
 The dojo takes a workshop-type format. Generally, for each concept, this document provides a little prose, giving some background to the concept and then there'll be a few exercises to complete based around it. These exercises take the format of code that needs writing to make the provided failing tests pass. Initially, all of the failing tests are set to be ignored, so you'll want to un-ignore them as you go along.
  
-The exercises largely build on each other and share a narrative thread. You could possibly skip the prose and just do the exercises or vice-versa, but I'd recommend going through it in order. Similarly, it's strongly advisable to ensure they pass before moving on to the next. If needs be, I've included the answers, so if you get really stuck then just copy the answer in and move on.
+The exercises build on each other and share a narrative thread. You could possibly skip the prose and just do the exercises or vice-versa, but I'd recommend going through it in order. Similarly, it's strongly advisable to ensure they pass before moving on to the next. If needs be, I've included the answers, so if you get really stuck then just copy the answer in and move on.
 
-###1. Categories
+##1. Categories
 Unsurprisingly, at the heart of category theory, are categories. A category is a simple algebraic data structure that consists of two main collections:
 1. **Objects -** the 'things' within the category. These can be thought of as the actual data. For example '2', '3' and '345234' within Integers. They're commonly represented using capital letters e.g. *A*, *B*, *C* etc.
-2. **Morphism -** the relationships within the category. These are mappings go from one source object (A) to another target object (B) and are usually represent using arrows e.g. A → B. An example morphism on Integers would be the '+ 2' operation that for 
+2. **Morphisms -** the relationships within the category. These are mappings go from one source object (A) to another target object (B) and are usually represented using arrows e.g. A → B. An example of a morphisms on Integers would be the '+ 2' operation.
 
-TODO - EXPLANATION:
-* Cover lightly laws that define categories.
-* Say that I've skipped a lot here, but this is really a light touch.
-* Read http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/
+Categories lend themselves well to being represented pictorially as objects and arrows between them. The exercise focuses on magical creatures called Codemon (objects) that can evolve (morphisms), we can depict this as:
 
-TODO - EXERCISE OUTLINE: 
-1. Open CodemonSpec.
-2. Already have the basic Codemon trait. This represents the object part of the category.
-3. Have three objects within the category, the three Codemon types.
-4. Create a basic identity function. Technically needed. Just returns whatever is passed to it. Could do this on the Codemon, but we'll leave it as a freestanding function in the companion object. More functional that way.
-5. Evolve is a basic morphism we'll add to our category. Create the function as guided by the Spec. As before, we choose to put the behaviour on companion object as it emphasises the distinction between function and state. In practice you might have it as a method on the trait.
+[TODO: INSERT PICTURE 1]
+
+There are a few things to take from the diagram:
+* *It's missing identity morphisms:* Category theory states that each object should feature a morphism that goes from itself to itself. I haven't bothered to include these on the diagram. 
+* *At the core of categories is the concept of composition:* If we have A → B and B → C then there must be a corresponding A → C. I've shown this on the diagram using the composition operator '∘'.
+
+TODO: Not sure this next bit is true now - think I've covered it with the identity and associativity stuff now (see http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala) 
+Additional restrictions apply to the collection of objects and arrows for them to qualify as a true mathematical category, but we'll skip over these. See [[2]](####2-General Category Theory) for additional information if you want to round out your understanding.
+
+####Exercise
+Open CodemonSpec and un-ignore and make pass the tests.
+
+Here we establish a basic category that we will work with in subsequent exercises.
+
+Additional notes:
+* Note the basic Codemon trait. It contains three Codemon provided represent the objects within our new category. Feel free to add more, but subsequent tests just assume the presence of these three.
+* The identity function is a required component of a category. It just returns whatever is passed to it. This could be a method on the Codemon objects, but I've instead chosen to leave it as a freestanding function in the companion object. I've followed this convention throughout the exercise as a whole; it's a slightly arbitrary decision, but I feel it represents a more idiomatic approach that highlights the distinction between data and functions. In real-world coding though, I'd tend towards putting functions within the instances themselves as I feel it makes for simpler code and aids discoverability.
+* Evolve is a basic morphism we'll add to our category. Create the function as guided by the spec and depicted by the diagram. Note the simplifying assumption that a RaabyChu evolves to itself - this is a little weird, but simplifies subsequent exercises. 
 
 ##2. Functors
-TODO - EXPLANATION:
-1. Say how functor applies function on state with context and behaviour differs.
-2. Functor applies function in situ and value remains in context.
-3. We're going to do classic example of having a representation of a value that can be something or nothing. In our case this is represented by the Codeball trait.
-4. In nothing case, there's nothing to apply the function to, so it does nothing. Crucialy, it does't throw an exception.
-5. In something case, the value is modified but the external context doesn't change.
-6. This is opens up the possibility to apply functors across collections of things with different internal contexts, causing different results. This is a very powerful pattern, as we'll see.
+A functor F is a transformation between two categories X and Y. F must map every object and morphism from A to B. We'll gloss over this and concentrate on their application in functional programming (see [[3]](####3-Functors) for more detail if you're interested).
 
-TODO - EXERCISE OUTLINE:
-1. Open CodeBallSpec.
-2. Write a method to extract the codemon from the ball. Note that this has no meaning in the empty codeball and so we have no choice but to throw an exception. This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala option does too, so I think there's no way around it. In super functional languages like Erlang, I believe that's not possible to actually get at the contained object so this wouldn't be an issue (TOTO: Check the avlitiy of this statement and clean up language apropos category theory). 
-3. Write the map functor for both. TODO: Say about how for now we're limiting map to sticking within the same category.
-4. Open CodemonCentreSpec
-5. The Codemon centre can operate across all of the Codeballs within it. Highlights how powerful the functor can be. Implement this new map functionality (depending on how keen you are, you may be able to leverage existing map functionality on the container you use for the CodeBalls - e.g. list - or you may handle the construction of and mapping over a storage class form basic principles (or maybe even come back and remimplement it if you finish everything else!)).
+Normally, when you perform a function on a value, say +2 on the integer 3 the behaviour is fixed. In order to better understand functors, it's convenient to extend this to the idea of a value within an associated context. Commonly, this is depicted as the idea of a value with a 'box' that defines the context. Now, depending on the context, the behaviour of +2 will change. For example in the case of a List context, +2 would be applied to every element in the list, or in the case of a Promise (or Future) +2 would only be applied once the value had been evaluated.
+
+A functor is a typeclass with a method that defines how functions are applied to it. Usually the method is called 'map' (sometimes 'fmap'). 
+
+TODO: Write more about what it is.
+
+####Exercise - Part 1
+Open CodeballSpec and un-ignore and make pass the tests.
+
+Here, we introduce the Codeball - a type that can have a Codemon inside it or not. When there is a Codemon inside, then the map method will be applied to it, whereas when the context is that it's empty, then the map method will do nothing.
+
+Additional notes:
+* What we're creating here is the simplest possible implementation of what is effectively the Option data type. Normally, this would not be a type unto itself, but would be a *type constructor* i.e. you would give it a type argument in order to turn it into a type, like Option[Int] or Option[Boolean]. 
+* As I alluded to earlier, a functor normally maps between categories. This makes sense in the case of a type constructor like Option, where we could introduce a function isOdd: Int -> Boolean that would then convert the type of our Option from Option[Int] to Option[Boolean]. We will see this in a subsequent exercise. Codeball is a special case known as an 'endofunctor' that always stays within the same category.
+* Note that this has no meaning in the empty codeball and so we have no choice but to throw an exception. This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala option does too, so I think there's no way around it. In super functional languages like Erlang, I believe that's not possible to actually get at the contained object so this wouldn't be an issue (TOTO: Check the avlitiy of this statement and clean up language apropos category theory). 
+* Being able to map across a collection that may contain either something or nothing without having to differentiate is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called railway-orientated programming.
+
+####Exercise - Part 2
+Open CodemonCentreSpec and un-ignore and make pass the tests.
+
+Now, we create a full-blown type constructor that we make into a functor: The codemon centre can contain multiple entries for any given type and so the corresponding map functor capability can convert between types. 
 
 ##3. Monads
 TODO - EXPLANATION:
@@ -62,6 +76,8 @@ TODO - EXPLANATION:
 2. Previously functors limited us in that we only change what was already there between types. We couldn't create or destroy things. For example on a list of numbers (1,2,3), map will let us change the numbers, for example add 4 to them all, but we can't remove or create new numbers.
 3. Monads are effectively defined by a much more powerful operation - flatMap. The contents we're manipulating is like energy - with map we are like engineers constrained by the first law of thermodynamics, but with flatMap, we are as gods! TODO: Yeah... maybe work on that simile.  
 4. TODO: More category theory stuff.
+
+TODO: Say about type constructors
 
 TODO - EXERCISE OUTLINE:
 1. Open CodeBoxSpec
@@ -108,10 +124,14 @@ TODO: Emphaise it's possible to race through, but better to understand things. R
 See [here](https://medium.com/javascript-scene/the-rise-and-fall-and-rise-of-functional-programming-composable-software-c2d91b424c8c) as a starting point for more detail on the relationship between Lambda Calculus and programming languages. Few interesting nuggets to whet your appetite:
 * The 'calculus' in Lambda Calculus has nothing to do with integration and differentiation that we all know and love. Rather, it refers to the more general meaning of calculus, which defines a 'method or system for calculation or reasoning'.
 * Lisp, that we also all know and love, was heavily influenced by lambda calculus. [Lisp dates from 1958 and is the second oldest prograaming language still in widespread use](https://en.wikipedia.org/wiki/Lisp_(programming_language)), only Fortran edges it out by a year.
+* As I alluded to above, lambda calculus essentially *is functional programming*. The application of category theory concepts is just a recent innovation built on top of it.
 
 ####2-General Category Theory
 I've tried to inline links to the general concepts that the dojo covers as I've gone along. If you're interested in a more complete discussion of parts of category theory that apply to programming though, then I'd single out [this for special mention](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/).
 
 If you're after a more accessible, but less thorough, take on most of the material that the dojo covers, then I'd recommend [this](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html).
 
-Finally, if you're after a balance between the two [then this is good](http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala).
+Finally, if you're after a balance between the two [then this is good](http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala). As is [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/).
+
+####3-Functors
+http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/ (Functors Section)
