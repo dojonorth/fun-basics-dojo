@@ -71,24 +71,37 @@ Open CodemonCentreSpec and un-ignore and make pass the tests.
 Now, we create a full-blown type constructor that we make into a functor: The codemon centre can contain multiple entries for any given type and so the corresponding map functor capability can convert between types. 
 
 ##3. Monads
-TODO - EXPLANATION:
-1. This is thought of as a very powerful construct. It calls itself 'The Cream!' (not true).
-2. Previously functors limited us in that we only change what was already there between types. We couldn't create or destroy things. For example on a list of numbers (1,2,3), map will let us change the numbers, for example add 4 to them all, but we can't remove or create new numbers.
-3. Monads are effectively defined by a much more powerful operation - flatMap. The contents we're manipulating is like energy - with map we are like engineers constrained by the first law of thermodynamics, but with flatMap, we are as gods! TODO: Yeah... maybe work on that simile.  
-4. TODO: More category theory stuff.
+Monads have a semi-mythical status in computing. They change your mind in such a way that once you understand monads, you become incapable of explaining monads. Well hopefully I'm just 99% of the way to understanding them as I think there's not actually that much to the concept. As [has been pointed out](https://bartoszmilewski.com/2016/11/21/monads-programmers-definition/) people end to overestimate their complexity, as they confuse the myriad of applications with the concept itself. 
 
-TODO: Say about type constructors
+Just like how a functor boiled down to something that has a map operation on it, a monad is a type constructor - i.e. it takes a type parameter and so is written as M[A]  - and has two distinct operations on it:
+* **Pure -** a method that takes a value of a plain type and puts it into a monad creating a monadic value. This is effectively the monad constructor. It goes by many aliases across the programming world: return in Haskell, unit in Scala, sometimes pure elsewhere, occasionally zero
+* **Bind -** a method that performs as per the functor map operation in that it contextually applies the function to the contents of the monad, but then performs an additional flattening step that will be described in more detail later. Again, this operation goes by other names >>= in Haskell and flatMap in Scala.
 
-TODO - EXERCISE OUTLINE:
-1. Open CodeBoxSpec
-2. We're now introducing a new more powerful container. The CodeBox! It has completely unheard of powers - it can contain anything!
-3. Implement basic functor functor functionality (the map operation) for the CodeBox. Note now that we're allowing map to change the type it operates on.
-4. Implement the flatten operation. TODO: Bit more explanation.
-5. Implement flatMap. Behold its majesty. Note that it's possible to implement map in terms flatMap, but not the other way around!
+I prefer the Scala name for bind, which is flatMap, as it describes what the operation does: it maps over the monad's values and then flattens the result. As with functors, just what this flatten operation does is contextual to the monad in question, but in essence it takes any nested instances within the Monad and then 'flattens' them out into a single monad. For example:
+* *The List Monad -* List(List(1,2,3), List(4), List(5,6,7)).flatten() would give List(1,2,3,4,5,6,7)
+* *The Option Monad -* Some(Some(x)).flatten would give Some(x), whereas Some(None) gives None
+
+This means that the function that is passed to flatMap, must itself return an instance of the monad, as the exercise will show in depth. We'll go into the benefits of monads later, but even in the two examples listed above, the power of flatMap over map can be seen:
+* *The List Monad -* we can now change the number of elements in the list. Using map only allows us to transform the elements, whilst the total number remains the same.
+* *The Option Monad -* We can actually change from a Some to a None. Using map only allows for the value within a Some to be altered.
+
+Hence, it should come as no surprise that flatMap is much more powerful than map. This is illustrated by the fact that it's possible to write map in terms of flatMap, but not vice-versa. If the two had a fight, flatMap would win everytime.
+
+[FLATMAP WINS FIGURE]
+
+####Exercise
+Open CodeBoxSpec and un-ignore and make pass the tests.
+
+Now we're really upping the ante! We introduce the codeBox a branded box, total distinct from a similar, much cheaper box, that can contain anything! It features both monad and functor operations and so we can vary the number of items in the box and even change their types!
 
 ##4. Praxis
 TODO: - EXPLANATION:
+SEQUENCING
+
+
 1. Practice applying what we've built int he exciting world of Codemon!
+
+####Exercise
 
 TODO - EXERCISE OUTLINE:
 1. Open CodemonWorld
@@ -109,6 +122,8 @@ TODO: More explanation on using the stateful random number generator. Need to ti
   - Discards all of the empty Codeballs (corpses)
   - Returns all of the RabbyChus in Codeballs in CodeBox.
 TODO: Tighten this up a bit. Needs a bit more explanation.
+
+"flatMap that shit"
  
 
 TODO: Nice to get a for comprehension in there.
