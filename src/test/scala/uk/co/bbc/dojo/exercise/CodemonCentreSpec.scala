@@ -2,13 +2,13 @@ package uk.co.bbc.dojo.exercise
 
 class CodemonCentreSpec extends CodemonBaseSpec {
   describe("#4 - The dystopian mass processing facility should") {
-    ignore("a. be able to contain no Codeballs") {
+    it("a. be able to contain no Codeballs") {
       val centre = CodemonCentre()
 
       centre.codeBalls shouldBe Seq.empty[CodeBall]
     }
 
-    ignore("b. do nothing when we apply a functor over an empty facility") {
+    it("b. do nothing when we apply a functor over an empty facility") {
       val centre = CodemonCentre()
 
       val evolvedCentre = centre.map(codeBall => codeBall.map(Codemon.evolve))
@@ -16,7 +16,7 @@ class CodemonCentreSpec extends CodemonBaseSpec {
       evolvedCentre shouldBe centre
     }
 
-    ignore("c. be able to contain and retrieve a number of Codemon") {
+    it("c. be able to contain and retrieve a number of Codemon") {
       val convicts = List(OccupiedCodeball(RaabyChu), OccupiedCodeball(Rusa))
 
       val centre = CodemonCentre(convicts: _*)
@@ -24,7 +24,7 @@ class CodemonCentreSpec extends CodemonBaseSpec {
       centre.codeBalls shouldBe convicts
     }
 
-    ignore("d. be able to mass-process the imprisoned Codemon") {
+    it("d. be able to mass-process the imprisoned Codemon") {
       val convicts = List(OccupiedCodeball(RaabyChu), OccupiedCodeball(Rusa))
 
       val centre = CodemonCentre(convicts: _*)

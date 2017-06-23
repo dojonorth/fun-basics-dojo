@@ -2,7 +2,7 @@ package uk.co.bbc.dojo.exercise
 
 class CodeBoxSpec extends CodemonBaseSpec {
   describe("#5 - Our Codemon Brand box should") {
-    ignore("a. be able to contain Codeballs") {
+    it("a. be able to contain Codeballs") {
       val codeballs = List(OccupiedCodeball(RaabyChu), OccupiedCodeball(Rusa))
 
       val codeBox = CodeBox(codeballs)
@@ -10,7 +10,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
       codeBox.contents shouldBe codeballs
     }
 
-    ignore("b. be able to contain Codemon") {
+    it("b. be able to contain Codemon") {
       val codemon = List(RaabyChu, Rusa)
 
       val codeBox = CodeBox(codemon)
@@ -18,7 +18,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
       codeBox.contents shouldBe codemon
     }
 
-    ignore("c. should be able to free Codemon from their Balls") {
+    it("c. should be able to free Codemon from their Balls") {
       val codeballs = List(OccupiedCodeball(RaabyChu), OccupiedCodeball(Rusa))
 
       val codeBox = CodeBox(codeballs)
@@ -26,7 +26,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
       codeBox.map(_.chooseYou) shouldBe CodeBox(RaabyChu, Rusa)
     }
 
-    ignore("d. should be able to facilitate mass Codemon evolution") {
+    it("d. should be able to facilitate mass Codemon evolution") {
       val codemon = List[Codemon](RaabyChu, Rusa)
       val codeBox = CodeBox(codemon)
 
@@ -37,14 +37,14 @@ class CodeBoxSpec extends CodemonBaseSpec {
   }
 
   describe("#6 - The Exciting new flatten functionality that our CodeBox supportsn should") {
-    ignore("a. empty out a single inner box of Codemon") {
+    it("a. empty out a single inner box of Codemon") {
       val codemon = List[Codemon](RaabyChu, Sikachu)
       val codeBox: CodeBox[CodeBox[Codemon]] = CodeBox(List(CodeBox(codemon)))
 
       CodeBox.flatten(codeBox) shouldBe CodeBox(codemon)
     }
 
-    ignore("b. empty out all inner boxes of Codemon") {
+    it("b. empty out all inner boxes of Codemon") {
       val someCodemon: List[Codemon] = List(Sikachu, RaabyChu)
       val anotherCodemon: List[Codemon] = List[Codemon](Rusa)
       val aFinalFewCodemon: List[Codemon] = List(Rusa, Sikachu)

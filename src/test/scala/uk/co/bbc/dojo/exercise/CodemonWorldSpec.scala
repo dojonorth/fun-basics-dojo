@@ -5,8 +5,7 @@ import scala.util.Random
 class CodemonWorldSpec extends CodemonSpec {
 
   describe("#8 - The Codemon World should allow") {
-
-    ignore("a. us to try and capture wild Codemon") {
+    it("a. us to try and capture wild Codemon") {
       val knownRandomGenerator = new Random(560562578l)
       val codemonWorld = new CodemonWorld(knownRandomGenerator)
 
@@ -15,7 +14,7 @@ class CodemonWorldSpec extends CodemonSpec {
       countCodemonByType(todaysHaul) shouldBe Map(EmptyCodeball -> 705, OccupiedCodeball(Rusa) -> 87, OccupiedCodeball(Sikachu) -> 196, OccupiedCodeball(RaabyChu) -> 12)
     }
 
-    ignore("b. for dangerous forced double evolution on Codemon") {
+    it("b. for dangerous forced double evolution on Codemon") {
       val knownRandomGenerator = new Random(560562578l)
       val codemonWorld = new CodemonWorld(knownRandomGenerator)
 
@@ -25,7 +24,7 @@ class CodemonWorldSpec extends CodemonSpec {
       countCodemonByType(evolvedCodemon) shouldBe Map(EmptyCodeball -> 826, OccupiedCodeball(RaabyChu) -> 174)
     }
 
-    ignore("c. us to efficiently bulk process Codemon") {
+    it("c. us to efficiently bulk process Codemon") {
       val knownRandomGenerator = new Random(560562578l)
       val codemonWorld = new CodemonWorld(knownRandomGenerator)
 
