@@ -16,7 +16,7 @@ class CodemonSpec extends CodemonBaseSpec {
       Codemon.evolve(RaabyChu) shouldBe RaabyChu
     }
 
-    ignore("d. should support multiple evolutions (associative law)") {
+    ignore("d. should support multiple consecutive evolutions (composability)") {
       Codemon.evolve(Codemon.evolve(Rusa)) shouldBe RaabyChu
     }
   }

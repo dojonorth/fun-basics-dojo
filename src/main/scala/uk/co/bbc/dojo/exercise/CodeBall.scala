@@ -7,13 +7,13 @@ sealed trait CodeBall {
 }
 
 case class OccupiedCodeball(private val prisoner: Codemon) extends CodeBall {
-  override def chooseYou: Codemon = ??? //TODO: 2a
+  override def chooseYou: Codemon = prisoner
 
-  override def map(f: (Codemon) => Codemon): CodeBall = ??? //TODO: 3b
+  override def map(f: (Codemon) => Codemon): CodeBall = OccupiedCodeball(f(prisoner))
 }
 
 case object EmptyCodeball extends CodeBall {
-  override def chooseYou: Codemon = ??? //TODO: 2b.
+  override def chooseYou: Codemon = throw new RuntimeException("Nobody home - viva la Codemon")
 
-  override def map(f: (Codemon) => Codemon): CodeBall = ??? //TODO: 3a
+  override def map(f: (Codemon) => Codemon): CodeBall = EmptyCodeball
 }
