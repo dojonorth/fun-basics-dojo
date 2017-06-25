@@ -12,7 +12,6 @@ object AdvancedCodeball extends Functor[AdvancedCodeball] {
 }
 
 //TODO: Comment on +A
-//TODO: All this stuff is just about getting the types down.
 trait AdvancedCodeball[+A] {
   def get: A
 }
