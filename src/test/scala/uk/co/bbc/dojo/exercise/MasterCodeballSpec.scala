@@ -17,4 +17,25 @@ class MasterCodeballSpec extends CodemonBaseSpec {
       MasterCodeball.flatten(OccupiedMasterBall(nestedCore)) shouldBe nestedCore
     }
   }
+
+  describe("#11 - Onwards to the Monad should") {
+    it("a. allow us to use 'pure' (aka Unit etc.) to create a new wrapped value") {
+      object ATonOfConcrete
+      MasterCodeball.pure(ATonOfConcrete) shouldBe OccupiedMasterBall(ATonOfConcrete)
+    }
+
+    it("b. do nothing if we flatMap over an Empty Master Codeball") {
+      MasterCodeball.flatMap(EmptyMasterBall)(_ => OccupiedMasterBall("Doesn't matter"))
+    }
+
+    it("c. Allow us to keep the context on an Occupied Codeball") {
+      val secretMonad = MasterCodeball.pure("Magical Contents!")
+      MasterCodeball.flatMap(secretMonad)(x => MasterCodeball.pure(x)) shouldBe secretMonad
+    }
+
+    it("d. Allow us to empty out an Occupied Codeball") {
+      val secretMonad = MasterCodeball.pure("Magical Contents!")
+      MasterCodeball.flatMap(secretMonad)(x => EmptyMasterBall) shouldBe EmptyMasterBall
+    }
+  }
 }

@@ -3,6 +3,15 @@ package uk.co.bbc.dojo.exercise
 import uk.co.bbc.dojo.exercise.concepts.Monad
 
 object MasterCodeball extends Monad[MasterCodeball] {
+  override def pure[A](value: A): MasterCodeball[A] = OccupiedMasterBall(value)
+
+  override def flatMap[A, B](codeball: MasterCodeball[A])(f: A => MasterCodeball[B]): MasterCodeball[B] = flatten {
+    codeball match {
+      case EmptyMasterBall => EmptyMasterBall
+      case OccupiedMasterBall(value) => pure(f(value))
+    }
+  }
+
   override def flatten[A](masterBall: MasterCodeball[MasterCodeball[A]]): MasterCodeball[A] = masterBall match {
     case OccupiedMasterBall(innerCodeball: OccupiedMasterBall[A]) => innerCodeball
     case _ => EmptyMasterBall
