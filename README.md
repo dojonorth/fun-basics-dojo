@@ -150,3 +150,32 @@ Finally, if you're after a balance between the two [then this is good](http://ww
 
 ####3-Functors
 http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/ (Functors Section)
+
+
+
+TODO - Exercise Rework notes:
+Basic narative:
+Say how map is really good, but ti can't change the artity. Very limited in that sense.
+
+Exercise Narrative
+1. CodemonSpec: Introduce category idea & basic morphism
+  TODO: Put traits in the concepts section.
+
+2 - 3. CodeballSpec: Introduce functor lite.
+  Say how what we've produced here is a very limit isomorphic construct to pave the way.
+  We've put the map function on the codeball to make it more familiar too. From now on, we're going hardcore FP and have moved it off.
+
+4. MasterCodeBallSpec: This is the real thing.
+  Have moved the map method out for more FP style and put in a trait
+  Now a category constructor or whatever it's called [TODO: Check]
+  Moral: Basically an option.
+
+5. More MasterCodeballSpec - Do real functor stuff
+  Functors have other rules, but we don't care about them.
+  Now can change type.
+  But can never change outside context - as will be exposed.
+
+6 - 9. WildCodemonCaptureSpec - Functor application. Time for some praxis.
+  Basically modeling sequencing with a failure model (railway-orientated programming)
+  Moral: Note the sequencing - imagine how would / could relate to reading a file then a value from it etc.
+  Note how level of nesting at the end is undesirable. We need something better.
