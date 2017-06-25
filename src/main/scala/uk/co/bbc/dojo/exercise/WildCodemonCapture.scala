@@ -1,21 +1,21 @@
 package uk.co.bbc.dojo.exercise
 
 object WildCodemonCapture {
-  def throwCodeball(randomFunction: () => Boolean): MasterCodeball[Codemon] =
-    if (randomFunction()) OccupiedMasterBall(Rusa) else EmptyMasterBall
+  def throwCodeball(randomFunction: () => Boolean): AdvancedCodeball[Codemon] =
+    if (randomFunction()) OccupiedAdvancedBall(Rusa) else EmptyAdvancedBall
 
-  def baitTrap(bait: Codemon): MasterCodeball[Codemon] = bait match {
-    case Rusa => OccupiedMasterBall(Sikachu)
-    case _ => EmptyMasterBall
+  def baitTrap(bait: Codemon): AdvancedCodeball[Codemon] = bait match {
+    case Rusa => OccupiedAdvancedBall(Sikachu)
+    case _ => EmptyAdvancedBall
   }
 
-  def fastEvolveCodemon(randomFunction: () => Boolean)(codemonToEvolve: Codemon): MasterCodeball[Codemon] =
-    if (randomFunction()) OccupiedMasterBall(Codemon.evolve(codemonToEvolve)) else EmptyMasterBall
+  def fastEvolveCodemon(randomFunction: () => Boolean)(codemonToEvolve: Codemon): AdvancedCodeball[Codemon] =
+    if (randomFunction()) OccupiedAdvancedBall(Codemon.evolve(codemonToEvolve)) else EmptyAdvancedBall
 
   //TODO: Note the clunky type
-  def captureLifecycle(randomFunction: () => Boolean): MasterCodeball[MasterCodeball[MasterCodeball[Codemon]]] =
-    MasterCodeball.map(throwCodeball(randomFunction)) { codemonWeCaught: Codemon =>
-      MasterCodeball.map(baitTrap(codemonWeCaught)) { trappedNewCodemon: Codemon =>
+  def captureLifecycle(randomFunction: () => Boolean): AdvancedCodeball[AdvancedCodeball[AdvancedCodeball[Codemon]]] =
+    AdvancedCodeball.map(throwCodeball(randomFunction)) { codemonWeCaught: Codemon =>
+      AdvancedCodeball.map(baitTrap(codemonWeCaught)) { trappedNewCodemon: Codemon =>
         fastEvolveCodemon(randomFunction)(trappedNewCodemon)
       }
     }

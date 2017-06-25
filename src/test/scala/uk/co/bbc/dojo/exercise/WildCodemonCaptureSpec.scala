@@ -8,42 +8,42 @@ class WildCodemonCaptureSpec extends CodemonBaseSpec {
 
   describe("#6 - Throwing a codeball") {
     it("a. should catch a Rusa if the random function works out") {
-      throwCodeball(successfulRandomEvent) shouldBe OccupiedMasterBall(Rusa)
+      throwCodeball(successfulRandomEvent) shouldBe OccupiedAdvancedBall(Rusa)
     }
 
     it("b. should return an empty codeball if we're unlucky") {
-      throwCodeball(failedRandomEvent) shouldBe EmptyMasterBall
+      throwCodeball(failedRandomEvent) shouldBe EmptyAdvancedBall
     }
   }
 
   describe("#7 - Baiting a trap") {
     it("a. should use the Rusa as bait to catch a Sikachu successfully") {
-      baitTrap(Rusa) shouldBe OccupiedMasterBall(Sikachu)
+      baitTrap(Rusa) shouldBe OccupiedAdvancedBall(Sikachu)
     }
 
     it("b. should return an empty Codeball if any other Codemon is used as bait") {
-      baitTrap(RaabyChu) shouldBe EmptyMasterBall
+      baitTrap(RaabyChu) shouldBe EmptyAdvancedBall
     }
   }
 
   describe("#8 - Risky fast evolution") {
     it("a. should instantly evolve a Codemon if we get lucky") {
-      fastEvolveCodemon(successfulRandomEvent)(Sikachu) shouldBe OccupiedMasterBall(RaabyChu)
-      fastEvolveCodemon(successfulRandomEvent)(Rusa) shouldBe OccupiedMasterBall(Sikachu)
+      fastEvolveCodemon(successfulRandomEvent)(Sikachu) shouldBe OccupiedAdvancedBall(RaabyChu)
+      fastEvolveCodemon(successfulRandomEvent)(Rusa) shouldBe OccupiedAdvancedBall(Sikachu)
     }
 
     it("b. should kill off the Codemon and return an empty ball if we're unlucky") {
-      fastEvolveCodemon(failedRandomEvent)(Sikachu) shouldBe EmptyMasterBall
-      fastEvolveCodemon(failedRandomEvent)(Rusa) shouldBe EmptyMasterBall
+      fastEvolveCodemon(failedRandomEvent)(Sikachu) shouldBe EmptyAdvancedBall
+      fastEvolveCodemon(failedRandomEvent)(Rusa) shouldBe EmptyAdvancedBall
     }
 
     describe("#9 - Putting it all together") {
       it("a. should let us sequence together the various operations") {
-        captureLifecycle(successfulRandomEvent) shouldBe OccupiedMasterBall(OccupiedMasterBall(OccupiedMasterBall(RaabyChu)))
+        captureLifecycle(successfulRandomEvent) shouldBe OccupiedAdvancedBall(OccupiedAdvancedBall(OccupiedAdvancedBall(RaabyChu)))
       }
 
       it("b. should deal with the failure case without blowing up") {
-        captureLifecycle(failedRandomEvent) shouldBe EmptyMasterBall
+        captureLifecycle(failedRandomEvent) shouldBe EmptyAdvancedBall
       }
     }
   }
