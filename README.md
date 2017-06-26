@@ -151,9 +151,6 @@ Finally, if you're after a balance between the two [then this is good](http://ww
 ####3-Functors
 http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/ (Functors Section)
 
-
-
-TODO - Exercise Rework notes:
 Basic narative:
 Say how map is really good, but ti can't change the artity. Very limited in that sense.
 
@@ -165,8 +162,9 @@ Exercise Narrative
   Say how what we've produced here is a very limit isomorphic construct to pave the way.
   We've put the map function on the codeball to make it more familiar too. From now on, we're going hardcore FP and have moved it off.
 
-4. MasterCodeBallSpec: This is the real thing.
+4. AdvancedCodeBallSpec: This is the real thing.
   Have moved the map method out for more FP style and put in a trait
+  TODO: Uninspired name - the vaneer over this just being an Option is obvious coming off
   Now a category constructor or whatever it's called [TODO: Check]
   Moral: Basically an option.
 
@@ -178,4 +176,33 @@ Exercise Narrative
 6 - 9. WildCodemonCaptureSpec - Functor application. Time for some praxis.
   Basically modeling sequencing with a failure model (railway-orientated programming)
   Moral: Note the sequencing - imagine how would / could relate to reading a file then a value from it etc.
-  Note how level of nesting at the end is undesirable. We need something better.
+  Note how level of nesting at the end is undesirable - super clunky. We need something better.
+
+10 - 11. MasterCodeballSpec - Welcome to party (Monad)
+  Haven't extended the AdvancedCodeball. Could have done. Up to you if you want to. Then just pretend it's different.
+  They decide what sensible behaviour is (sort of). But I've decided it should be that should be that any EmptyBalls make for an Empty.
+  Flatten is not strictly needed, but it simplifies the path to flatMap.
+  TODO: Check. Believe that we don't actually need map exposed on interface, but we do need to have map functionality underneath as we map on it. Can make it from the tools we have.
+  Pure operation always gives us back a Some - None is an object.
+  FlatMap actually lets us now change the outer context.
+  Can write what you want, but it should at least make sense. Could have multiple interpretations, but probably not.
+  Need a bit more stressing when to use flatMap.
+
+  FINAL - Play thing - do our own map and flatten
+  Do chainning like before but now better
+
+12. ImprovedWildCodemonCaptureSpec
+  Writing map in terms of flatmap shows how it lords it over it. You effectively have to write map top get flatMap though.
+  Compare and contrast the hassle of using map only to sequence operations.
+  Note the return type is no longer stupid.
+  Talk about the pattern of flatmap, flatmap then map being very common. Leads to for comprehension.
+
+13. Bonus: Write the Codebox.
+  Hint - this is basically just a list.
+  I've not spent too long on it.
+
+14 - 16. CodeboxSpec
+  Effectively list.
+  Can piggyback on existing List functionality or do it yourself, depending on your inclination and time.
+  Feel free to tinker with the tests
+  I've not gone back over it, so mileage may vary.

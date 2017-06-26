@@ -1,4 +1,6 @@
-package uk.co.bbc.dojo.exercise
+package uk.co.bbc.dojo.exercise.extra
+
+import uk.co.bbc.dojo.exercise.{Codemon, RaabyChu, Rusa, Sikachu}
 
 object UtilityFunctions {
   def evolveAll(codeBox: CodeBox[Codemon]): CodeBox[Codemon] = codeBox.map(Codemon.evolve)

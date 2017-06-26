@@ -1,4 +1,4 @@
-package uk.co.bbc.dojo.exercise
+package uk.co.bbc.dojo.exercise.extra
 
 object CodeBox {
   def identity[A](codeBox: CodeBox[A]): CodeBox[A] = codeBox

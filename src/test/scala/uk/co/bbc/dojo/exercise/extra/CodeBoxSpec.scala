@@ -1,9 +1,10 @@
-package uk.co.bbc.dojo.exercise
+package uk.co.bbc.dojo.exercise.extra
 
+import uk.co.bbc.dojo.exercise._
 import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
 
 class CodeBoxSpec extends CodemonBaseSpec {
-  describe("#5 - Our Codemon Brand box should") {
+  describe("#14 - Our Codemon Brand box should") {
     it("a. be able to contain Codeballs") {
       val codeballs = List(OccupiedCodeball(RaabyChu), OccupiedCodeball(Rusa))
 
@@ -38,7 +39,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
     }
   }
 
-  describe("#6 - The Exciting new flatten functionality that our CodeBox supportsn should") {
+  describe("#15 - The Exciting new flatten functionality that our CodeBox supportsn should") {
     it("a. empty out a single inner box of Codemon") {
       val codemon = List[Codemon](RaabyChu, Sikachu)
       val codeBox: CodeBox[CodeBox[Codemon]] = CodeBox(List(CodeBox(codemon)))
@@ -57,7 +58,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
     }
   }
 
-  describe("#7 - The killer app, flatmap, should") {
+  describe("#16 - The killer app, flatmap, should") {
     it("a. act as flaten if we pass the identity function") {
       val codemon = List[Codemon](RaabyChu, Sikachu)
       val codeBox: CodeBox[CodeBox[Codemon]] = CodeBox(List(CodeBox(codemon)))
