@@ -1,5 +1,7 @@
 package uk.co.bbc.dojo.exercise
 
+import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
+
 class CodeBoxSpec extends CodemonBaseSpec {
   describe("#5 - Our Codemon Brand box should") {
     it("a. be able to contain Codeballs") {

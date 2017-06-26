@@ -1,6 +1,7 @@
 package uk.co.bbc.dojo.exercise
 
 import WildCodemonCapture._
+import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
 
 class WildCodemonCaptureSpec extends CodemonBaseSpec {
   private val successfulRandomEvent = () => true

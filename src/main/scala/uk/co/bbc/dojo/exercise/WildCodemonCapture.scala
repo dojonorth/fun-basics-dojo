@@ -12,7 +12,6 @@ object WildCodemonCapture {
   def fastEvolveCodemon(randomFunction: () => Boolean)(codemonToEvolve: Codemon): AdvancedCodeball[Codemon] =
     if (randomFunction()) OccupiedAdvancedBall(Codemon.evolve(codemonToEvolve)) else EmptyAdvancedBall
 
-  //TODO: Note the clunky type
   def captureLifecycle(randomFunction: () => Boolean): AdvancedCodeball[AdvancedCodeball[AdvancedCodeball[Codemon]]] =
     AdvancedCodeball.map(throwCodeball(randomFunction)) { codemonWeCaught: Codemon =>
       AdvancedCodeball.map(baitTrap(codemonWeCaught)) { trappedNewCodemon: Codemon =>

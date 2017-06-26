@@ -1,5 +1,7 @@
 package uk.co.bbc.dojo.exercise
 
+import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
+
 class MasterCodeballSpec extends CodemonBaseSpec {
   describe("#10 - The ultimate Codeball that supports the king of the operations should") {
     it("a. flatten Empty Master Codeballs") {

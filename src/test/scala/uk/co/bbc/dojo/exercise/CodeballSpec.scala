@@ -1,5 +1,7 @@
 package uk.co.bbc.dojo.exercise
 
+import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
+
 class CodeballSpec extends CodemonBaseSpec {
 
   describe("#2 - Our basic Codeball") {

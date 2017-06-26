@@ -1,5 +1,7 @@
 package uk.co.bbc.dojo.exercise
 
+import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
+
 class AdvancedCodeballSpec extends CodemonBaseSpec {
   describe("#4 - The Advanced Codeball can capture anything") {
     it("a. including a Codemon") {

@@ -1,5 +1,7 @@
 package uk.co.bbc.dojo.exercise
 
+import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
+
 class CodemonSpec extends CodemonBaseSpec {
 
   describe("#1 - Our exciting new Codemon datatype") {
