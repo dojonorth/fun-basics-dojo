@@ -78,31 +78,73 @@ Here's the reveal: when we're developing in a typed language, the class heirarch
 [TODO: Steal Class Heirarchy diagram from http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/]
 
 Why is this important? The thing that really matters is that we can show we're in a category. It doesn't matter what the category is. The fact that we're in a category means that category theory applies!
-We have access to decades of hard work mathematicians have put in understanding and formalising a number of useful concepts that we can now freely pillage and use for our own devices.
+We have access to hundreds of years of hard work mathematicians have put in understanding and formalising a number of useful concepts that we can now freely pillage and use for our own devices.
 The following concepts that we use are a small selection of examples of these.
 
 [TODO: Pillaging diagram]
 
+TODO: Maybe say how normally used to thinking at instances level, but category theory is more concerned with type level. See https://alissapajer.github.io/conferenceslides/craftconf2014/#/4
+TODO: Maybe talk a little more on laws - see https://alissapajer.github.io/conferenceslides/craftconf2014/#/11
+TODO: Maybe need to establish a thread whereby I say how I've largely skipped over laws throughout.
+
 ##2. Functors
-A functor F is a transformation between two types X and Y. F must map every object and morphism from A to B.
+In CT, a functor describes a transformation between two categories. It needs to map every object and morphism between the two and must adhere to a number of mathematical laws.
 We'll gloss over this and concentrate on their application in functional programming (see [[3]](####3-Functors) for more detail if you're interested).
 
 Normally, when you perform a function on a value, say +2 on the integer 3 the behaviour is fixed.
 In order to better understand functors, it's convenient to extend this to the idea of a value within an associated context.
-Commonly, this is depicted as the idea of a value with a 'box' that defines the context.
+Commonly, this is depicted as the idea of a value within a 'box' that defines the context.
 Now, depending on the context, the behaviour of +2 will change. For example in the case of a List context, +2 would be applied to every element in the list, or in the case of a Promise (or Future) +2 would only be applied once the value had been evaluated.
+The key is that only the context itself understands how to contextually take a function and apply it to it's value(s).
 
-A functor is a typeclass with a method that defines how functions are applied to it. Usually the method is called 'map' (sometimes 'fmap'). 
+#### Exercise
+Open CodeballSpec and un-ignore and make pass the tests.
 
-TODO: Write more about what it is.
+Here we establish a basic endofunctor (functor that only maps between instances of the same type).
 
+Additional Notes:
+* Note that this has no meaning in the empty codeball and so we have no choice but to throw an exception. This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala option does too, so I think there's no way around it. In super functional languages like Erlang, I believe that's not possible to actually get at the contained object so this wouldn't be an issue (TOTO: Check the avlitiy of this statement and clean up language apropos category theory). 
+* Being able to map across a collection that may contain either something or nothing without having to differentiate is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called railway-orientated programming.
+* Functor is very similar to morphisms as we described them before (functions). The major difference is that it is a morphism between categories (sometimes called a structure preserving map) instead of objects (lifted from http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala)
 
+#### Functors in Type Constructors
+The Codeball that we created in the previous exercise served to help explain what a functor is, since it's an endofunctor it cannot convert between types which severely limits its scope.
+We'll soon deal with that, but firt, we need to ensure that we're familiar with the idea of a *type constructor*.
+This is a generic type definition that takes a specific type as its parameter.
+For example, in Scala Option[T], List[T] and Future[T] are type constructors. So Option[Boolean] is a type, but Option itself is not.
+
+With all of this in hand, we are now in a position to better define what a functor is in practical terms:
+> trait Functor[T[_]] {
+>   def apply[A](value: A): T[A]
+>   def map[A, B](x: T[A])(f: A => B): T[B]
+> }
+
+We can see that:
+* It is a type constructor that is defined for a generic type.
+* It features a way of taking a value and turning it into a functor - the apply method.
+* It features a method that applies a function to a wrapped value and produces a new functor of the resultant type. This is usually called 'map'.
+
+#### Exercise
+Open AdvancedCodeballSpec and un-ignore and make pass the tests.
+
+Here we establish a fully-fledged functor!
+
+Additional notes:
+* What we're creating here is the simplest possible implementation of what is effectively the Option data type. Normally, this would not be a type unto itself, but would be a *type constructor* i.e. you would give it a type argument in order to turn it into a type, like Option[Int] or Option[Boolean]. 
+
+####Take Home
+* Functor is a value in context that provides a method - usually called 'map' - that allows a function to be applied to the value.
+* Mapping with the identity function has no effect.
+* Familiar examples include List and Option.
+* Less familiar examples include functions, where you can map over the result type.
 
 ## Further Reading
 ####1-Lambda Notes
 See [here](https://medium.com/javascript-scene/the-rise-and-fall-and-rise-of-functional-programming-composable-software-c2d91b424c8c) as a starting point for more detail on the relationship between Lambda Calculus and programming languages. Few interesting nuggets to whet your appetite:
 * The 'calculus' in Lambda Calculus has nothing to do with integration and differentiation that we all know and love. Rather, it refers to the more general meaning of calculus, which defines a 'method or system for calculation or reasoning'.
 * Lisp, that we also all know and love, was heavily influenced by lambda calculus. [Lisp dates from 1958 and is the second oldest prograaming language still in widespread use](https://en.wikipedia.org/wiki/Lisp_(programming_language)), only Fortran edges it out by a year.
+
+
 
 ####2-General Category Theory
 I've tried to inline links to the general concepts that the dojo covers as I've gone along. If you're interested in a more complete discussion of parts of category theory that apply to programming though, then I'd single out [this for special mention](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/).
@@ -111,4 +153,7 @@ If you're after a more accessible, but less thorough, take on most of the materi
 
 Finally, if you're after a balance between the two [then this is good](http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala). As is [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/).
 
-TODO: Double-check this bit
+####3-Functors
+[This](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) provides a good explanation of functors from basic concepts without going into too much detail.
+
+A more heavyweight discussion can be found [here](https://hackernoon.com/functors-and-applicatives-b9af535b1440). Or if you want just the bare bones, then look no further than [here](https://tpolecat.github.io/2014/03/21/functor.html).
