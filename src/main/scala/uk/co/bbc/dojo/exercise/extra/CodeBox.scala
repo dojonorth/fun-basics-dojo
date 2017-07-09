@@ -1,5 +1,6 @@
 package uk.co.bbc.dojo.exercise.extra
 
+//TODO: Extend all of the interfaces
 object CodeBox {
   def identity[A](codeBox: CodeBox[A]): CodeBox[A] = codeBox
 

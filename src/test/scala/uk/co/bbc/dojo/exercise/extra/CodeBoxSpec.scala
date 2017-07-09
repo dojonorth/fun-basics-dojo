@@ -26,7 +26,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
 
       val codeBox = CodeBox(codeballs)
 
-      codeBox.map(_.chooseYou) shouldBe CodeBox(RaabyChu, Rusa)
+      codeBox.map(_.codemon) shouldBe CodeBox(RaabyChu, Rusa)
     }
 
     it("d. should be able to facilitate mass Codemon evolution") {

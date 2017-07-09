@@ -1,6 +1,6 @@
 package uk.co.bbc.dojo.exercise
 
-// Identity and sample evolve morphism
+// Identity function and evolve endomorphism
 object Codemon {
   def identity(codemon: Codemon): Codemon = codemon
 
@@ -11,10 +11,8 @@ object Codemon {
   }
 }
 
-//Category
+//Object
 sealed trait Codemon
-
-//Objects
 case object RaabyChu extends Codemon
 case object Sikachu extends Codemon
 case object Rusa extends Codemon
