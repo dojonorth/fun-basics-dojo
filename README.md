@@ -34,11 +34,10 @@ Unsurprisingly, at the heart of category theory, are categories. A category is a
 1. **Objects -** the 'things' within the category. These can be thought of as the actual data. They're commonly represented using capital letters e.g. *A*, *B*, *C* etc.
 2. **Morphisms -** the relationships within the category. These are mappings go from one source object (A) to another target object (B) and are usually represented using arrows e.g. A → B.
 
-<aside class="notice">
-I've included this section for completeness: it seemed remiss to talk about CT concepts without first talking about a category is.
-That said, understanding them in detail isn't actually **that** important to then be able to grasp the subsequent concepts.
-Read this section and complete the exercises, but if you don't understand it all, don't get hung up on it. Just concentrate on the take-home.
-</aside>
+*Aside*:
+>I've included this section for completeness: it seemed remiss to talk about CT concepts without first talking about a category is.
+>That said, understanding them in detail isn't actually **that** important to then be able to grasp the subsequent concepts.
+>Read this section and complete the exercises, but if you don't understand it all, don't get hung up on it. Just concentrate on the take-home.
 
 You'll notice though that these are incredibly general concepts. Normally, at this stage I'd like to give some concrete example to help clear things up, but CT really doesn't make this easy.
 In fact, CT sets out to describe things in such extreme generality that other entire fields of mathematics slot into it and it's sometimes called [Abstract Nonsense](https://en.wikipedia.org/wiki/Abstract_nonsense) by other mathematicians.
