@@ -79,17 +79,25 @@ and
 ```
 Console Cartridges = {Super Mario World, Alex Kidd in Miracle World, Road Rash II}
 ```
-We'll call the set Classic Consoles Russ Owned 'C' and the set Console Cartridges 'G', then we can define a morphism *plays*: C → G. This is all super amenable to being drawn out, so let's depict this:
+We'll call the set Classic Consoles Russ Owned 'C' and the set Console Cartridges 'G', then we can define a morphism:
+```
+plays: C → G
+```
+This is all super amenable to being pictographically depicted, so let's do it:
 
 [TODO: Plays diagram]
 
-The important thing to note is that for each dot in the domain of consoles, there is exactly one arrow leaving that runs to the codomain.
-
 There are a few things to take from the diagram:
-* *It's missing identity morphisms:* Category theory states that each object should feature a morphism that goes from itself to itself. I haven't bothered to include these on the diagram. 
-* *At the core of categories is the concept of composition:* If we have A → B and B → C then there must be a corresponding A → C. I've shown this on the diagram using the composition operator '∘'.
+* For each dot in the domain of Classic Consoles, there is exactly one arrow leaving that runs to the codomain of Console Cartridges.
+* It's missing identity morphisms: Category theory states that each object should feature a morphism that goes from itself to itself. I haven't bothered to include these on the diagram. 
 
-Additional restrictions apply to the collection of objects and arrows for them to qualify as a true mathematical category, but we'll skip over these. See [[2]](#### 2-General Category Theory) for additional information if you want to round out your understanding.
+In practice we'd have lots of other domains such as:
+```
+Classic Game Star = {Super Mario, Alex Kidd, Anonymous Biker}
+```
+If we call this set 'S' and assume another morphism 'staring' G → S then we can also infer another morphism from G → S, which is the composition of plays and starring. This concept of composition is at the core of categories. If we have A → B and B → C then there must be a corresponding A → C.
+
+Additional restrictions apply to the collection of objects and arrows for them to qualify as a true mathematical category, but we'll skip over these (see **General Category Theory** in **Further Reading** for more detail) for additional information if you want to round out your understanding.
 
 #### Exercise
 Open CodemonSpec and un-ignore and make pass the tests.
@@ -103,24 +111,34 @@ Additional notes:
 * The evolve morphism is a special type of morphism where the domain and codomain are the same. This is called an endomorphism.
 
 #### Take Home
-Thus far, we've not gone into great depth on what categories are. We're create an example object and morphism with the category of finite sets and maps. How does this relate to programming?
-Here's the reveal: when we're developing in a typed language, the class heirarchy forms a category:
-* Objects are the types: classes, traits, interfaces etc and the morphisms either
-* Morphisms include two main relationships: subtyping and functions between types.
+We've not gone into great depth on what categories are. We've created an example object and morphism within the category of finite sets and maps. How does this relate to programming?
+Here's the reveal: when we're developing in a typed language, the class hierarchy itself forms a category within which:
+* *Objects are the types*: classes, traits, interfaces etc and the morphisms either
+* *Morphisms are the two relationships between types*: subtyping and functions
 
-[TODO: Steal Class Heirarchy diagram from http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/]
+We have our objects - the types. Check. The morphisms - functions and subtypes. Check. And they follow the rules of morphisms - in particular, they compose! For example:
+```
+class Person
+class Adult extends Person
+class Russ extends Adult //Questionable... 
+```
+Then Russ is also a person. Or if we have:
+```
+def makeList(value: String): List[String] = List(value, value)
+def isListEmpty(list: List[String]): Boolean = list.size == 0
+```
+then we can define:
+```
+def composition(value: String): Boolean = isListEmpty(makeList(value)) // AKA (makeList _ andThen isListEmpty _)(value)
+```
 
-Why is this important? The thing that really matters is that we can show we're in a category. It doesn't matter what the category is. The fact that we're in a category means that category theory applies!
+Why is this important? The thing that really matters is that we can show we're in a category. It doesn't matter what the category is. The fact that we're in a category means that category theory applies (see [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/ or [this](https://alissapajer.github.io/conferenceslides/craftconf2014/) for more detail).
 We have access to hundreds of years of hard work mathematicians have put in understanding and formalising a number of useful concepts that we can now freely pillage and use for our own devices.
-The following concepts that we use are a small selection of examples of these.
+The concepts that come up is this dojo form a small selection of examples of these.
 
 [TODO: Pillaging diagram]
 
-TODO: Maybe say how normally used to thinking at instances level, but category theory is more concerned with type level. See https://alissapajer.github.io/conferenceslides/craftconf2014/#/4
-TODO: Maybe talk a little more on laws - see https://alissapajer.github.io/conferenceslides/craftconf2014/#/11
-TODO: Maybe need to establish a thread whereby I say how I've largely skipped over laws throughout.
-
-##2. Functors
+## 2. Functors
 In CT, a functor describes a transformation between two categories. It needs to map every object and morphism between the two and must adhere to a number of mathematical laws.
 We'll gloss over this and concentrate on their application in functional programming (see [[3]](#### 3-Functors) for more detail if you're interested).
 
