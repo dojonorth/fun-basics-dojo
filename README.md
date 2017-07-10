@@ -3,49 +3,83 @@ A crash course in the basics (taught by a learner driver).
 
 ## Introduction
 Functional programming (FP) has been around for a long time. Recent findings have revealed that the T-Rex probably programmed in Lisp.
-During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus).
-Lambda calculus is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. [1](## Further Reading). Essentially lambda calculus *is functional programming*.
+During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus), which is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. (see **Lambda Notes** in **Further Reading** for more detail). Essentially lambda calculus *is functional programming*.
 
 Recently though, concepts from another area of mathematics have increasingly become prevalent in the FP-scence: Category Theory (CT).
-We work in an industry that is subject to subject to swings in what's fashionable and CT concepts are most certainly bang on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
-I don't think that's the case. FP is still at it's core about functions and their interactions, just as it's always been. Instead, CT concepts provide us with a number approaches that build on top of normal FP and allow for the solving of many common problems in really slick ways.
-Because of this, my favourite description of the relationship between CT and FP that I've read, is that CT gives us the 'Design Patterns' for the functional domain.
+We work in an industry that is subject to subject to swings in what's fashionable and CT concepts are most certainly bang-on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
+I don't think that's the case. FP is still at it's core about functions and their interactions, just as it's always been. Instead, CT concepts provide us with a number approaches that build on top of normal FP and allow for really slick solutions to many common problems.
+It is because of this that my favourite description of the relationship between CT and FP is that CT provides the 'Design Patterns' for the functional domain.
 
-Category Theory itself is a vast and crushingly abstract field of mathematics. I only understand - or at least have managed to convince myself that I understand - a very small portion of it.
+Category Theory itself is a vast and *crushingly* abstract field of mathematics. I only understand - or at least have managed to convince myself that I understand - a very small portion of it.
 That's fine though, as my goal here isn't to provide you with a complete exposition into category theory, replete with the required mathematical rigour, but instead to concentrate on the application of a few core concepts, without getting too bogged down in the underlying theory.
-The goal is that I'll try and present a simplified view of the underlying mathematics: there will be omissions, but what's left should be 99% correct, with the remaining 1% largely being a loss of generality in how I've explained things.  
+The goal is that I'll try and present a simplified view of the underlying mathematics: there will be omissions, but what's left should be 99% correct, I hope...  
 
-**Disclaimer:** I'm *far* from a CT expert. I learnt about it myself for the dojo, so if you notice any inconsitencies or errors, then flag me up and gladly correct it.
+**Disclaimer:**
+>I'm *far* from a CT expert. I learnt about it myself for the dojo, and have a decent inkling in a programming context, but feel that I'm still lacking a full comprehension of these concepts in a more abstract mathematical sense.
+If you notice any inconsistencies or errors, then flag me up and gladly correct it.
 
 ## Dojo Format
 The dojo takes a workshop-type format. Generally, for each concept, this document provides a little prose, giving some background to the concept and then there'll be a few exercises to complete based around it.
 These exercises take the format of code that needs writing to make the provided failing tests pass. Initially, all of the failing tests are set to be ignored, so you'll want to un-ignore them as you go along.
 
-The exercises build on each other and share a narrative thread. You could possibly skip the prose and just do the exercises or vice-versa, but I'd recommend going through it in order.
+The exercises build on each other and share a narrative thread. You could possibly skip this prose and just do the exercises or vice-versa, but I'd recommend going through it in order.
 Similarly, it's strongly advisable to ensure they pass before moving on to the next. If needs be, I've included the answers, so if you get really stuck then just copy the answer in and move on.
 
 ## Setup
-TODO: Maybe crib something from my old Dojo https://github.com/dojonorth/planet-survey-akka
+Assuming you work within Scala, then you should be able to skip this section, as getting the tests running is just a question of cloning this repo, opening the code in IntelliJ and then using SBT to run the tests.
+If you're not familiar with Scala, then the following guide should get you up and running:
 
-## Exercises
+* Ensure SBT is installed. If not, install it via:
+```
+brew install sbt
+```
+* Ensure the Java 8 **JDK** (not just the JRE) is installed (it's required by the latest version of Akka). It can be downloaded from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
+* Clone to repo locally:
+```
+git clone git@github.com:dojonorth/fun-basics-dojo.git
+```
+* Open the code in your favourite IDE. If you have IntelliJ, then you should just be able to import the build.sbt. At a push, any text editor that lets you navigate the code should be fine.
+* Compile and run the tests. If you're using IntelliJ, then it should be easy to do this from there. Otherwise, running the tests directly from the command line is fine. The easist way to check that everything is fine is to navigate to the planet-survey-akka folder and then run:
+```
+sbt test
+```
+**NOTE: The first time you run the tests, they'll be slow for a couple of reasons: SBT will have to download and locally cache all of Akka's dependencies and the the Pi Calculation single threaded test that runs is intentionally slow. So don't worry if it appears to have frozen for 30 seconds or so.**
 
-### 1. Categories
+Within the cloned directory, the full test suite can be run via:
+```
+sbt test
+```
+Individual test files can be run using the following format:
+```
+ sbt 'test-only uk.co.bbc.dojo.exercise.CodeballSpec'
+```
+
+## 1. Categories
+**Aside - It doesn't really matter...:**
+>Before we get started, it's worth noting that I've included this section for completeness: it seemed remiss to talk about CT concepts without first talking about a category is.
+That said, understanding them in detail *isn't actually that important*. It isn't that necessary to then understand the subsequent concepts.
+So read this section and complete the exercises, but if you don't understand it all, don't get hung up on it. Just concentrate on the take-home.
+
 Unsurprisingly, at the heart of category theory, are categories. A category is a simple algebraic data structure that consists of two main collections:
 1. **Objects -** the 'things' within the category. These can be thought of as the actual data. They're commonly represented using capital letters e.g. *A*, *B*, *C* etc.
 2. **Morphisms -** the relationships within the category. These are mappings go from one source object (A) to another target object (B) and are usually represented using arrows e.g. A → B.
 
-**Aside - It doesn't really matter...:**
->I've included this section for completeness: it seemed remiss to talk about CT concepts without first talking about a category is.
-That said, understanding them in detail isn't actually **that** important to then be able to grasp the subsequent concepts.
-Read this section and complete the exercises, but if you don't understand it all, don't get hung up on it. Just concentrate on the take-home.
+You'll notice though that these are incredibly general concepts. Normally, at this stage I'd like to give some concrete examples to help clear things up, but CT really doesn't make this easy.
+In fact, CT sets out to describe things in such extreme generality that other entire disciplines of mathematics fall within into it and it's sometimes called [Abstract Nonsense](https://en.wikipedia.org/wiki/Abstract_nonsense) by other mathematicians.
 
-You'll notice though that these are incredibly general concepts. Normally, at this stage I'd like to give some concrete example to help clear things up, but CT really doesn't make this easy.
-In fact, CT sets out to describe things in such extreme generality that other entire fields of mathematics slot into it and it's sometimes called [Abstract Nonsense](https://en.wikipedia.org/wiki/Abstract_nonsense) by other mathematicians.
-That said, the example we'll focus on is the *category of finite sets and maps*, though there are [many others](http://eed3si9n.com/learning-scalaz/Examples+of+categories.html).
-Within this category an object is a finite set or collection. For example, the set Classic Consoles Russ Owned = {Sega Master System, Sega Megadrive, Super Nintendo} or the set Console Cartridges = {Super Mario World, Alex Kidd in Miracle World, Road Rash II}
-Note that you might have expected the objects to be elements within the sets, but if you're developer used to thinking in terms of types and instances of types, then generally speaking category theory operates at the level above you're used to thinking at, as we'll see.
+I think a lot of the difficulty stems from the fact that as a developer you've probably already equated objects with types and instances and morphisms as functions, which is generally true when we're applying CT within the context of code.
+However, this is a specific application of it and in the more general sense, it operates at a level above the types you're used to as we'll see.
 
-We'll call the set Classic Consoles Russ Owned 'C' and the set Console Cartridges 'G', then we can define a morphism plays: C → G. We can depict this as:
+The most accessible common example of a category is the *category of finite sets and maps*, although there are [many others](http://eed3si9n.com/learning-scalaz/Examples+of+categories.html).
+Within this category an object is a finite set or collection. For example, these sets drawn from my youth:
+```
+Classic Consoles = {Sega Master System, Sega Megadrive, Super Nintendo}
+```
+and
+```
+Console Cartridges = {Super Mario World, Alex Kidd in Miracle World, Road Rash II}
+```
+We'll call the set Classic Consoles Russ Owned 'C' and the set Console Cartridges 'G', then we can define a morphism *plays*: C → G. This is all super amenable to being drawn out, so let's depict this:
 
 [TODO: Plays diagram]
 
@@ -114,10 +148,12 @@ This is a generic type definition that takes a specific type as its parameter.
 For example, in Scala Option[T], List[T] and Future[T] are type constructors. So Option[Boolean] is a type, but Option itself is not.
 
 With all of this in hand, we are now in a position to better define what a functor is in practical terms:
-> trait Functor[T[_]] {
->   def pure[A](value: A): T[A]
->   def map[A, B](x: T[A])(f: A => B): T[B]
-> }
+```
+trait Functor[T[_]] {
+  def pure[A](value: A): T[A]
+  def map[A, B](x: T[A])(f: A => B): T[B]
+}
+```
 
 We can see that:
 * It is a type constructor that is defined for a generic type.
@@ -177,9 +213,11 @@ I prefer the Scala name for bind, which is flatMap, as it describes what the ope
 In practical terms, a monad is always also a functor, and features a map method, although this is something of a moot point, since, as we'll see, it's possible to describe map in terms of flatMap and pure.
 
 The type signature of monad is:
-> trait Monad[T[_]] {
->  def flatMap[A, B](x: T[A])(f: A => T[B]): T[B]
-> }
+```
+trait Monad[T[_]] {
+ def flatMap[A, B](x: T[A])(f: A => T[B]): T[B]
+}
+```
 
 Looking at flatMap's signature, we can see that the function that is passed to flatMap, must itself return an instance of the monad, as the exercise will show in depth.
 We'll go into the benefits of monads later, but even in the two examples listed above, the power of flatMap over map can be seen:
