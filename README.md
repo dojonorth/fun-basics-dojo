@@ -4,7 +4,7 @@ This is a crash course in the basics.
 ## Introduction
 Functional programming (FP) has been around for a long time. Recent findings have revealed that the T-Rex probably programmed in Lisp.
 During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus).
-Lambda calculus is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. [[1]](####1-Lambda Notes). Essentially lambda calculus *is functional programming*.
+Lambda calculus is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. [[1]](#### 1-Lambda Notes). Essentially lambda calculus *is functional programming*.
 
 Recently though, concepts from another area of mathematics have increasingly become prevalent in the FP-scence: Category Theory (CT).
 We work in an industry that is subject to subject to swings in what's fashionable and CT concepts are most certainly bang on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
@@ -29,7 +29,7 @@ TODO: Maybe crib something from my old Dojo https://github.com/dojonorth/planet-
 
 ## Exercises
 
-###1. Categories
+### 1. Categories
 Unsurprisingly, at the heart of category theory, are categories. A category is a simple algebraic data structure that consists of two main collections:
 1. **Objects -** the 'things' within the category. These can be thought of as the actual data. They're commonly represented using capital letters e.g. *A*, *B*, *C* etc.
 2. **Morphisms -** the relationships within the category. These are mappings go from one source object (A) to another target object (B) and are usually represented using arrows e.g. A → B.
@@ -56,7 +56,7 @@ There are a few things to take from the diagram:
 * *It's missing identity morphisms:* Category theory states that each object should feature a morphism that goes from itself to itself. I haven't bothered to include these on the diagram. 
 * *At the core of categories is the concept of composition:* If we have A → B and B → C then there must be a corresponding A → C. I've shown this on the diagram using the composition operator '∘'.
 
-Additional restrictions apply to the collection of objects and arrows for them to qualify as a true mathematical category, but we'll skip over these. See [[2]](####2-General Category Theory) for additional information if you want to round out your understanding.
+Additional restrictions apply to the collection of objects and arrows for them to qualify as a true mathematical category, but we'll skip over these. See [[2]](#### 2-General Category Theory) for additional information if you want to round out your understanding.
 
 #### Exercise
 Open CodemonSpec and un-ignore and make pass the tests.
@@ -69,7 +69,7 @@ Additional notes:
 * Evolve is a basic morphism we'll add to our category. Create the function as guided by the spec and depicted by the diagram. Note the simplifying assumption that a RaabyChu evolves to itself - this is a little weird, but simplifies subsequent exercises.
 * The evolve morphism is a special type of morphism where the domain and codomain are the same. This is called an endomorphism.
 
-####Take Home
+#### Take Home
 Thus far, we've not gone into great depth on what categories are. We're create an example object and morphism with the category of finite sets and maps. How does this relate to programming?
 Here's the reveal: when we're developing in a typed language, the class heirarchy forms a category:
 * Objects are the types: classes, traits, interfaces etc and the morphisms either
@@ -89,7 +89,7 @@ TODO: Maybe need to establish a thread whereby I say how I've largely skipped ov
 
 ##2. Functors
 In CT, a functor describes a transformation between two categories. It needs to map every object and morphism between the two and must adhere to a number of mathematical laws.
-We'll gloss over this and concentrate on their application in functional programming (see [[3]](####3-Functors) for more detail if you're interested).
+We'll gloss over this and concentrate on their application in functional programming (see [[3]](#### 3-Functors) for more detail if you're interested).
 
 Normally, when you perform a function on a value, say +2 on the integer 3 the behaviour is fixed.
 In order to better understand functors, it's convenient to extend this to the idea of a value within an associated context.
@@ -144,13 +144,13 @@ Additional notes:
 * This style is sometimes called 'railway-orientated programming', whereby there are two 'lines': the good line and the error line that we sometimes switch onto.
 * The limitations of map are shown towards the end, where the return type of nested calls becomes increasingly nested and difficult to work with, which is a major limitation.
 
-####Take Home
+#### Take Home
 * Functor is a value in context that provides a method - usually called 'map' - that allows a function to be applied to the value.
 * Mapping with the identity function has no effect.
 * Familiar examples include List and Option.
 * Less familiar examples include functions, where you can map over the result type.
 
-##3. Monads
+## 3. Monads
 Monads have a semi-mythical status in computing. They change your mind in such a way that once you understand monads, you become incapable of explaining monads.
 Well hopefully I'm just 99% of the way to understanding them as I think there's not actually that much to the concept.
 As [has been pointed out](https://bartoszmilewski.com/2016/11/21/monads-programmers-definition/) people end to overestimate their complexity, as they confuse the myriad of applications with the concept itself.
@@ -186,7 +186,7 @@ Hence, it should come as no surprise that flatMap is much more powerful than map
 [TODO: Insert picture]
 
 As before, be aware that there are additional mathemetical properties that should technically hold true for a monad, but we'll skip them.
-You can read about them here [[4]](####4-Monads) along with other fun monad facts.
+You can read about them here [[4]](#### 4-Monads) along with other fun monad facts.
 
 #### Exercise
 Open MasterCodeballSpec and un-ignore and make pass the tests.
@@ -242,24 +242,24 @@ Additional notes:
 * This exercise provides more evidence of the limitations of map as compared to flatMap. Using only map, there is no way to change the number of elements in a List. It is only possible to modify the type or value of the available element,s, but the number of elements will remain the same.
 
 ## Further Reading
-####1-Lambda Notes
+#### 1-Lambda Notes
 See [here](https://medium.com/javascript-scene/the-rise-and-fall-and-rise-of-functional-programming-composable-software-c2d91b424c8c) as a starting point for more detail on the relationship between Lambda Calculus and programming languages. Few interesting nuggets to whet your appetite:
 * The 'calculus' in Lambda Calculus has nothing to do with integration and differentiation that we all know and love. Rather, it refers to the more general meaning of calculus, which defines a 'method or system for calculation or reasoning'.
 * Lisp, that we also all know and love, was heavily influenced by lambda calculus. [Lisp dates from 1958 and is the second oldest prograaming language still in widespread use](https://en.wikipedia.org/wiki/Lisp_(programming_language)), only Fortran edges it out by a year.
 
-####2-General Category Theory
+#### 2-General Category Theory
 I've tried to inline links to the general concepts that the dojo covers as I've gone along. If you're interested in a more complete discussion of parts of category theory that apply to programming though, then I'd single out [this for special mention](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/).
 
 If you're after a more accessible, but less thorough, take on most of the material that the dojo covers, then I'd recommend [this](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html).
 
 Finally, if you're after a balance between the two [then this is good](http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala). As is [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/).
 
-####3-Functors
+#### 3-Functors
 [This](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) provides a good explanation of functors from basic concepts without going into too much detail.
 
 A more heavyweight discussion can be found [here](https://hackernoon.com/functors-and-applicatives-b9af535b1440). Or if you want just the bare bones, then look no further than [here](https://tpolecat.github.io/2014/03/21/functor.html).
 
-####4-Monads
+#### 4-Monads
 TOTO: Write me.
   
   TODO: Have map on monad too. Double-check type
