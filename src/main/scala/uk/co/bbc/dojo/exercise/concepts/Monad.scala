@@ -1,5 +1,7 @@
 package uk.co.bbc.dojo.exercise.concepts
 
+import scala.language.higherKinds
+
 trait Monad[T[_]] {
   def pure[A](value: A): T[A]
 

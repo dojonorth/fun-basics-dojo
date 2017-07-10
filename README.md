@@ -34,7 +34,7 @@ Unsurprisingly, at the heart of category theory, are categories. A category is a
 1. **Objects -** the 'things' within the category. These can be thought of as the actual data. They're commonly represented using capital letters e.g. *A*, *B*, *C* etc.
 2. **Morphisms -** the relationships within the category. These are mappings go from one source object (A) to another target object (B) and are usually represented using arrows e.g. A → B.
 
-*Aside*:
+**Aside - It doesn't really matter...:**
 >I've included this section for completeness: it seemed remiss to talk about CT concepts without first talking about a category is.
 >That said, understanding them in detail isn't actually **that** important to then be able to grasp the subsequent concepts.
 >Read this section and complete the exercises, but if you don't understand it all, don't get hung up on it. Just concentrate on the take-home.
@@ -123,6 +123,12 @@ We can see that:
 * It is a type constructor that is defined for a generic type.
 * It features a way of taking a value and turning it into a functor - the apply method.
 * It features a method that applies a function to a wrapped value and produces a new functor of the resultant type. This is usually called 'map'.
+
+**Aside - Language Feature Imports:**
+>The term 'higher kinded' is sometimes used to refer to such types that have one or more 'holes' in them into which other types must be inserted.
+>The use of these is considered an advanced language feature in Scala and so needs to be explicitly enabled, otherwise we'll get compiler warnings.
+>Hence, in the examples, whenever I've declared a type constructor with T[_] syntax, you'll also see that I've imported the feature to suppress compiler warnings with:
+>> import scala.language.higherKinds
 
 #### Exercise
 Open AdvancedCodeballSpec and un-ignore and make pass the tests.

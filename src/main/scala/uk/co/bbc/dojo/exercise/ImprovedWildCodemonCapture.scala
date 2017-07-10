@@ -4,6 +4,7 @@ import uk.co.bbc.dojo.exercise.WildCodemonCapture.{baitTrap, fastEvolveCodemon, 
 
 object ImprovedWildCodemonCapture {
   //TODO: Probably get rid of this and use a single ball type.
+  import scala.language.implicitConversions
   implicit def advavancedCodeballToMasterCodeball[A](advancedCodeball: AdvancedCodeball[A]): MasterCodeball[A] = advancedCodeball match {
     case EmptyAdvancedBall => EmptyMasterBall
     case OccupiedAdvancedBall(contents) => OccupiedMasterBall(contents)
