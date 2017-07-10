@@ -1,7 +1,7 @@
 package uk.co.bbc.dojo.exercise
 
 
-//TODO: Comment on +A
+//Note the covariant '+' see http://docs.scala-lang.org/tutorials/tour/variances.html for more detail
 trait Codeball[+A] {
   def get: A
 }

@@ -15,7 +15,7 @@ object MasterCodeball extends Monad[Codeball] {
     }
   }
 
-  override def flatten[A](codeball: Codeball[Codeball[A]]): Codeball[A] = codeball match {
+  def flatten[A](codeball: Codeball[Codeball[A]]): Codeball[A] = codeball match {
     case OccupiedCodeball(innerCodeball: OccupiedCodeball[A]) => innerCodeball
     case _ => EmptyCodeball
   }
