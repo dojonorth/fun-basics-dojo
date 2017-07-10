@@ -140,49 +140,73 @@ The concepts that come up is this dojo form a small selection of examples of the
 
 ## 2. Functors
 In CT, a functor describes a transformation between two categories. It needs to map every object and morphism between the two and must adhere to a number of mathematical laws.
-We'll gloss over this and concentrate on their application in functional programming (see [[3]](#### 3-Functors) for more detail if you're interested).
+We'll gloss over this and concentrate on their application in functional programming (see **Functors** in **Further Reading** for more detail) for more detail if you're interested).
 
-Normally, when you perform a function on a value, say +2 on the integer 3 the behaviour is fixed.
-In order to better understand functors, it's convenient to extend this to the idea of a value within an associated context.
+Normally, when you perform a function on a value, say +2 on an Integer value the behaviour is fixed.
+In order to understand functors, we instead need to extend this to the idea of a value within an associated context.
 Commonly, this is depicted as the idea of a value within a 'box' that defines the context.
-Now, depending on the context, how +2 is ultimately applied will change. For example in the case of a List context, +2 would be applied to every element in the list, or in the case of a Promise (or Future) +2 would only be applied once the value had been evaluated.
-The key is that only the context itself understands how to contextually take a function and apply it to it's value(s).
+Depending on what this context is, how the +2 function is ultimately applied will change. For example:
+
+* *In a List context:* +2 would be applied to every element in the list.
+* *In a Promise (or Future) context:* +2 would only be applied once the value had been evaluated.
+
+The key is that only the context itself understands how to contextually take a function and apply it to it's value(s) and this abstracted away from whoever is making the call to it. 
 
 #### Exercise
-Open CodeballSpec and un-ignore and make pass the tests.
+Open BeginnersCodeballSpec and un-ignore and make pass the tests.
 
 Here we establish a basic endofunctor (functor that only maps between instances of the same type).
 
 Additional Notes:
-* Note that this has no meaning in the empty codeball and so we have no choice but to throw an exception. This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala option does too, so I think there's no way around it. In super functional languages like Erlang, I believe that's not possible to actually get at the contained object so this wouldn't be an issue (TOTO: Check the avlitiy of this statement and clean up language apropos category theory). 
-* Being able to map across a collection that may contain either something or nothing without having to differentiate is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called railway-orientated programming.
-* Functor is very similar to morphisms as we described them before (functions). The major difference is that it is a morphism between categories (sometimes called a structure preserving map) instead of objects (lifted from http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala)
-* The map method is defined on the type. I've done this as it's more familiar and is how I'd write it in practice. In future exercises though, I've segregated data and functionality by putting the methods on the respective companion objects
+* Note that calling *EmptyBeginnersCodeball.codemon* has no meaning in the empty codeball and so we have no choice but to throw an exception. This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala's Option does too, so I think there's no way around it short of replacing the 'get' method with a 'getOrElse(<some value to return if there isn't one present>)'. However, this would make subsequent exercises more long-winded to write, so we'll stick with the anti-pattern it for now. 
+* Being able to map across a collection that may contain either something or nothing without having to differentiate between the two cases is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called *railway-orientated programming*.
+* In the exercise the map method is defined on the type itself. I've done this as it's more familiar and is how I'd write it in practice. In future exercises though, I've segregated data and functionality by putting the methods on their respective companion objects.
 
 #### Functors in Type Constructors
-The Codeball that we created in the previous exercise served to help explain what a functor is, since it's an endofunctor it cannot convert between types which severely limits its scope.
+The Beginner Codeball that we created in the previous exercise served to help explain what a functor is. Since it's an endofunctor it cannot convert between types which severely limits its scope.
 We'll soon deal with that, but first, we need to ensure that we're familiar with the idea of a *type constructor*.
 This is a generic type definition that takes a specific type as its parameter.
 For example, in Scala Option[T], List[T] and Future[T] are type constructors. So Option[Boolean] is a type, but Option itself is not.
+
+**Aside - Language Feature Imports:**
+>The term 'higher kinded' is sometimes used to refer to such types that have one or more 'holes' in them into which other types must be inserted.
+The use of these is considered an advanced language feature in Scala and so needs to be explicitly enabled, otherwise we'll get compiler warnings.
+Hence, in the examples, whenever I've declared a type constructor with T[_] syntax, you'll also see that I've imported the feature to suppress compiler warnings with:
+```
+import scala.language.higherKinds
+```
+
+#### Exercise
+Open CodeballSpec and un-ignore and make pass the tests.
+
+Here we create our type constructor that we'll create functors etc. for as we go along.
+
+Additional notes:
+* What we're creating here is the simplest possible implementation of what is effectively the inbuilt Option data type.
+
+#### Functor defintion
 
 With all of this in hand, we are now in a position to better define what a functor is in practical terms:
 ```
 trait Functor[T[_]] {
   def pure[A](value: A): T[A]
+  
   def map[A, B](x: T[A])(f: A => B): T[B]
 }
 ```
 
 We can see that:
 * It is a type constructor that is defined for a generic type.
-* It features a way of taking a value and turning it into a functor - the apply method.
-* It features a method that applies a function to a wrapped value and produces a new functor of the resultant type. This is usually called 'map'.
+* It features a way of taking a value and turning it into a functor - the *pure* method.
+* It features a method that applies a function to a wrapped value and produces a new functor of the resultant type. This is usually called *map*.
 
-**Aside - Language Feature Imports:**
->The term 'higher kinded' is sometimes used to refer to such types that have one or more 'holes' in them into which other types must be inserted.
-The use of these is considered an advanced language feature in Scala and so needs to be explicitly enabled, otherwise we'll get compiler warnings.
-Hence, in the examples, whenever I've declared a type constructor with T[_] syntax, you'll also see that I've imported the feature to suppress compiler warnings with:
->> import scala.language.higherKinds
+In addition to satisfying this interace, there are certain properties that any map method should adhere to. I won't dwell on them, but I'll mention them here for completeness:
+* *Identity:* Calling map with the identity function has no effect.
+* *Composition:* Assuming two functions f and g, then calling mapping over f then g is the same as applying the composite function g(f(_)) e.g.
+```
+fa.map(f).map(g) === fa.map(a=> g(f(a))
+
+```
 
 #### Exercise
 Open AdvancedCodeballSpec and un-ignore and make pass the tests.
@@ -190,7 +214,7 @@ Open AdvancedCodeballSpec and un-ignore and make pass the tests.
 Here we establish a fully-fledged functor!
 
 Additional notes:
-* What we're creating here is the simplest possible implementation of what is effectively the Option data type. Normally, this would not be a type unto itself, but would be a *type constructor* i.e. you would give it a type argument in order to turn it into a type, like Option[Int] or Option[Boolean]. 
+* Rather than creating a new type, we'll create this functor against the existing Codeball type constructor. Arguably this is a bit weird, as it doesn't tie the map and flatMap operations to type specifically, but it saves us having to reimplement this behaviour and lets us concentrate on the newer more interesting functionality we're adding. 
 
 #### Exercise
 Open WildCodemonCaptureSpec and un-ignore and make pass the tests.
@@ -205,9 +229,8 @@ Additional notes:
 
 #### Take Home
 * Functor is a value in context that provides a method - usually called 'map' - that allows a function to be applied to the value.
-* Mapping with the identity function has no effect.
-* Familiar examples include List and Option.
-* Less familiar examples include functions, where you can map over the result type.
+* The map function should adhere to two general properties: Identity and Composition.
+* How the functor applies the function will vary depending on the context. Consider the familiar examples include List and Option.
 
 ## 3. Monads
 Monads have a semi-mythical status in computing. They change your mind in such a way that once you understand monads, you become incapable of explaining monads.
@@ -325,6 +348,9 @@ Finally, if you're after a balance between the two [then this is good](http://ww
 [This](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) provides a good explanation of functors from basic concepts without going into too much detail.
 
 A more heavyweight discussion can be found [here](https://hackernoon.com/functors-and-applicatives-b9af535b1440). Or if you want just the bare bones, then look no further than [here](https://tpolecat.github.io/2014/03/21/functor.html).
+
+TODO: Work in - * Functor is very similar to morphisms as we described them before (functions). The major difference is that it is a morphism between categories (sometimes called a structure preserving map) instead of objects (lifted from http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala)
+
 
 #### 4-Monads
 TOTO: Write me.

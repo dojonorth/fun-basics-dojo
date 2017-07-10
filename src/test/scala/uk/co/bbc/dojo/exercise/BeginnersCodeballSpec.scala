@@ -12,7 +12,6 @@ class BeginnersCodeballSpec extends CodemonBaseSpec {
       imprisonedRaabyChu.codemon shouldBe RaabyChu
     }
 
-    //TODO: Say would never normally expect to see - or have get or else. Could change to use this.
     it("b. will throw an exception if we try and extract a Codemon from an empty codeball") {
       intercept[RuntimeException] {
         EmptyBeginnersCodeball.codemon
