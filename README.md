@@ -1,10 +1,10 @@
 # Category Theory in Functional Programming 101 Dojo
-This is a crash course in the basics.
+A crash course in the basics (taught by a learner driver).
 
 ## Introduction
 Functional programming (FP) has been around for a long time. Recent findings have revealed that the T-Rex probably programmed in Lisp.
 During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus).
-Lambda calculus is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. [[1]](#### 1-Lambda Notes). Essentially lambda calculus *is functional programming*.
+Lambda calculus is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. [1](# 1-Lambda Notes). Essentially lambda calculus *is functional programming*.
 
 Recently though, concepts from another area of mathematics have increasingly become prevalent in the FP-scence: Category Theory (CT).
 We work in an industry that is subject to subject to swings in what's fashionable and CT concepts are most certainly bang on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
