@@ -1,17 +1,15 @@
 package uk.co.bbc.dojo.exercise
 
-// Our thing with (quite dull) functor capability
-sealed trait Codeball {
-  def codemon: Codemon
-  def map(f: Codemon => Codemon): Codeball
+
+//TODO: Comment on +A
+trait Codeball[+A] {
+  def get: A
 }
 
-case class OccupiedCodeball(codemon: Codemon) extends Codeball {
-  override def map(f: (Codemon) => Codemon): Codeball = OccupiedCodeball(f(codemon))
+object EmptyCodeball extends Codeball[Nothing] {
+  override def get: Nothing = throw new RuntimeException("Cannot grab the contents of an Empty Advanced Ball")
 }
 
-case object EmptyCodeball extends Codeball {
-  override def codemon: Codemon = throw new RuntimeException("Can't retrieve contents of an empty Codeball")
-
-  override def map(f: (Codemon) => Codemon): Codeball = EmptyCodeball
+case class OccupiedCodeball[A](contents: A) extends Codeball[A] {
+  override def get: A = contents
 }

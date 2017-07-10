@@ -2,34 +2,22 @@ package uk.co.bbc.dojo.exercise
 
 import uk.co.bbc.dojo.exercise.concepts.Monad
 
-object MasterCodeball extends Monad[MasterCodeball] {
-  override def pure[A](value: A): MasterCodeball[A] = OccupiedMasterBall(value)
+object MasterCodeball extends Monad[Codeball] {
+  override def pure[A](value: A): Codeball[A] = OccupiedCodeball(value)
 
   //TODO: Fix this.
-  override def map[A, B](x: MasterCodeball[A])(f: (A) => B): MasterCodeball[B] = ???
+  override def map[A, B](codeball: Codeball[A])(f: (A) => B): Codeball[B] = AdvancedCodeball.map(codeball)(f) //Just delegate
 
-  override def flatMap[A, B](codeball: MasterCodeball[A])(f: A => MasterCodeball[B]): MasterCodeball[B] = flatten {
+  override def flatMap[A, B](codeball: Codeball[A])(f: A => Codeball[B]): Codeball[B] = flatten {
     codeball match {
-      case EmptyMasterBall => EmptyMasterBall
-      case OccupiedMasterBall(value) => pure(f(value))
+      case EmptyCodeball => EmptyCodeball
+      case OccupiedCodeball(value) => pure(f(value))
     }
   }
 
-  override def flatten[A](masterBall: MasterCodeball[MasterCodeball[A]]): MasterCodeball[A] = masterBall match {
-    case OccupiedMasterBall(innerCodeball: OccupiedMasterBall[A]) => innerCodeball
-    case _ => EmptyMasterBall
+  override def flatten[A](codeball: Codeball[Codeball[A]]): Codeball[A] = codeball match {
+    case OccupiedCodeball(innerCodeball: OccupiedCodeball[A]) => innerCodeball
+    case _ => EmptyCodeball
   }
 
-}
-
-trait MasterCodeball[+A] {
-  def get: A
-}
-
-object EmptyMasterBall extends MasterCodeball[Nothing] {
-  override def get: Nothing = throw new RuntimeException("Cannot grab the contents of an Empty master Ball")
-}
-
-case class OccupiedMasterBall[A](contents: A) extends MasterCodeball[A] {
-  override def get: A = contents
 }

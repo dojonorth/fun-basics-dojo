@@ -4,31 +4,36 @@ import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
 
 class CodeballSpec extends CodemonBaseSpec {
 
-  describe("#2 - Our basic Codeball") {
-    it("a. will return the contained Codemon if one is inside") {
-      val freeRaabychu = RaabyChu
-      val imprisonedRaabyChu = OccupiedCodeball(freeRaabychu)
-
-      imprisonedRaabyChu.codemon shouldBe RaabyChu
+  describe("#4 - The Codeball can capture anything") {
+    it("a. including a Codemon") {
+      val aCodemon = RaabyChu
+      OccupiedCodeball(aCodemon).get shouldBe aCodemon
     }
 
-    //TODO: Say would never normally expect to see - or have get or else. Could change to use this.
-    it("b. will throw an exception if we try and extract a Codemon from an empty codeball") {
+    it("b. including a Codeball!") {
+      val aCodeball = OccupiedBeginnersCodeball(RaabyChu)
+      OccupiedCodeball(aCodeball).get shouldBe aCodeball
+    }
+
+    it("c. including the number 8!") {
+      val theNumberEight = 8
+      OccupiedCodeball(8).get shouldBe theNumberEight
+    }
+
+    it("d. including another Advanced Ball!") {
+      val theMoon = "The Moon!"
+      val anotherAdvancedball = OccupiedCodeball(theMoon)
+
+      val theNestedAdvancedball = OccupiedCodeball(anotherAdvancedball)
+
+      theNestedAdvancedball.get shouldBe anotherAdvancedball
+      theNestedAdvancedball.get.get shouldBe theMoon //Just to prove the point
+    }
+
+    it("e. ...or it can be empty and throw an exception if we try and grab its contents") {
       intercept[RuntimeException] {
-        EmptyCodeball.codemon
+        EmptyCodeball.get
       }
-    }
-  }
-
-  describe("#3 - Our codeball features a map (functor) operator") {
-    it("a. doesn't do anything when applied to an empty ball") {
-      EmptyCodeball.map(codemon => Codemon.evolve(codemon)) shouldBe EmptyCodeball
-    }
-
-    it("b. applies the function to the Codemon inside an occupied ball") {
-      val imprisonedRusa = OccupiedCodeball(Rusa)
-
-      imprisonedRusa.map(Codemon.evolve) shouldBe OccupiedCodeball(Sikachu)
     }
   }
 }

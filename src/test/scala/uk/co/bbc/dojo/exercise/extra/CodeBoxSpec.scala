@@ -6,7 +6,7 @@ import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
 class CodeBoxSpec extends CodemonBaseSpec {
   describe("#14 - Our Codemon Brand box should") {
     it("a. be able to contain Codeballs") {
-      val codeballs = List(OccupiedCodeball(RaabyChu), OccupiedCodeball(Rusa))
+      val codeballs = List(OccupiedBeginnersCodeball(RaabyChu), OccupiedBeginnersCodeball(Rusa))
 
       val codeBox = CodeBox(codeballs)
 
@@ -22,7 +22,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
     }
 
     it("c. should be able to free Codemon from their Balls") {
-      val codeballs = List(OccupiedCodeball(RaabyChu), OccupiedCodeball(Rusa))
+      val codeballs = List(OccupiedBeginnersCodeball(RaabyChu), OccupiedBeginnersCodeball(Rusa))
 
       val codeBox = CodeBox(codeballs)
 
