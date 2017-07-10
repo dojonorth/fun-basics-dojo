@@ -36,8 +36,8 @@ Unsurprisingly, at the heart of category theory, are categories. A category is a
 
 **Aside - It doesn't really matter...:**
 >I've included this section for completeness: it seemed remiss to talk about CT concepts without first talking about a category is.
->That said, understanding them in detail isn't actually **that** important to then be able to grasp the subsequent concepts.
->Read this section and complete the exercises, but if you don't understand it all, don't get hung up on it. Just concentrate on the take-home.
+That said, understanding them in detail isn't actually **that** important to then be able to grasp the subsequent concepts.
+Read this section and complete the exercises, but if you don't understand it all, don't get hung up on it. Just concentrate on the take-home.
 
 You'll notice though that these are incredibly general concepts. Normally, at this stage I'd like to give some concrete example to help clear things up, but CT really doesn't make this easy.
 In fact, CT sets out to describe things in such extreme generality that other entire fields of mathematics slot into it and it's sometimes called [Abstract Nonsense](https://en.wikipedia.org/wiki/Abstract_nonsense) by other mathematicians.
@@ -115,7 +115,7 @@ For example, in Scala Option[T], List[T] and Future[T] are type constructors. So
 
 With all of this in hand, we are now in a position to better define what a functor is in practical terms:
 > trait Functor[T[_]] {
->   def apply[A](value: A): T[A]
+>   def pure[A](value: A): T[A]
 >   def map[A, B](x: T[A])(f: A => B): T[B]
 > }
 
@@ -126,8 +126,8 @@ We can see that:
 
 **Aside - Language Feature Imports:**
 >The term 'higher kinded' is sometimes used to refer to such types that have one or more 'holes' in them into which other types must be inserted.
->The use of these is considered an advanced language feature in Scala and so needs to be explicitly enabled, otherwise we'll get compiler warnings.
->Hence, in the examples, whenever I've declared a type constructor with T[_] syntax, you'll also see that I've imported the feature to suppress compiler warnings with:
+The use of these is considered an advanced language feature in Scala and so needs to be explicitly enabled, otherwise we'll get compiler warnings.
+Hence, in the examples, whenever I've declared a type constructor with T[_] syntax, you'll also see that I've imported the feature to suppress compiler warnings with:
 >> import scala.language.higherKinds
 
 #### Exercise
@@ -178,7 +178,6 @@ In practical terms, a monad is always also a functor, and features a map method,
 
 The type signature of monad is:
 > trait Monad[T[_]] {
->  def pure[A](value: A): T[A]
 >  def flatMap[A, B](x: T[A])(f: A => T[B]): T[B]
 > }
 
@@ -192,6 +191,13 @@ Hence, it should come as no surprise that flatMap is much more powerful than map
 
 As before, be aware that there are additional mathemetical properties that should technically hold true for a monad, but we'll skip them.
 You can read about them here [[4]](#### 4-Monads) along with other fun monad facts.
+
+**Aside - Cats:**
+>Most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors), however, they don't implement any common interface that marks them as such - a la the traits we've created.
+The idea of using category-theory-derived methods as a core extension to the Scala language is something that's been done already. Initially by [Scalaz](https://github.com/scalaz/scalaz), that I'll not expand on further, and more recently, and accessibly, by [Cats](https://github.com/typelevel/cats).
+Cats is a huge topic unto itself. If you want to learn about it, I recommend [Advanced Scala with Cats](http://underscore.io/books/advanced-scala/) by Underscore.io, which is now available for free.
+That said, it's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad, Functor etc. Since they're used in a wider context though, they're built up slightly differently.
+For example, cats Functor only includes map and not pure, which it gets from extending Applicative. You can take a look at their heirrarchy [here](https://github.com/typelevel/cats/tree/master/core/src/main/scala/cats).
 
 #### Exercise
 Open MasterCodeballSpec and un-ignore and make pass the tests.

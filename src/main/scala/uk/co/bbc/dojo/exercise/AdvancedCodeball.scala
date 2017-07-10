@@ -3,7 +3,7 @@ package uk.co.bbc.dojo.exercise
 import uk.co.bbc.dojo.exercise.concepts.Functor
 
 object AdvancedCodeball extends Functor[AdvancedCodeball] {
-  override def apply[A](contents: A): AdvancedCodeball[A] = OccupiedAdvancedBall(contents)
+  override def pure[A](contents: A): AdvancedCodeball[A] = OccupiedAdvancedBall(contents)
 
   override def map[A, B](advnacedCodeBall: AdvancedCodeball[A])(f: (A) => B): AdvancedCodeball[B] = advnacedCodeBall match {
     case EmptyAdvancedBall => EmptyAdvancedBall

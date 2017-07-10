@@ -5,6 +5,9 @@ import uk.co.bbc.dojo.exercise.concepts.Monad
 object MasterCodeball extends Monad[MasterCodeball] {
   override def pure[A](value: A): MasterCodeball[A] = OccupiedMasterBall(value)
 
+  //TODO: Fix this.
+  override def map[A, B](x: MasterCodeball[A])(f: (A) => B): MasterCodeball[B] = ???
+
   override def flatMap[A, B](codeball: MasterCodeball[A])(f: A => MasterCodeball[B]): MasterCodeball[B] = flatten {
     codeball match {
       case EmptyMasterBall => EmptyMasterBall
@@ -16,6 +19,7 @@ object MasterCodeball extends Monad[MasterCodeball] {
     case OccupiedMasterBall(innerCodeball: OccupiedMasterBall[A]) => innerCodeball
     case _ => EmptyMasterBall
   }
+
 }
 
 trait MasterCodeball[+A] {
