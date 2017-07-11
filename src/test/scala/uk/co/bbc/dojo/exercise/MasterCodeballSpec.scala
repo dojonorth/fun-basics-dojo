@@ -39,5 +39,24 @@ class MasterCodeballSpec extends CodemonBaseSpec {
       val secretMonad = MasterCodeball.pure("Magical Contents!")
       MasterCodeball.flatMap(secretMonad)(x => EmptyCodeball) shouldBe EmptyCodeball
     }
+
+    describe("#12 - Proving the mathematical properties hold up") {
+      val value = 7
+      val monad = MasterCodeball.pure(value)
+      def fn(x: Int) = OccupiedCodeball(x + 6)
+      def fn2(x: Int) = OccupiedCodeball(x * 9)
+
+      it("Satisfies left identity") {
+        MasterCodeball.flatMap(MasterCodeball.pure(value))(fn) shouldBe fn(value)
+      }
+
+      it("Satisfies right identity") {
+        MasterCodeball.flatMap(monad)(MasterCodeball.pure) shouldBe monad
+      }
+
+      it("Satisfies associativity") {
+        MasterCodeball.flatMap(MasterCodeball.flatMap(monad)(fn))(fn2) shouldBe MasterCodeball.flatMap(monad)(x => MasterCodeball.flatMap(fn(x))(fn2))
+      }
+    }
   }
 }

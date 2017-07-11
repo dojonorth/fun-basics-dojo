@@ -205,7 +205,6 @@ In addition to satisfying this interace, there are certain properties that any m
 * *Composition:* Assuming two functions f and g, then calling mapping over f then g is the same as applying the composite function g(f(_)) e.g.
 ```
 fa.map(f).map(g) === fa.map(a=> g(f(a))
-
 ```
 
 #### Exercise
@@ -233,15 +232,17 @@ Additional notes:
 * How the functor applies the function will vary depending on the context. Consider the familiar examples include List and Option.
 
 ## 3. Monads
-Monads have a semi-mythical status in computing. They change your mind in such a way that once you understand monads, you become incapable of explaining monads.
-Well hopefully I'm just 99% of the way to understanding them as I think there's not actually that much to the concept.
-As [has been pointed out](https://bartoszmilewski.com/2016/11/21/monads-programmers-definition/) people end to overestimate their complexity, as they confuse the myriad of applications with the concept itself.
-A good analogy I read compared them to Duct tape: If you tried to describe duct tape in terms of it's applications then you might say things along the lines of:
+> "A monad is just a monoid in the category of endofunctors, what's the probleⅿ?"
+
+And people wonder why this stuff is considered inacessible. Anyhow, monads have a semi-mythical status in computing, in particular for being hard to understand.
+During the course of researching this dojo I read a few posts by people freaking out that it was impossible to understand them without a total grasp of the underlying maths. I'm going to try anyway...
+
+As [has been pointed out](https://bartoszmilewski.com/2016/11/21/monads-programmers-definition/) people end to overestimate their complexity, as they conflate the myriad of applications with the concept itself.
+A good analogy I read compared them to duct tape: If you tried to describe duct tape in terms of it's applications then you might say things along the lines of:
 * "It covers holes in tents"
 * "You can make a [wallets out of it](http://www.wikihow.com/Make-a-Duct-Tape-Wallet)"
 * "It can fix ducts"
 If you just had it described to you in those terms i.e. what it does, then you'd have no clue what it did. Whereas the underlying description of it is pretty simple: it's a waterproof, resilient tape that binds things together; not unlike monads (well, apart from the waterproof tape part...).
-TODO: Include some amusing duct tape uses.
 
 Just like how a functor boiled down to something that has a map operation on it, a monad is a type constructor that has two distinct operations on it:
 * **Pure -** a method that takes a value of a plain type and puts it into a monad creating a monadic value. This is effectively the monad constructor. It goes by many aliases across the programming world: return in Haskell, unit in Scala, sometimes pure elsewhere, occasionally zero
@@ -255,7 +256,7 @@ In practical terms, a monad is always also a functor, and features a map method,
 
 The type signature of monad is:
 ```
-trait Monad[T[_]] {
+trait Monad[T[_]] extends Functor[T] {
  def flatMap[A, B](x: T[A])(f: A => T[B]): T[B]
 }
 ```
@@ -266,10 +267,15 @@ We'll go into the benefits of monads later, but even in the two examples listed 
 * *The Option Monad -* We can actually change from a Some to a None. Using map only allows for the value within a Some to be altered.
 
 Hence, it should come as no surprise that flatMap is much more powerful than map. This is illustrated by the fact that it's possible to write map in terms of flatMap, but not vice-versa. If the two had a fight, flatMap would win everytime.
-[TODO: Insert picture]
+[TODO: Flatmap Wins diagram]
 
-As before, be aware that there are additional mathemetical properties that should technically hold true for a monad, but we'll skip them.
-You can read about them here [[4]](#### 4-Monads) along with other fun monad facts.
+As before, be aware that there are additional mathemetical properties that should technically hold true for a monad, that I'll lightly touch (you can read about them in **General Category Theory** in **Further Reading** for more detail along with other fun monad facts):
+* *Left Identity:* Calling pure on a value then applying a a function to the result via flatMap is teh same as just applying the function to the value
+> pure(value).flatMap(f) == f(value)
+* *Right Identity:* Passing pure to flatMap has no effect
+> monad.flatMap(pure) == monad
+* *Associativity:* calling flatMap on consecutive functions is the same as flatMapping over two functions
+> monad.flatMap(f).flatMap(g) == monad.flatMap(value => f(value).flatMap(g))
 
 **Aside - Cats:**
 >Most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors), however, they don't implement any common interface that marks them as such - a la the traits we've created.

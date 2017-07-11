@@ -3,7 +3,7 @@ package uk.co.bbc.dojo.exercise
 import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
 
 class ImprovedWildCodemonCaptureSpec extends CodemonBaseSpec {
-  describe("#12 - Now with the unlimited power of the Monad we can") {
+  describe("#13 - Now with the unlimited power of the Monad we can") {
     it("a. write map in terms of flatMap and pure") {
       ImprovedWildCodemonCapture.mapViaFlatmap(EmptyCodeball)(x => "cat") shouldBe EmptyCodeball
       ImprovedWildCodemonCapture.mapViaFlatmap(OccupiedCodeball(100))(x => x + 7) shouldBe OccupiedCodeball(107)
