@@ -11,7 +11,7 @@ class CodemonSpec extends CodemonBaseSpec {
     }
 
     it("b. should feature a basic evolution morphism") {
-      Codemon.evolve(Sikachu) shouldBe RaabyChu
+      Codemon.evolve(Rusa) shouldBe Sikachu
     }
 
     it("c. should not evolve past its final form") {

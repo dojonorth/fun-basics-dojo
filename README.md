@@ -29,6 +29,10 @@ You could possibly skip this prose and just do the exercises or vice-versa, but 
 
 ## Setup
 Assuming you work within Scala, then you should be able to skip this section, as getting the tests running is just a question of cloning this repo, opening the code in IntelliJ and then using SBT to run the tests.
+
+**WARNING DO THIS:*
+> Assuming you open the project in IntelliJ, then make sure that you tell it to ignore the Solution folder otherwise you'll see some weird behaviour. Right-click on the Solution folder in the project window then  'Mark Directory as' -> 'Excluded'
+
 If you're not familiar with Scala, then the following guide should get you up and running:
 
 * Ensure SBT is installed. If not, install it via:
@@ -69,8 +73,8 @@ Unsurprisingly, at the heart of category theory, are categories. A category is a
 You'll notice that these are incredibly general concepts. Normally, at this stage of explaining something, I'd like to give some concrete examples to help clear things up, but CT really doesn't make this easy.
 In fact, CT sets out to describe things in such extreme generality that other entire disciplines of mathematics fall within into it and so  it's sometimes called [Abstract Nonsense](https://en.wikipedia.org/wiki/Abstract_nonsense) by other mathematicians.
 
-I think a lot of the difficulty stems from the fact that, as a developer your preconceptions have probably already lead to you you equated objects with types and instances and morphisms as functions, which is generally true when we're applying CT within the context of code.
-However, this is a specific application of it and in the more general sense, it operates at a level above the types you're used todealing with, as we'll see.
+I think a lot of the difficulty stems from the fact that, as a developer your preconceptions have probably already lead you to equate objects with types and instances and morphisms with functions, which is generally true when we're applying CT within the context of code.
+However, this is a specific application of it and in the more general sense, it operates at a level above the types you're used to dealing with, as we'll see.
 
 The most accessible common example of a category is the *category of finite sets and maps*, although there are [many others](http://eed3si9n.com/learning-scalaz/Examples+of+categories.html).
 Within this category an object is a finite set or collection. For example, these sets drawn from my youth:
@@ -90,14 +94,14 @@ This is all super amenable to being pictographically depicted, so let's do it:
 ![Plays Diagram](Diagrams/Category_Diagram.jpg)
 
 There are a few things to take from the diagram:
-* For each dot in the domain of Classic Consoles, there is exactly one arrow leaving that runs to the codomain of Console Cartridges.
+* For each dot in the domain of Classic Consoles, there is exactly one arrow that runs to the codomain of Console Cartridges.
 * It's missing identity morphisms: CT states that each object should feature a morphism that goes from itself to itself. I haven't bothered to include these. 
 
-In practice we'd have lots of other domains such as:
+In practice we'd have lots of other objects such as:
 ```
 Classic Game Star = {Super Mario, Alex Kidd, Anonymous Biker}
 ```
-If we call this new set 'S' and assume another morphism 'starring' G → S then we can also infer another morphism from C → S, which is the composition of plays and starring. This concept of composition is at the core of categories. If we have A → B and B → C then there must be a corresponding A → C.
+If we call Classic Game Star 'S' and assume another morphism 'starring' G → S then we can also infer another morphism from C → S, which is the composition of plays and starring. This concept of composition is at the core of categories. If we have A → B and B → C then there must be a corresponding A → C.
 
 Additional restrictions apply to the collection of objects and arrows for them to qualify as a true mathematical category, but we'll skip over these.
 
@@ -118,12 +122,12 @@ Additional notes:
 * The evolve morphism is a special type of morphism where the domain and codomain are the same. This is called an endomorphism.
 
 #### Take Home
-Touched on what categories are without going into great depth. The question is how they they relate to programming?
+We've touched on what categories are without going into great depth. The question is how do they they relate to programming?
 Here's the reveal: when we're developing in a typed language, the class hierarchy itself forms a category within which:
 * *Objects are the types - * classes, traits, interfaces et.
-* *Morphisms are the two relationships between types - * subtyping and functions.
+* *Morphisms are the relationships between types - * subtyping and functions.
 
-We have our objects - the types. Check. The morphisms - functions and subtypes. Check. And they follow the rules of morphisms - in particular, they compose! For example:
+We have our objects - the types. Check. The morphisms - functions and subtypes. Check. And they follow the rules of morphisms. Check. In particular, they compose! For example:
 ```
 class Person
 class Adult extends Person
@@ -140,7 +144,7 @@ def composition(value: String): Boolean = isListEmpty(makeList(value)) // AKA (m
 ```
 
 Why is this important? The thing that really matters is that we can show we're in a category. It doesn't matter what the category is. The fact that we're in a category means that category theory applies and so we have access to hundreds of years of hard work mathematicians have put in understanding and formalising a number of useful concepts that we can now freely pillage and use for our own devices!
-The concepts that come up is this dojo form a small selection of examples of these ((see [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) or [this](https://alissapajer.github.io/conferenceslides/craftconf2014/) for more detail).
+The concepts that come up is this dojo form a small selection of examples of these (see [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) or [this](https://alissapajer.github.io/conferenceslides/craftconf2014/) for more detail).
 
 ![Pillaged Concepts Diagram](Diagrams/Pillaged_Concepts.jpg)
 
@@ -155,12 +159,14 @@ Depending on what this context is, how the +2 function is ultimately applied wil
 * *In a List context:* +2 would be applied to every element in the list.
 * *In a Promise (or Future) context:* +2 would only be applied once the value had been evaluated.
 
-The key is that only the context itself understands how to contextually take a function and apply it to its value(s) and this detail is abstracted away from whoever is making the call to it. 
+The key is that only the context itself understands how to contextually take a function and apply it to its value(s) and this detail is abstracted away from the caller. 
 
 #### Exercise
 Open BeginnersCodeballSpec and un-ignore and make pass the tests.
 
-Here we establish a basic endofunctor (functor that only maps between instances of the same type).
+Now, we're going to create a Codeball! Codeballs can either be empty or hold things. They are also functors and so allow us to perform operations on their contents.
+The particular Codeball that we're making here is only a beginner's one and so us limited in what it can do. In particular, only able to hold Codemon and perform operations on the captive Codemon that return other Codemon.
+In CT terminiology, this make it an endofunctor (a functor that only maps between instances of the same type).
 
 Additional Notes:
 * Being able to map across a collection that may contain either something or nothing without having to differentiate between the two cases is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called *railway-orientated programming*.
