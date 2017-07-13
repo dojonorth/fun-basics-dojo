@@ -107,21 +107,21 @@ If you're after a more accessible, but less thorough, take on most of the materi
 Finally, if you're after a balance between the two [then this is good](http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala). As is [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/).
 
 #### Exercise
-Open CodemonSpec and un-ignore and make pass the tests.
+At last - something to do! Open CodemonSpec and un-ignore and make pass the tests.
 
 Here we'll establish a basic object and morphism that we'll use within subsequent exercises.
 
 Additional notes:
 * Note the basic Codemon trait. It defines an example object. Feel free to add more Codemon instances, but subsequent tests just assume the presence of these three.
-* The identity function is a required component of a category. It just returns whatever is passed to it. This could be a method on the Codemon objects, but I've instead chosen to leave it as a freestanding function in the companion object. I've followed this convention throughout the exercise as a whole; it's a slightly arbitrary decision, but I feel it represents a more idiomatic approach that highlights the distinction between data and functions. In real-world coding though, I'd tend towards putting functions within the instances themselves as I feel it makes for simpler code and aids discoverability.
-* Evolve is a basic morphism we'll add to our category. Create the function as guided by the spec and depicted by the diagram. Note the simplifying assumption that a RaabyChu evolves to itself - this is a little weird, but simplifies subsequent exercises.
+* The identity function is a required component of a category. It just returns whatever is passed to it. This could be a method on the Codemon objects, but I've instead chosen to leave it as a freestanding function in the companion object. I've followed this convention of having functionality as companion object methods throughout the exercise as a whole; it's a slightly arbitrary decision, but I feel it represents a more idiomatic approach that highlights the distinction between data and functions. In real-world coding though, I'd tend towards putting functions within the instances themselves as I feel it makes for simpler code and aids discoverability.
+* Evolve is a basic morphism we'll add to our category. Create the function as guided by the spec. Note the simplifying assumption that a RaabyChu evolves to itself - this is a little weird, but simplifies subsequent exercises.
 * The evolve morphism is a special type of morphism where the domain and codomain are the same. This is called an endomorphism.
 
 #### Take Home
-We've not gone into great depth on what categories are. We've created an example object and morphism within the category of finite sets and maps. How does this relate to programming?
+Touched on what categories are without going into great depth. The question is how they they relate to programming?
 Here's the reveal: when we're developing in a typed language, the class hierarchy itself forms a category within which:
-* *Objects are the types*: classes, traits, interfaces et.
-* *Morphisms are the two relationships between types*: subtyping and functions
+* *Objects are the types - * classes, traits, interfaces et.
+* *Morphisms are the two relationships between types - * subtyping and functions.
 
 We have our objects - the types. Check. The morphisms - functions and subtypes. Check. And they follow the rules of morphisms - in particular, they compose! For example:
 ```
@@ -139,16 +139,15 @@ then we can define:
 def composition(value: String): Boolean = isListEmpty(makeList(value)) // AKA (makeList _ andThen isListEmpty _)(value)
 ```
 
-Why is this important? The thing that really matters is that we can show we're in a category. It doesn't matter what the category is. The fact that we're in a category means that category theory applies (see [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/ or [this](https://alissapajer.github.io/conferenceslides/craftconf2014/) for more detail).
-We have access to hundreds of years of hard work mathematicians have put in understanding and formalising a number of useful concepts that we can now freely pillage and use for our own devices.
-The concepts that come up is this dojo form a small selection of examples of these.
+Why is this important? The thing that really matters is that we can show we're in a category. It doesn't matter what the category is. The fact that we're in a category means that category theory applies and so we have access to hundreds of years of hard work mathematicians have put in understanding and formalising a number of useful concepts that we can now freely pillage and use for our own devices!
+The concepts that come up is this dojo form a small selection of examples of these ((see [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) or [this](https://alissapajer.github.io/conferenceslides/craftconf2014/) for more detail).
 
 [TODO: Pillaging diagram]
 
 ## 2. Functors
 In CT, a functor describes a transformation between two categories. It needs to map every object and morphism between the two and must adhere to a number of mathematical laws.
 
-Normally, when you perform a function on a value, say +2 on an Integer value the behaviour is fixed.
+Normally, when you apply a function to a value, say +2 on an Integer, the behaviour is fixed.
 In order to understand functors, we instead need to extend this to the idea of a value within an associated context.
 Commonly, this is depicted as the idea of a value within a 'box' that defines the context.
 Depending on what this context is, how the +2 function is ultimately applied will change. For example:
@@ -156,7 +155,7 @@ Depending on what this context is, how the +2 function is ultimately applied wil
 * *In a List context:* +2 would be applied to every element in the list.
 * *In a Promise (or Future) context:* +2 would only be applied once the value had been evaluated.
 
-The key is that only the context itself understands how to contextually take a function and apply it to it's value(s) and this abstracted away from whoever is making the call to it. 
+The key is that only the context itself understands how to contextually take a function and apply it to its value(s) and this detail is abstracted away from whoever is making the call to it. 
 
 #### Exercise
 Open BeginnersCodeballSpec and un-ignore and make pass the tests.
@@ -164,12 +163,12 @@ Open BeginnersCodeballSpec and un-ignore and make pass the tests.
 Here we establish a basic endofunctor (functor that only maps between instances of the same type).
 
 Additional Notes:
-* Note that calling *EmptyBeginnersCodeball.codemon* has no meaning in the empty codeball and so we have no choice but to throw an exception. In keeping with the Codeball (aka Option) being a box analogy, this is equivalent to our EmptyCodeball being like the Ark of the Covenant from Indian Jones - you *could* open it if you want, but I wouldn't recommend it... This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala's Option does too, so I think there's no way around it short of replacing the 'get' method with a 'getOrElse(<some value to return if there isn't one present>)' or fold or similar. However, this would make subsequent exercises more long-winded to write, so we'll stick with the anti-pattern it for now. 
+* Note that calling *EmptyBeginnersCodeball.codemon* has no meaning for the empty codeball and so we have no choice but to throw an exception. In keeping with the Codeball (aka Option) being a box analogy, this is equivalent to our EmptyCodeball being like the Ark of the Covenant from Indian Jones - you *could* open it if you want, but I wouldn't recommend it... This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala's Option does too, so I think there's no way around it short of replacing the 'get' method with a 'getOrElse(<some value to return if there isn't one present>)' or fold or similar. However, this would make subsequent exercises more long-winded to write, so we'll stick with the anti-pattern for now. 
 * Being able to map across a collection that may contain either something or nothing without having to differentiate between the two cases is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called *railway-orientated programming*.
 * In the exercise the map method is defined on the type itself. I've done this as it's more familiar and is how I'd write it in practice. In future exercises though, I've segregated data and functionality by putting the methods on their respective companion objects.
 
 #### Functors in Type Constructors
-The Beginner Codeball that we created in the previous exercise served to help explain what a functor is. Since it's an endofunctor it cannot convert between types which severely limits its scope.
+The Beginners Codeball that we created in the previous exercise served to help explain what a functor is. Since it's an endofunctor it cannot convert between types which severely limits its scope.
 We'll soon deal with that, but first, we need to ensure that we're familiar with the idea of a *type constructor*.
 This is a generic type definition that takes a specific type as its parameter.
 For example, in Scala Option[T], List[T] and Future[T] are type constructors. So Option[Boolean] is a type, but Option itself is not.
@@ -177,7 +176,7 @@ For example, in Scala Option[T], List[T] and Future[T] are type constructors. So
 **Aside - Language Feature Imports:**
 >The term 'higher kinded' is sometimes used to refer to such types that have one or more 'holes' in them into which other types must be inserted.
 The use of these is considered an advanced language feature in Scala and so needs to be explicitly enabled, otherwise we'll get compiler warnings.
-Hence, in the examples, whenever I've declared a type constructor with T[_] syntax, you'll also see that I've imported the feature to suppress compiler warnings with:
+Hence, in the examples, whenever I've declared a type constructor with T[_] syntax, you'll also see that I've imported the feature to suppress compiler warnings:
 ```
 import scala.language.higherKinds
 ```
@@ -185,10 +184,10 @@ import scala.language.higherKinds
 #### Exercise
 Open CodeballSpec and un-ignore and make pass the tests.
 
-Here we create our type constructor that we'll create functors etc. for as we go along.
+Here we create our type constructor that we'll expand as we go along.
 
 Additional notes:
-* What we're creating here is the simplest possible implementation of what is effectively the inbuilt Option data type.
+* What we're creating here is the simplest possible implementation of what is effectively the inbuilt Option data type. But I'm going to keep on steadfastly pretending that it's something more exciting. Remeber though, it isn't.
 
 #### Functor defintion
 
@@ -210,10 +209,10 @@ In addition to satisfying this interface, there are certain properties that any 
 * *Identity:* Calling map with the identity function has no effect.
 * *Composition:* Assuming two functions f and g, then calling mapping over f then g is the same as applying the composite function g(f(_)) e.g.
 ```
-fa.map(f).map(g) === fa.map(a=> g(f(a))
+fa.map(f).map(g) === fa.map(a => g(f(a))
 ```
 
-If you see the interface that defines a functor elsewhere, commonly it doesn't directly feature a pure method, but rather inherits it from 'Applicative'. This is outside of the scope of this dojo though, so I've abstracted away applicatives and just put pure directly on the fucntor.
+Be aware that if you run into the functor trait elsewhere it usually, doesn't directly feature a pure method, but rather inherits it from 'Applicative'. This is outside of the scope of this dojo though, so I've abstracted away applicatives and just put pure directly on the fucntor.
 
 **Aside - Functors Further Reading:**
 > [This](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) provides a good explanation of functors from basic concepts without going into too much detail.
@@ -225,7 +224,7 @@ Open AdvancedCodeballSpec and un-ignore and make pass the tests.
 Here we establish a fully-fledged functor!
 
 Additional notes:
-* Rather than creating a new type, we'll create this functor against the existing Codeball type constructor. Arguably this is a bit weird, as it doesn't tie the map and flatMap operations to type specifically, but it saves us having to reimplement this behaviour and lets us concentrate on the newer more interesting functionality we're adding. 
+* Rather than creating a new type, we'll create this functor against the existing Codeball type constructor. Arguably this is a bit weird, but it saves us having to reimplement the basic container behaviour and lets us concentrate on the newer more interesting functionality we're adding. 
 
 #### Exercise
 Open WildCodemonCaptureSpec and un-ignore and make pass the tests.
@@ -234,14 +233,14 @@ Here we look at actually applying the functor we've created in anger.
 
 Additional notes:
 * As mentioned before, what we've essentially created is the Option data type, albeit with a different name. The Option type allows for the creation of so-called 'walled gardens' where failures are encapsulated within the data type, rather than being a different return type (such as null or an exception).
-* The exercise shows how a number of functor calls can be sequenced together to create a single pipeline that also deals with the failure case without the need for any branching logic. In the case of real Options, this might be reading config, where the first function might represent reading from a file, that might fail, followed by using the result of that to determine a URL to read from that might fail etc.
+* The exercise shows how a number of functor calls can be sequenced together to create a single pipeline that also deals with the failure case without the need for any branching logic. In the case of real Options, this might be reading config, where the first function might represent reading from a file, an operation that could fail, followed by using the result of that to determine a URL to read from that also might fail etc.
 * This style is sometimes called 'railway-orientated programming', whereby there are two 'lines': the good line and the error line that we sometimes switch onto.
 * The limitations of map are shown towards the end, where the return type of nested calls becomes increasingly nested and difficult to work with, which is a major limitation.
 
 #### Take Home
 * Functor is a value in context that provides a method - usually called 'map' - that allows a function to be applied to the value.
 * The map function should adhere to two general properties: Identity and Composition.
-* How the functor applies the function will vary depending on the context. Consider the familiar examples include List and Option.
+* How the functor applies the function will vary depending on the context. Consider the familiar examples List and Option.
 
 ## 3. Monads
 > "A monad is just a monoid in the category of endofunctors, what's the probleⅿ?"
