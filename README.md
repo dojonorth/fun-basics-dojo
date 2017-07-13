@@ -3,11 +3,11 @@ A crash course in the basics (taught by a learner driver).
 
 ## Introduction
 Functional programming (FP) has been around for a long time. Recent findings have revealed that the T-Rex probably programmed in Lisp.
-During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus), which is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. Essentially *functional programming is lambda calculus*.
+During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus), which is a branch of maths primarily concerned with the application of functions - their composition; higher-order functions; currying etc. Essentially *functional programming is lambda calculus*.
 
 Recently though, concepts from another area of mathematics have increasingly become prevalent in the FP-scence: Category Theory (CT).
-We work in an industry that is subject to swings in what's fashionable and CT concepts are most certainly bang-on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
-I wouldn't go that far. FP is still at its core about functions and their interactions, just as it's always been. Instead, CT concepts provide us with a number of approaches that build on top of normal FP and allow for really slick solutions to many common problems - they provide the 'Design Patterns' for the functional domain - and for this reason, they're a useful tool have in the box and are here to stay.
+We work in an industry that is subject to swings in what's fashionable and CT concepts are most certainly bang-on-trend at the moment, to the point where CT is sometimes overstated as is if it's an integral part of what defines the FP paradigm.
+I wouldn't go that far. FP is still at its core about functions and their interactions, just as it's always been. Instead, CT concepts provide us with a number of approaches that build on top of normal FP and allow for some really slick solutions to many common problems - they provide the 'Design Patterns' for the functional domain - and for this reason, they're a useful tool have and are here to stay.
 
 **Aside - Skippable Extra Lambda Calculus Notes:**
 >See [here](https://medium.com/javascript-scene/the-rise-and-fall-and-rise-of-functional-programming-composable-software-c2d91b424c8c) as a starting point for more detail on the relationship between Lambda Calculus and programming languages. Few interesting nuggets to whet your appetite:
@@ -19,13 +19,13 @@ That's fine though, as my aim here isn't to provide you with a complete expositi
 The goal is that I'll try and present a simplified view of the underlying mathematics: there will be omissions, but what's left should be 99% correct; I hope...  
 
 **Disclaimer:**
->As you've probably picked up on by now, I'm *far* from a CT expert. I learnt about it myself whilst writing this dojo, and have a decent inkling as to its application in a programming context, but I'm still lacking a full comprehension of these concepts in a more abstract mathematical sense. Hopefully the vast majority of what I've said here us sound, and I've included copious references you use to confirm / clarify the content, but if you notice any inconsistencies or errors, then flag me up and gladly correct them.
+>As you've probably picked up on by now, I'm *far* from a CT expert. I learnt about it myself whilst writing this dojo, and have built up a decent inkling as to its application in a programming context, but I'm still lacking a full comprehension of these concepts in a more abstract mathematical sense. Hopefully the vast majority of what I've said here is sound, but don't take it as gospel. I've included copious references you use to confirm / clarify the content, but if you notice any inconsistencies or errors, then flag me up and gladly correct them.
 
 ## Dojo Format
-The dojo takes a workshop-type format. Generally, for each concept, this document provides a little prose, giving some background to the concept and then there'll be a few exercises to complete based around it.
+The dojo takes a workshop-type format. Generally, for each concept, this document provides a little prose, giving some background to the concept and then there's a few exercises to complete based around it.
 These exercises mainly take the format of code that needs writing to make the provided failing tests pass. Initially, all of the failing tests are set to be ignored, so you'll want to un-ignore them as you go along.
 
-The exercises build on each other and share a narrative thread. You could possibly skip this prose and just do the exercises or vice-versa, but I'd recommend going through it in order. Similarly, it's strongly advisable to ensure that you make all the pass before moving on to the next exercise. If needs be, I've included the answers, so if you get really stuck then just copy the answer and move on.
+You could possibly skip this prose and just do the exercises or vice-versa, but I'd recommend going through it in order. Similarly, it's strongly advisable to ensure that you make all the tests pass before moving on to the next exercise, as they build on each other. If needs be, I've included the answers, so if you get really stuck then just copy the answer and move on.
 
 ## Setup
 Assuming you work within Scala, then you should be able to skip this section, as getting the tests running is just a question of cloning this repo, opening the code in IntelliJ and then using SBT to run the tests.
@@ -35,7 +35,7 @@ If you're not familiar with Scala, then the following guide should get you up an
 ```
 brew install sbt
 ```
-* Ensure the Java 8 **JDK** (not just the JRE) is installed (earlier versions may work, but I've not tested them). It can be downloaded from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
+* Ensure the Java 8 **JDK** (not just the JRE) is installed (earlier versions may work, but I've not tested them). It can be downloaded from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) or installed via brew etc.
 * Clone the repo locally:
 ```
 git clone git@github.com:dojonorth/fun-basics-dojo.git
