@@ -2,13 +2,9 @@ package uk.co.bbc.dojo.exercise
 
 // Identity function and evolve endomorphism
 object Codemon {
-  def identity(codemon: Codemon): Codemon = codemon
+  def identity(codemon: Codemon): Codemon = ??? //Challenging!
 
-  def evolve(codemon: Codemon): Codemon = codemon match {
-    case Rusa => Sikachu
-    case Sikachu => RaabyChu
-    case RaabyChu => RaabyChu
-  }
+  def evolve(codemon: Codemon): Codemon = ???
 }
 
 //Object

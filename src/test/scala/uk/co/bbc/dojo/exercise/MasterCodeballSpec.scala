@@ -27,36 +27,32 @@ class MasterCodeballSpec extends CodemonBaseSpec {
     }
 
     ignore("b. do nothing if we flatMap over an Empty Master Codeball") {
-      MasterCodeball.flatMap(EmptyCodeball)(_ => OccupiedCodeball("Doesn't matter"))
+      MasterCodeball.flatMap(EmptyCodeball)(_ => OccupiedCodeball("Doesn't matter")) shouldBe EmptyCodeball
     }
 
-    ignore("c. Allow us to keep the context on an Occupied Codeball") {
-      val secretMonad = MasterCodeball.pure("Magical Contents!")
-      MasterCodeball.flatMap(secretMonad)(x => MasterCodeball.pure(x)) shouldBe secretMonad
+    ignore("c. Allow us to alter the contents of an Occupied Masterball without introducing additional nesting") {
+      def appendWorks(s: String) = MasterCodeball.pure(s + " works!")
+      val secretMonad = MasterCodeball.pure("It")
+      MasterCodeball.flatMap(secretMonad)(appendWorks) shouldBe MasterCodeball.pure("It Works!")
     }
 
     ignore("d. Allow us to empty out an Occupied Codeball") {
       val secretMonad = MasterCodeball.pure("Magical Contents!")
-      MasterCodeball.flatMap(secretMonad)(x => EmptyCodeball) shouldBe EmptyCodeball
+      MasterCodeball.flatMap(secretMonad)(_ => EmptyCodeball) shouldBe EmptyCodeball
     }
   }
 
   describe("#12 - Proving the mathematical properties hold up") {
-    val value = 7
-    val monad = MasterCodeball.pure(value)
-    def fn(x: Int) = OccupiedCodeball(x + 6)
-    def fn2(x: Int) = OccupiedCodeball(x * 9)
-
     ignore("Satisfies left identity") {
-      MasterCodeball.flatMap(MasterCodeball.pure(value))(fn) shouldBe fn(value)
+      //TODO: Write me
     }
 
     ignore("Satisfies right identity") {
-      MasterCodeball.flatMap(monad)(MasterCodeball.pure) shouldBe monad
+      //TODO: Write me
     }
 
     ignore("Satisfies associativity") {
-      MasterCodeball.flatMap(MasterCodeball.flatMap(monad)(fn))(fn2) shouldBe MasterCodeball.flatMap(monad)(x => MasterCodeball.flatMap(fn(x))(fn2))
+      //TODO: Write me
     }
   }
 }

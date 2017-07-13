@@ -40,7 +40,7 @@ class WildCodemonCaptureSpec extends CodemonBaseSpec {
   }
 
   describe("#9 - Putting it all together") {
-    ignore("a. should let us sequence together the various operations") {
+    ignore("a. should let us chain together the various operations (i.e. capture, bait and then fast evolve") {
       captureLifecycle(successfulRandomEvent) shouldBe OccupiedCodeball(OccupiedCodeball(OccupiedCodeball(RaabyChu)))
     }
 

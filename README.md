@@ -228,7 +228,11 @@ Additional notes:
 #### Exercise
 Open WildCodemonCaptureSpec and un-ignore and make pass the tests.
 
-Here we look at actually applying the functor we've created in anger.
+Here we look at actually applying the functor we've created in anger. This test requires writing a few little helper methods that we'll then chain together at the end. Hopefully their behaviour should be obvious form the test, but if not here a quick outline:
+* ```def throwCodeball(randomFunction: () => Boolean): Codeball[Codemon]```: Models us throwing a Codeball in an effort to capture a wild Codemon. Only Rusa are stupid enough to be caught like this and even then, only if we're lucky (which we model via the passed in random function).
+* ```def baitTrap(bait: Codemon): Codeball[Codemon] = bait```: This simulates us baiting a trap with another Codemon in a effort to capture a better one. Only baiting the trap with a Rusa will work, in which case, we'll capture a Sikachu. Baiting it with anything else will leave us with nothing. 
+* ```def fastEvolveCodemon(randomFunction: () => Boolean)(codemonToEvolve: Codemon): Codeball[Codemon]```: We're not prepared to wait for our Codemon to evolve naturally, so we'll use modern technology to force the issue. If we get lucky with the random function, then we'll end up with a brand new evolved Codemon. If we get unlucky, then the less said about the result, the better (we'll model it as an Empty Codeball here, rather than the hideous freak of nature that we'd get in reality).
+* ```def captureLifecycle(randomFunction: () => Boolean): Codeball[Codeball[Codeball[Codemon]]```: Finally, we put it all together. We'll write a method that simulates our budding industry where we try and capture a Codemon, use it to bait a trap and then fast evolve it.
 
 Additional notes:
 * As mentioned before, what we've essentially created is the Option data type, albeit with a different name. The Option type allows for the creation of so-called 'walled gardens' where failures are encapsulated within the data type, rather than being a different return type (such as null or an exception).
@@ -293,9 +297,10 @@ As before, be aware that there are additional mathemetical properties that must 
 #### Exercise
 Open MasterCodeballSpec and un-ignore and make pass the tests.
 
-Here we create a fully-fledged monad!
+Here we create a fully-fledged monad! This one is unusual, in that I've left the tests that 'prove' that our monad satisfies the laws of monads for you to write. I say 'prove' as all I'm expecting is for you to show that they work for some random examples, rather than in a more rigorous sense.
 
 Additional notes:
+* The Monad trait dictates that you'll need a map operation. We never actually call it, so you can leave it unwritten if you want or you can delegate to AdvancedCodeball's map method for completeness.
 * As we can see from the type, it only makes sense to flatten instances of the same monadic type.
 * We now have the ability to change the outer context. A 'Some' can become a None, which was impossible before with just 'map' - all we could do was change the type of what was inside.
 * For any given context, you could potentially define multiple monads (or functors), since it's up to the implementor to decide what the 'sensible' implementation is. In practice though, there's usually only one that makes sense.

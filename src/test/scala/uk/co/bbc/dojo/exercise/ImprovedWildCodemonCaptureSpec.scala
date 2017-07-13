@@ -10,7 +10,7 @@ class ImprovedWildCodemonCaptureSpec extends CodemonBaseSpec {
       ImprovedWildCodemonCapture.mapViaFlatmap(OccupiedCodeball("Here"))(_ => "Gone") shouldBe OccupiedCodeball("Gone")
     }
 
-    ignore("b. sequence theImprovedWildCodemonCapture capture operations without causing crazy levels of nesting") {
+    ignore("b. Rewrite WildCodemonCapture.captureLifecycle using flatMap instead of map and thus avoid crazy levels of nesting") {
       ImprovedWildCodemonCapture.captureLifecyclewithMonads(() => true) shouldBe OccupiedCodeball(RaabyChu)
     }
   }

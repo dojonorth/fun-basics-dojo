@@ -4,7 +4,7 @@ import uk.co.bbc.dojo.exercise.housekeeping.CodemonBaseSpec
 
 class BeginnersCodeballSpec extends CodemonBaseSpec {
 
-  describe("#2 - Our beginners Codeball") {
+  describe("#2 - Our beginner's Codeball") {
     ignore("a. will return the contained Codemon if one is inside") {
       val freeRaabychu = RaabyChu
       val imprisonedRaabyChu = OccupiedBeginnersCodeball(freeRaabychu)
@@ -19,7 +19,7 @@ class BeginnersCodeballSpec extends CodemonBaseSpec {
     }
   }
 
-  describe("#3 - Our beginners codeball features a map (functor) operator") {
+  describe("#3 - Our beginner's codeball features a map (functor) operator") {
     ignore("a. doesn't do anything when applied to an empty ball") {
       EmptyBeginnersCodeball.map(codemon => Codemon.evolve(codemon)) shouldBe EmptyBeginnersCodeball
     }

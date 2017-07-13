@@ -1,6 +1,5 @@
 package uk.co.bbc.dojo.exercise
 
-// Our thing with (quite dull) functor capability
 sealed trait BeginnersCodeball {
   def codemon: Codemon
   def map(f: Codemon => Codemon): BeginnersCodeball
