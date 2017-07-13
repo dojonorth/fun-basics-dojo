@@ -169,14 +169,14 @@ The particular Codeball that we're making here is only a beginner's one and so u
 In CT terminiology, this make it an endofunctor (a functor that only maps between instances of the same type).
 
 Additional Notes:
-* Being able to map across a collection that may contain either something or nothing without having to differentiate between the two cases is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called *railway-orientated programming*.
+* Being able to map across a collection that may contain either something or nothing without having to differentiate between the two cases is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching.
 * In the exercise the map method is defined on the type itself. I've done this as it's more familiar and is how I'd write it in practice. In future exercises though, I've segregated data and functionality by putting the methods on their respective companion objects.
 * Note that calling *EmptyBeginnersCodeball.codemon* has no meaning for the empty codeball and so we have no choice but to throw an exception. In keeping with the Codeball (aka Option) being a box analogy, this is equivalent to our EmptyCodeball being like the Ark of the Covenant from Indiana Jones - you *could* open it if you want, but I wouldn't recommend it... This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala's Option does too, so I think there's no way around it short of replacing the 'get' method with a 'getOrElse(<some value to return if there isn't one present>)' or fold or similar. However, this would make subsequent exercises more long-winded to write, so we'll stick with the anti-pattern for now. 
 
 ![Don't Open the Empty Codeball](Diagrams/Don't_Open_the_Empty_Codeball.jpg)
 
 #### Functors in Type Constructors
-The Beginners Codeball that we created in the previous exercise served to help explain what a functor is. Since it's an endofunctor it cannot convert between types which severely limits its scope.
+The Beginner's Codeball that we created in the previous exercise served to help explain what a functor is. Since it's an endofunctor it cannot convert between types which severely limits its usefulness.
 We'll soon deal with that, but first, we need to ensure that we're familiar with the idea of a *type constructor*.
 This is a generic type definition that takes a specific type as its parameter.
 For example, in Scala Option[T], List[T] and Future[T] are type constructors. So Option[Boolean] is a type, but Option itself is not.
@@ -192,14 +192,15 @@ import scala.language.higherKinds
 #### Exercise
 Open CodeballSpec and un-ignore and make pass the tests.
 
-Here we create our type constructor that we'll expand as we go along.
+We'll now create a new and improved Codeball type. This (non-canon) one can hold anything, but can't operate on its contents, for now...
 
 Additional notes:
-* What we're creating here is the simplest possible implementation of what is effectively the inbuilt Option data type. But I'm going to keep on steadfastly pretending that it's something more exciting. Remeber though, it isn't.
+* Probably the easiest exercise you'll ever do.
+* Spolier: What we're creating here is the simplest possible implementation of what is effectively the inbuilt Option data type. But I'm going to keep on steadfastly pretending that it's something more exciting. Remeber though, it isn't.
 
 #### Functor defintion
 
-With all of this in hand, we are now in a position to better define what a functor is in practical terms:
+With all of this in hand, we are now in a position to better define what a functor is:
 ```
 trait Functor[T[_]] {
   def map[A, B](x: T[A])(f: A => B): T[B]
@@ -217,8 +218,6 @@ In addition to satisfying this interface, there are certain properties that any 
 fa.map(f).map(g) === fa.map(a => g(f(a))
 ```
 
-Be aware that if you run into the functor trait elsewhere it usually, doesn't directly feature a pure method, but rather inherits it from 'Applicative'. This is outside of the scope of this dojo though, so I've abstracted away applicatives and just put pure directly on the fucntor.
-
 **Aside - Functors Further Reading:**
 > [This](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) provides a good explanation of functors from basic concepts without going into too much detail.
 > A more heavyweight discussion can be found [here](https://hackernoon.com/functors-and-applicatives-b9af535b1440). Or if you want just the bare bones, then look no further than [here](https://tpolecat.github.io/2014/03/21/functor.html).
@@ -226,7 +225,7 @@ Be aware that if you run into the functor trait elsewhere it usually, doesn't di
 #### Exercise
 Open AdvancedCodeballSpec and un-ignore and make pass the tests.
 
-Here we establish a fully-fledged functor!
+Now we add functor capability to our Codeball via the AdvancedCodeball object. Unlike before, we can now change the type of the contents of the Codeball.
 
 Additional notes:
 * Rather than creating a new type, we'll create this functor against the existing Codeball type constructor. Arguably this is a bit weird, but it saves us having to reimplement the basic container behaviour and lets us concentrate on the newer more interesting functionality we're adding. 
@@ -236,15 +235,15 @@ Open WildCodemonCaptureSpec and un-ignore and make pass the tests.
 
 Here we look at actually applying the functor we've created in anger. This test requires writing a few little helper methods that we'll then chain together at the end. Hopefully their behaviour should be obvious form the test, but if not here a quick outline:
 * ```def throwCodeball(randomFunction: () => Boolean): Codeball[Codemon]```: Models us throwing a Codeball in an effort to capture a wild Codemon. Only Rusa are stupid enough to be caught like this and even then, only if we're lucky (which we model via the passed in random function).
-* ```def baitTrap(bait: Codemon): Codeball[Codemon] = bait```: This simulates us baiting a trap with another Codemon in a effort to capture a better one. Only baiting the trap with a Rusa will work, in which case, we'll capture a Sikachu. Baiting it with anything else will leave us with nothing. 
+* ```def baitTrap(bait: Codemon): Codeball[Codemon] = bait```: This simulates us baiting a trap with another Codemon in a effort to capture a better one. Only baiting the trap with a Rusa will work, in which case, we'll capture a Sikachu. Baiting it with anything else will leave us empty handed. 
 * ```def fastEvolveCodemon(randomFunction: () => Boolean)(codemonToEvolve: Codemon): Codeball[Codemon]```: We're not prepared to wait for our Codemon to evolve naturally, so we'll use modern technology to force the issue. If we get lucky with the random function, then we'll end up with a brand new evolved Codemon. If we get unlucky, then the less said about the result, the better (we'll model it as an Empty Codeball here, rather than the hideous freak of nature that we'd get in reality).
-* ```def captureLifecycle(randomFunction: () => Boolean): Codeball[Codeball[Codeball[Codemon]]```: Finally, we put it all together. We'll write a method that simulates our budding industry where we try and capture a Codemon, use it to bait a trap and then fast evolve it.
+* ```def captureLifecycle(randomFunction: () => Boolean): Codeball[Codeball[Codeball[Codemon]]```: Finally, we put it all together. We'll write a method that simulates our budding industry where we try and capture a Codemon, use it to bait a trap and then fast evolve it for a quick profit.
 
 Additional notes:
 * As mentioned before, what we've essentially created is the Option data type, albeit with a different name. The Option type allows for the creation of so-called 'walled gardens' where failures are encapsulated within the data type, rather than being a different return type (such as null or an exception).
 * The exercise shows how a number of functor calls can be sequenced together to create a single pipeline that also deals with the failure case without the need for any branching logic. In the case of real Options, this might be reading config, where the first function might represent reading from a file, an operation that could fail, followed by using the result of that to determine a URL to read from that also might fail etc.
-* This style is sometimes called 'railway-orientated programming', whereby there are two 'lines': the good line and the error line that we sometimes switch onto.
 * The limitations of map are shown towards the end, where the return type of nested calls becomes increasingly nested and difficult to work with, which is a major limitation.
+* This style is sometimes called 'railway-orientated programming', whereby there are two 'lines': the good line and the error line that we sometimes switch onto.
 
 #### Take Home
 * Functor is a value in context that provides a method - usually called 'map' - that allows a function to be applied to the value.

@@ -10,6 +10,6 @@ object WildCodemonCapture {
   // Try for a fast evolution. If we're lucky and the random function comes in, then we'll evolve the Codemon. Otherwise it all goes wrong and we end up with nothing.
   def fastEvolveCodemon(randomFunction: () => Boolean)(codemonToEvolve: Codemon): Codeball[Codemon] = ???
 
-  // Time to make a quick buck! Combine the other operations in order and return the result.
+  // Time to make a quick buck! Combine the other operations in order using map and return the result.
   def captureLifecycle(randomFunction: () => Boolean): Codeball[Codeball[Codeball[Codemon]]] = ???
 }
