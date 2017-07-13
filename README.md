@@ -303,23 +303,23 @@ Additional notes:
 >The idea of using category-theory-derived methods as a core extension to the Scala language is something that's been done already. Initially by [Scalaz](https://github.com/scalaz/scalaz), which I'll not expand on further, and more recently (and accessibly), by [Cats](https://github.com/typelevel/cats).
 Cats is a huge topic unto itself. If you want to learn about it, I recommend [Advanced Scala with Cats](http://underscore.io/books/advanced-scala/) by Underscore.io, which is now available for free.
 >
->It's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad, Functor etc. Since they're used in a wider context though, they're built up slightly differently.
+>It's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad and Functor. Since they're part of a wider ecosystem in Cats though, they're built up slightly differently.
 For example, cats Functor only includes map and not pure, which it gets from extending Applicative. You can take a look at their heirrarchy [here](https://github.com/typelevel/cats/tree/master/core/src/main/scala/cats).
-This is in contrast to standard Scala where most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors). However, they don't implement any common interface that marks them as such - a la the traits we've created.
+This is in contrast to standard Scala where most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors). However, they don't implement any common interfaces that mark them as such - a la the traits we've created.
 
 #### Exercise
 Open ImprovedWildCodemonCaptureSpec and un-ignore and make pass the tests.
 
-This is a redux of WildCodemonCaptureSpec, where we use the power and the majesty of flatMap to address it's failings.
+This is a redux of WildCodemonCaptureSpec, where we use the power and the majesty of flatMap to address its failings.
 
 Additional notes:
-* If there was any doubt that map lords it over flatMap, then this should dispel any doubts. Look at flatMap styling on map! It can do everything that it does and more!
+* If there was any doubt that map lords it over flatMap, then this should dispel it. Look at flatMap styling on map! It can do everything that it does and more!
 * Using flatMap lets us sequence dependent calls as before, except now we're able to keep a handle on the return type, rather than it exploding into a nested mess. 
 
 #### The For Comprehension
-This pattern of having multiple flatMap calls, usually follow by a map call to do something with the return type is incredibly common.
-So much so, that there exists extra syntatic sugar for it, the 'for-comprehension' - not to be confused with the ubiquitous 'for loop' that it shares a confusing syntactic similarity with.
-The for comprehension performs a flatMap call on each of the '<-' arrow statements with the exception of the final one, for which it just calls 'map'. The return type is indicated by the 'yield' statement.
+This pattern of having multiple flatMap calls, usually followed by a map call to do something with the return type is incredibly common.
+So much so, that there exists syntatic sugar for it, the 'for-comprehension' - not to be confused with the ubiquitous 'for loop' that it shares a confusing similarity with.
+The for-comprehension performs a flatMap call on each of the '<-' arrow statements with the exception of the final one, for which it just calls 'map'. The return type is indicated by the 'yield' statement.
 More detail and the source of the following examples can be found [here](http://docs.scala-lang.org/tutorials/FAQ/yield):
 
 For example:
@@ -332,18 +332,18 @@ gives:
 ImprovedWildCodemonCaptureSpec and rewrite the series of flatMap calls as a 'for' comprehension.
 
 Additional notes:
-* You'll need the map and flatMap methods on the actual class instance instead of in the companion object for this to work. Feel free to just calls the companion object methods.
-* The for-comprehension also supportsadditional behaviour such as if statements. If you add this, then you'll need to include additional methods filter or withFilter.
+* You'll need the map and flatMap methods on the actual class instance instead of in the companion object for this to work. Feel free to just write implementations that delegate to the companion object methods.
+* The for-comprehension also supports additional behaviour such as if statements. If you add this, then you'll need to include additional methods filter or withFilter.
 TODO: Write this and do the solution (see example https://stackoverflow.com/questions/35761043/how-to-make-your-own-for-comprehension-compliant-scala-monad).
   
 #### Monad Usage
-There are a lots of mainstream monads out there in the world of FP. Throughout the dojo, we've focused on Option and mentioned List and Future several times. A few other mainstream moands that are worth knowing about (and that the cats library provides default implementations of) include:
-* *Identity:* Dreary, but useful. The identity monad simply wraps a value into a monad. Unlike all other monads, it doesn't add any special behaviour, but it does let you trivially wrap a value into a monad, so you can use it in a context that expects a monad. 
+There are lots of useful monads out there. Throughout the dojo, we've focused on Option and mentioned List and Future several times. A few other mainstream moands that are worth knowing about (and that the cats library provides default implementations of) include:
+* *Identity:* Dreary, but useful. The identity monad simply wraps a value into a monad. Unlike all other monads, it doesn't add any special behaviour, but it does let you trivially wrap a value, so you can use it in a context that expects a monad. 
 * *Either:* The Either monad allows you to encapsulate two values, one of which represents a success case and one of which represents a failure. There's a interesting discussion on this in the [Pink Book](http://underscore.io/books/advanced-scala/). Essentially, it didn't used to be a monad until Scala 2.12, when it became **biased** - the right side was given the semantics of being the correct value, which allowed for map and flatMap to be defied on it.
-* *Eval:* Provides an abstraction layer over a function that allows us to control when it is evaluated. This may be immediate (like val), on use (like def), or just after the first usage then cached (like lazy val).
+* *Eval:* Provides an abstraction layer over a function that allows us to control when it is evaluated. This may be immediate (like val), on read (like def), or evaluated cached after the first use (like lazy val).
 * *Writer:* Allows us to associate a continuous log with computations. This is particularly useful in the case when we're producing a log across across multiple concurrent threads, whereby traditional logging techniques run the risk of interleaving messages. 
-* *Reader:* Used to compose operations that depend on some single dependency. The typical usecase is some configuration object that is needed in multiple areas. The reader can be used to compose all the dependant operations into one composite operation that we can then pass the configuration too and will execute in order. In essence, this gives us a form of basic functional DI.
-* *State:* The state monad is similar to the reader monad, but instead of being limited to reading from a dependency, in this case, the state, it also allows for it to be altered. The power of the monad comes from the ability to then combine multiple state monads taht each represent atomic operations on the state then and seamlessly convey the resultant state between them. This provides a way of encapsulating mutation in a functional way.
+* *Reader:* Used to compose operations that require some single dependency. The typical usecase is some configuration object that is needed in multiple areas. The reader can be used to compose all the dependant operations into one composite operation that we can then pass the configuration to and will execute in order. In essence, this gives us a form of basic functional DI.
+* *State:* The state monad is similar to the reader monad, but instead of being limited to reading from a dependency, in this case, the state, it also allows for it to be altered. The power of the monad comes from the ability to then combine multiple state monads that each represent atomic operations on the state then and seamlessly convey the changing state object between them. This provides a way of encapsulating mutation in a functional way.
 
 You can find much more detailed explaanations on these monad types in these places:
 * [The Pink Book](http://underscore.io/books/advanced-scala/): Detailed listings for these monads, with an emphasis on Scala and Cats.
@@ -359,13 +359,11 @@ Additional notes:
 * Depending on the time you have you could implement a list from scratch or piggyback on top of the existing list type. If you go for the piggyback option, then don't just delegate to the existing list's map/flatMap methods!
 * This exercise provides more evidence of the limitations of map as compared to flatMap. Using only map, there is no way to change the number of elements in a List. It is only possible to modify the type or value of the available elements, but the number of elements will remain the same.
 
-### Sequencing
-The way that this dojo has approached the Codeball, aka Options, has put a lot of emphasis on the 'flatten' operation - the ability for monads to reconcile a level of nesting into a single flat structure.
-All monads do this (it's a consequence of the Right identity law), although they may not actually feature a flatten operation that they expose as such.
-We saw with the ImprovedWildCodemonCaptureSpec exercise how when we make multiple calls to flatMap, we'll execute each in order and then flatten them out in reverse order after all of the functions have executed.
-This behaviour hints at the defining behaviour that people talk about when they're discussing monads which is *their ability to sequence computations*.
-When you combine monads with flatMap, you're specifying an execution order, along with some dealing some other extra complication that is the defining characteristic to the particular monad in question.
-This extra behaviour is commonly called the monad's 'effect'. Examples include:
+### Sequencing the Heart of the Monad
+The way that this dojo has approached the Codeball, aka Options, has put a lot of emphasis on the 'flatten' operation - the ability for monads to reconcile a level of nesting into a single flat structure. Taking this tact, hopefully made for an easier introduction and helped better couch the exercises. It is true that all monads will perform some sort of internal flattening (it's a consequence of the Right identity law) - although they may not actually expose it - however, it'd be a msitake to come away thinking that this is the essence of how to think about them.
+
+We saw with the ImprovedWildCodemonCaptureSpec exercise how when we make multiple calls to flatMap, they execute each in order and then are flattened out in reverse order once all of the functions have executed. This behaviour hints at the defining behaviour that people talk about when they're discussing monads which is actually *their ability to sequence computations*.
+When you combine monads with flatMap, you're specifying an execution order. FlatMap always has to deal with this along with handling some extra complexity that is the defining charcteristic of the particular monad you're dealing with. This extra behaviour is commonly called the monad's 'effect'. Examples include:
 * *Option:* The effect is that it models a sequence of operations that may fail.
 * *Future:* The effect is that the operations may be executed asyncronously in different computational contexts.
 * *Writer*: The effect is that a provided parameter is made available to all the operations.
@@ -375,3 +373,6 @@ This extra behaviour is commonly called the monad's 'effect'. Examples include:
 * As monads are also Functors 'map' and 'pure' will also be available.
 * A monad must adhere to three laws: Left Identity, Right Identity and Associativity.
 * Combining monads with flatMap defines sequencing and introduces some additional effect that is the particular monad's defining characteristic.
+
+#### Exercise (OPTIONAL)
+If you've made it this far then I have nothing left to teach you. However, there's always more to learn. I'd recommend running through chapter 4 in the [Advanced Scala with Cats Book](http://underscore.io/books/advanced-scala/) and doing some of the exercises based around the Cats implementations of various monad types.
