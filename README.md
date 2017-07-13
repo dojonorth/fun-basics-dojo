@@ -91,19 +91,19 @@ This is all super amenable to being pictographically depicted, so let's do it:
 
 There are a few things to take from the diagram:
 * For each dot in the domain of Classic Consoles, there is exactly one arrow leaving that runs to the codomain of Console Cartridges.
-* It's missing identity morphisms: Category theory states that each object should feature a morphism that goes from itself to itself. I haven't bothered to include these on the diagram. 
+* It's missing identity morphisms: CT states that each object should feature a morphism that goes from itself to itself. I haven't bothered to include these. 
 
 In practice we'd have lots of other domains such as:
 ```
 Classic Game Star = {Super Mario, Alex Kidd, Anonymous Biker}
 ```
-If we call this set 'S' and assume another morphism 'staring' G → S then we can also infer another morphism from G → S, which is the composition of plays and starring. This concept of composition is at the core of categories. If we have A → B and B → C then there must be a corresponding A → C.
+If we call this new set 'S' and assume another morphism 'starring' G → S then we can also infer another morphism from C → S, which is the composition of plays and starring. This concept of composition is at the core of categories. If we have A → B and B → C then there must be a corresponding A → C.
 
 Additional restrictions apply to the collection of objects and arrows for them to qualify as a true mathematical category, but we'll skip over these.
 
 **Aside - Category Theory Further Reading**
->I've tried to inline links to the general concepts that the dojo covers as I've gone along. If you're interested in a more complete discussion of parts of category theory that apply to programming though, then I'd single out [this for special mention](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/).
-If you're after a more accessible, but less thorough, take on most of the material that the dojo covers, then I'd recommend [this](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html).
+>I've tried to inline links to the general concepts that the dojo covers as I've gone along. If you're interested in a more complete discussion of parts of category theory that apply to programming though, then I'd single out [this for special mention](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/). Just looking at the guy's picture at the top of the page you can tell that he *knows* CT! 
+If you're after a more accessible, but less thorough, take on most of the material that the dojo covers, then I'd recommend [giving this a go](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html).
 Finally, if you're after a balance between the two [then this is good](http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala). As is [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/).
 
 #### Exercise
