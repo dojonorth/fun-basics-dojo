@@ -14,4 +14,10 @@ class ImprovedWildCodemonCaptureSpec extends CodemonBaseSpec {
       ImprovedWildCodemonCapture.captureLifecyclewithMonads(() => true) shouldBe OccupiedCodeball(RaabyChu)
     }
   }
+
+  describe("Optional Extra") {
+    it("Rewrite the capture lifecycle using a for-comprehension") {
+      ImprovedWildCodemonCapture.captureLifecycleUsingAForComprehension(() => true) shouldBe OccupiedCodeball(RaabyChu)
+    }
+  }
 }

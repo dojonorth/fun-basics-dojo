@@ -12,4 +12,11 @@ object ImprovedWildCodemonCapture {
         fastEvolveCodemon(randomFunction)(trappedNewCodemon)
       }
     }
+
+  def captureLifecycleUsingAForComprehension(randomFunction: () => Boolean): Codeball[Codemon] =
+    for{
+      codemonWeCaught <- throwCodeball(randomFunction)
+      trappedNewCodemon <- baitTrap(codemonWeCaught)
+      evolvedCodemon <- fastEvolveCodemon(randomFunction)(trappedNewCodemon)
+    } yield evolvedCodemon
 }

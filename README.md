@@ -332,12 +332,11 @@ gives:
 > c1.flatMap(x => c2.flatMap(y => c3.map(z => {...})))
 
 ##### Exercise (OPTIONAL)
-ImprovedWildCodemonCaptureSpec and rewrite the series of flatMap calls as a 'for' comprehension.
+Open ImprovedWildCodemonCapture and rewrite the series of flatMap calls as a 'for' comprehension.
 
 Additional notes:
 * You'll need the map and flatMap methods on the actual class instance instead of in the companion object for this to work. Feel free to just write implementations that delegate to the companion object methods.
 * The for-comprehension also supports additional behaviour such as if statements. If you add this, then you'll need to include additional methods filter or withFilter.
-TODO: Write this and do the solution (see example https://stackoverflow.com/questions/35761043/how-to-make-your-own-for-comprehension-compliant-scala-monad).
   
 #### Monad Usage
 There are lots of useful monads out there. Throughout the dojo, we've focused on Option and mentioned List and Future several times. A few other mainstream moands that are worth knowing about (and that the cats library provides default implementations of) include:
