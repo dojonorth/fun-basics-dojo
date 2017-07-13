@@ -21,7 +21,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
       codeBox.contents shouldBe codemon
     }
 
-    ignore("c. should be able to free Codemon from their Balls") {
+    ignore("c. should be able to map across its contents and change its type") {
       val codeballs = List(OccupiedBeginnersCodeball(RaabyChu), OccupiedBeginnersCodeball(Rusa))
 
       val codeBox = CodeBox(codeballs)
@@ -39,7 +39,7 @@ class CodeBoxSpec extends CodemonBaseSpec {
     }
   }
 
-  describe("#15 - The Exciting new flatten functionality that our CodeBox supportsn should") {
+  describe("#15 - The Exciting new flatten functionality that our CodeBox supports should") {
     ignore("a. empty out a single inner box of Codemon") {
       val codemon = List[Codemon](RaabyChu, Sikachu)
       val codeBox: CodeBox[CodeBox[Codemon]] = CodeBox(List(CodeBox(codemon)))

@@ -360,6 +360,7 @@ You can find much more detailed explaanations on these monad types in these plac
 Open CodeboxSpec and un-ignore and make pass the tests.
 
 This is an optional (read: bit rough) additional exercise to implement a different monad - essentially a list Monad by any other name.
+You can test drive the whole thing yourself or you can go off of the tests that I've included. If you do choose to follow the tests, then be warned that it's a bit more fast and loose than everything that's come thus far. It's actually just a piece of code that I salvaged from an earlier version of this dojo and so is a bit rough around the edges. Notably, I've left map and flatMap on the instance and I've not implemented any interfaces that define monadic behaviour.
 
 Additional notes:
 * Depending on the time you have you could implement a list from scratch or piggyback on top of the existing list type. If you go for the piggyback option, then don't just delegate to the existing list's map/flatMap methods!
