@@ -254,20 +254,21 @@ Additional notes:
 > "A monad is just a monoid in the category of endofunctors, what's the probleⅿ?"
 
 And people wonder why this stuff is considered inacessible. Anyhow, monads have a semi-mythical status in computing, in particular for being hard to understand.
-During the course of researching this dojo I read a few posts by people freaking out that it was impossible to understand them without a total grasp of the underlying maths, so don't even try. I'm going to try anyway...
+During the course of researching this dojo I read a few posts by people freaking out that it was impossible to understand them without a total grasp of the underlying maths, so don't even try. So prospects look good; let's give it a go!
 
 As [has been pointed out](https://bartoszmilewski.com/2016/11/21/monads-programmers-definition/) people end to overestimate their complexity, as they conflate the myriad of applications with the concept itself.
-A good analogy I read compared them to duct tape: If you tried to describe duct tape in terms of it's applications then you might say things along the lines of:
+A good analogy I read compared them to duct tape: If you tried to describe duct tape in terms of its applications then you might say things along the lines of:
 * "It covers holes in tents"
 * "You can make a [wallets out of it](http://www.wikihow.com/Make-a-Duct-Tape-Wallet)"
 * "It can fix ducts"
-If you just had it described to you in those terms i.e. what it does, then you'd have no clue what it did. Whereas the underlying description of it is pretty simple: it's a waterproof, resilient tape that binds things together; not unlike monads (well, apart from the waterproof tape part...).
+
+If you just had it described to you in those terms i.e. what it does, then you'd have no clue what it did. Whereas the underlying description of it is pretty simple: it's a waterproof, resilient tape that covers things and binds things together; not unlike monads (well, apart from the waterproof tape part...).
 
 Just like how a functor boiled down to something that has a map operation on it, a monad is a type constructor that has two distinct operations on it:
-* **Pure -** a method that takes a value of a plain type and puts it into a monad creating a monadic value. This is effectively the monad constructor. It goes by many aliases across the programming world: return in Haskell, unit in Scala, sometimes pure elsewhere, occasionally zero
+* **Pure -** a method that takes a value of a plain type and wraps it into a monad. This is effectively the monad constructor. It goes by many aliases across the programming world: return in Haskell, unit in Scala, sometimes pure elsewhere, occasionally zero
 * **Bind -** a method that performs as per the functor map operation in that it contextually applies the function to the contents of the monad, but then performs an additional flattening step that will be described in more detail later. Again, this operation goes by other names >>= in Haskell and flatMap in Scala.
 
-I prefer the Scala name flatMap, as it describes what the operation does: it maps over the monad's values and then flattens the result. As with functors, just what this flatten operation does is contextual to the monad in question, but in essence it takes any nested instances within the Monad and then 'flattens' them out into a single monad. For example:
+I prefer the Scala name flatMap, as it describes what the operation does: it maps over the monad's value(s) and then flattens the result. As with functors, just what this flatten operation does is contextual to the monad in question, but in essence it takes any nested instances within the Monad and then 'flattens' them out into a single monad. For example:
 * *The List Monad -* List(List(1,2,3), List(4), List(5,6,7)).flatten() would give List(1,2,3,4,5,6,7)
 * *The Option Monad -* Some(Some(x)).flatten would give Some(x), whereas Some(None) gives None
 
@@ -293,16 +294,17 @@ Hence, it should come as no surprise that flatMap is much more powerful than map
 
 As before, be aware that there are additional mathemetical properties that must hold true for a monad, that I'll lightly touch:
 * *Left Identity:* Calling pure on a value then applying a a function to the result via flatMap is the same as just applying the function to the value
-> pure(value).flatMap(f) == f(value)
+> pure(value).flatMap(f) === f(value)
 * *Right Identity:* Passing pure to flatMap has no effect
-> monad.flatMap(pure) == monad
+> monad.flatMap(pure) === monad
 * *Associativity:* calling flatMap on consecutive functions is the same as flatMapping over two functions
-> monad.flatMap(f).flatMap(g) == monad.flatMap(value => f(value).flatMap(g))
+> monad.flatMap(f).flatMap(g) === monad.flatMap(value => f(value).flatMap(g))
 
 #### Exercise
 Open MasterCodeballSpec and un-ignore and make pass the tests.
 
-Here we create a fully-fledged monad! This one is unusual, in that I've left the tests that 'prove' that our monad satisfies the laws of monads for you to write. I say 'prove' as all I'm expecting is for you to show that they work for some random examples, rather than in a more rigorous sense.
+Here we create a fully-fledged monad! We'll build the requisite pure and flatMap operations for our Codeball. 
+In addition, there's an unusual extra bit where you need to actually write some tests to 'prove' that our monad satisfies the laws of monads. I say 'prove' as all I'm expecting is for you to show that they work for some random examples, rather than in all cases.
 
 Additional notes:
 * The Monad trait dictates that you'll need a map operation. We never actually call it, so you can leave it unwritten if you want or you can delegate to AdvancedCodeball's map method for completeness.
@@ -344,17 +346,17 @@ gives:
 Open ImprovedWildCodemonCapture and rewrite the series of flatMap calls as a 'for' comprehension.
 
 Additional notes:
-* You'll need the map and flatMap methods on the actual class instance instead of in the companion object for this to work. Feel free to just write implementations that delegate to the companion object methods.
+* You'll need the map and flatMap methods on the actual Codeball trait instead of in the companion object for this to work. Feel free to just write implementations that delegate to the companion object methods.
 * The for-comprehension also supports additional behaviour such as if statements. If you add this, then you'll need to include additional methods filter or withFilter.
   
 #### Monad Usage
-There are lots of useful monads out there. Throughout the dojo, we've focused on Option and mentioned List and Future several times. A few other mainstream moands that are worth knowing about (and that the cats library provides default implementations of) include:
+There are lots of useful monads out there. Throughout the dojo, we've focused on Option, I mean Codeball,  and mentioned List and Future several times. A few other mainstream moands that are worth knowing about (and that the cats library provides default implementations of) include:
 * *Identity:* Dreary, but useful. The identity monad simply wraps a value into a monad. Unlike all other monads, it doesn't add any special behaviour, but it does let you trivially wrap a value, so you can use it in a context that expects a monad. 
 * *Either:* The Either monad allows you to encapsulate two values, one of which represents a success case and one of which represents a failure. There's a interesting discussion on this in the [Pink Book](http://underscore.io/books/advanced-scala/). Essentially, it didn't used to be a monad until Scala 2.12, when it became **biased** - the right side was given the semantics of being the correct value, which allowed for map and flatMap to be defied on it.
 * *Eval:* Provides an abstraction layer over a function that allows us to control when it is evaluated. This may be immediate (like val), on read (like def), or evaluated cached after the first use (like lazy val).
-* *Writer:* Allows us to associate a continuous log with computations. This is particularly useful in the case when we're producing a log across across multiple concurrent threads, whereby traditional logging techniques run the risk of interleaving messages. 
+* *Writer:* Allows us to associate a continuous log with computations. This is particularly useful in the case when we're producing a log across across multiple concurrent threads, wherein traditional logging techniques run the risk of interleaving messages. 
 * *Reader:* Used to compose operations that require some single dependency. The typical usecase is some configuration object that is needed in multiple areas. The reader can be used to compose all the dependant operations into one composite operation that we can then pass the configuration to and will execute in order. In essence, this gives us a form of basic functional DI.
-* *State:* The state monad is similar to the reader monad, but instead of being limited to reading from a dependency, in this case, the state, it also allows for it to be altered. The power of the monad comes from the ability to then combine multiple state monads that each represent atomic operations on the state then and seamlessly convey the changing state object between them. This provides a way of encapsulating mutation in a functional way.
+* *State:* The state monad is similar to the reader monad, but instead of being limited to just reading from the propagated dependency, the state, it also allows for it to be altered. The power of the monad comes from the ability to then combine multiple state monads that each represent atomic operations on the state then and seamlessly convey the changing state object between them. This provides a way of encapsulating mutation in a functional way.
 
 You can find much more detailed explaanations on these monad types in these places:
 * [The Pink Book](http://underscore.io/books/advanced-scala/): Detailed listings for these monads, with an emphasis on Scala and Cats.
@@ -364,27 +366,27 @@ You can find much more detailed explaanations on these monad types in these plac
 #### Exercise (OPTIONAL)
 Open CodeboxSpec and un-ignore and make pass the tests.
 
-This is an optional (read: bit rough) additional exercise to implement a different monad - essentially a list Monad by any other name.
+This is an optional (read: not polished) additional exercise to implement a different monad - essentially a list Monad by any other name.
 You can test drive the whole thing yourself or you can go off of the tests that I've included. If you do choose to follow the tests, then be warned that it's a bit more fast and loose than everything that's come thus far. It's actually just a piece of code that I salvaged from an earlier version of this dojo and so is a bit rough around the edges. Notably, I've left map and flatMap on the instance and I've not implemented any interfaces that define monadic behaviour.
 
 Additional notes:
 * Depending on the time you have you could implement a list from scratch or piggyback on top of the existing list type. If you go for the piggyback option, then don't just delegate to the existing list's map/flatMap methods!
 * This exercise provides more evidence of the limitations of map as compared to flatMap. Using only map, there is no way to change the number of elements in a List. It is only possible to modify the type or value of the available elements, but the number of elements will remain the same.
 
-### Sequencing the Heart of the Monad
-The way that this dojo has approached the Codeball, aka Options, has put a lot of emphasis on the 'flatten' operation - the ability for monads to reconcile a level of nesting into a single flat structure. Taking this tact, hopefully made for an easier introduction and helped better couch the exercises. It is true that all monads will perform some sort of internal flattening (it's a consequence of the Right identity law) - although they may not actually expose it - however, it'd be a mistake to come away thinking that this is the essence of how to think about them.
+### Sequencing - the Heart of the Monad
+The way that this dojo has approached the Codeball, aka Option, has put a lot of emphasis on the 'flatten' operation - the ability for monads to reconcile a level of nesting into a single flat structure. Taking this tact hopefully made for an easier introduction and helped better couch the exercises. It is true that all monads will perform some sort of internal flattening (it's a consequence of the Right identity law) - although they may not actually expose it - however, it'd be a mistake to come away thinking that this is the essence of how to think about them.
 
-We saw with the ImprovedWildCodemonCaptureSpec exercise how when we make multiple calls to flatMap, they execute each in order and then are flattened out in reverse order once all of the functions have executed. This behaviour hints at the defining behaviour that people talk about when they're discussing monads which is actually *their ability to sequence computations*.
-When you combine monads with flatMap, you're specifying an execution order. FlatMap always has to deal with this along with handling some extra complexity that is the defining charcteristic of the particular monad you're dealing with. This extra behaviour is commonly called the monad's 'effect'. Examples include:
+We saw with the ImprovedWildCodemonCaptureSpec exercise how when we make multiple calls to flatMap, they execute each in order and then are flattened out in reverse order once all of the functions have executed. This behaviour hints at the core characteristic that people talk about when they're discussing monads, which is actually *their ability to sequence computations*.
+When you combine monads with flatMap, you're specifying an execution order. FlatMap always has to deal with this along with handling some extra complexity that is the defining behaviour of the particular monad you're dealing with. This extra behaviour is commonly called the monad's 'effect'. Examples include:
 * *Option:* The effect is that it models a sequence of operations that may fail.
 * *Future:* The effect is that the operations may be executed asyncronously in different computational contexts.
 * *Reader*: The effect is that a provided parameter is made available to all the operations.
 
 #### Take Home
-* A monad is a value in context that provides methods to convert a value into a monad - usually called 'pure' - and that allows a function to be to the value applied that itself returns a monad - usually called 'flatMap'.
+* A monad has two defining methods. The first converts a value into a monad - usually called 'pure'. The second allows a function that itself returns a monad to be to applied - usually called 'flatMap'.
 * As monads are also functors 'map' will also be available.
 * A monad must adhere to three laws: Left Identity, Right Identity and Associativity.
-* Ultimately, monads are just the sum of the interface and the monad laws, but the implications these laws is hard to reason about and leads to them instead being associated wth other simpler abstractions, the most common being the emphasis on them as a tool for sequencing operation.
+* Ultimately, monads are just the sum of the interface and the monad laws, but the implications these laws are hard to reason about and leads to the adaption of simpler abstractions, the most common being the emphasis on them as a tool for sequencing operations.
 * Combining monads with flatMap defines sequencing and introduces some additional effect that is the particular monad's defining characteristic.
 
 #### Exercise (OPTIONAL)

@@ -33,7 +33,7 @@ class MasterCodeballSpec extends CodemonBaseSpec {
     ignore("c. Allow us to alter the contents of an Occupied Masterball without introducing additional nesting") {
       def appendWorks(s: String) = MasterCodeball.pure(s + " works!")
       val secretMonad = MasterCodeball.pure("It")
-      MasterCodeball.flatMap(secretMonad)(appendWorks) shouldBe MasterCodeball.pure("It Works!")
+      MasterCodeball.flatMap(secretMonad)(appendWorks) shouldBe MasterCodeball.pure("It works!")
     }
 
     ignore("d. Allow us to empty out an Occupied Codeball") {
@@ -44,15 +44,15 @@ class MasterCodeballSpec extends CodemonBaseSpec {
 
   describe("#12 - Proving the mathematical properties hold up") {
     ignore("Satisfies left identity") {
-      //TODO: Write me
+      fail("Write me")
     }
 
     ignore("Satisfies right identity") {
-      //TODO: Write me
+      fail("Write me")
     }
 
     ignore("Satisfies associativity") {
-      //TODO: Write me
+      fail("Write me")
     }
   }
 }

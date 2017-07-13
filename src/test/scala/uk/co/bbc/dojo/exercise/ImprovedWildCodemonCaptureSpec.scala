@@ -12,12 +12,14 @@ class ImprovedWildCodemonCaptureSpec extends CodemonBaseSpec {
 
     ignore("b. Rewrite WildCodemonCapture.captureLifecycle using flatMap instead of map and thus avoid crazy levels of nesting") {
       ImprovedWildCodemonCapture.captureLifecyclewithMonads(() => true) shouldBe OccupiedCodeball(RaabyChu)
+      ImprovedWildCodemonCapture.captureLifecyclewithMonads(() => false) shouldBe EmptyCodeball
     }
   }
 
   describe("XX Optional Extra") {
     ignore("a. Rewrite the capture lifecycle using a for-comprehension") {
       ImprovedWildCodemonCapture.captureLifecycleUsingAForComprehension(() => true) shouldBe OccupiedCodeball(RaabyChu)
+      ImprovedWildCodemonCapture.captureLifecycleUsingAForComprehension(() => false) shouldBe EmptyCodeball
     }
   }
 }
