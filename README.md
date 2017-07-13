@@ -3,13 +3,12 @@ A crash course in the basics (taught by a learner driver).
 
 ## Introduction
 Functional programming (FP) has been around for a long time. Recent findings have revealed that the T-Rex probably programmed in Lisp.
-During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus), which is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. (see **Lambda Notes** in **Further Reading** for more detail). Essentially *functional programming is lambda calculus*.
+During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus), which is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. Essentially *functional programming is lambda calculus*.
 
-**Lambda Calculus - Skippable Extra Notes:**
+**Aside - Skippable Extra Lambda Calculus Notes:**
 >See [here](https://medium.com/javascript-scene/the-rise-and-fall-and-rise-of-functional-programming-composable-software-c2d91b424c8c) as a starting point for more detail on the relationship between Lambda Calculus and programming languages. Few interesting nuggets to whet your appetite:
 > * The 'calculus' in Lambda Calculus has nothing to do with integration and differentiation that we all know and love. Rather, it refers to the more general meaning of calculus, which defines a 'method or system for calculation or reasoning'.
 > * Lisp, that we also all know and love, was heavily influenced by lambda calculus. [Lisp dates from 1958 and is the second oldest prograaming language still in widespread use](https://en.wikipedia.org/wiki/Lisp_(programming_language)), only Fortran edges it out by a year.
-
 
 Recently though, concepts from another area of mathematics have increasingly become prevalent in the FP-scence: Category Theory (CT).
 We work in an industry that is subject to subject to swings in what's fashionable and CT concepts are most certainly bang-on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
@@ -103,7 +102,12 @@ Classic Game Star = {Super Mario, Alex Kidd, Anonymous Biker}
 ```
 If we call this set 'S' and assume another morphism 'staring' G → S then we can also infer another morphism from G → S, which is the composition of plays and starring. This concept of composition is at the core of categories. If we have A → B and B → C then there must be a corresponding A → C.
 
-Additional restrictions apply to the collection of objects and arrows for them to qualify as a true mathematical category, but we'll skip over these (see **General Category Theory** in **Further Reading** for more detail) for additional information if you want to round out your understanding.
+Additional restrictions apply to the collection of objects and arrows for them to qualify as a true mathematical category, but we'll skip over these.
+
+**Aside - Category Theory Further Reading**
+>I've tried to inline links to the general concepts that the dojo covers as I've gone along. If you're interested in a more complete discussion of parts of category theory that apply to programming though, then I'd single out [this for special mention](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/).
+If you're after a more accessible, but less thorough, take on most of the material that the dojo covers, then I'd recommend [this](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html).
+Finally, if you're after a balance between the two [then this is good](http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala). As is [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/).
 
 #### Exercise
 Open CodemonSpec and un-ignore and make pass the tests.
@@ -146,7 +150,6 @@ The concepts that come up is this dojo form a small selection of examples of the
 
 ## 2. Functors
 In CT, a functor describes a transformation between two categories. It needs to map every object and morphism between the two and must adhere to a number of mathematical laws.
-We'll gloss over this and concentrate on their application in functional programming (see **Functors** in **Further Reading** for more detail) for more detail if you're interested).
 
 Normally, when you perform a function on a value, say +2 on an Integer value the behaviour is fixed.
 In order to understand functors, we instead need to extend this to the idea of a value within an associated context.
@@ -206,7 +209,6 @@ We can see that:
 * It features a way of taking a value and turning it into a functor - the *pure* method.
 * It features a method that applies a function to a wrapped value and produces a new functor of the resultant type. This is usually called *map*.
 
-
 In addition to satisfying this interface, there are certain properties that any map method should adhere to. I won't dwell on them, but I'll mention them here for completeness:
 * *Identity:* Calling map with the identity function has no effect.
 * *Composition:* Assuming two functions f and g, then calling mapping over f then g is the same as applying the composite function g(f(_)) e.g.
@@ -215,6 +217,10 @@ fa.map(f).map(g) === fa.map(a=> g(f(a))
 ```
 
 If you see the interface that defines a functor elsewhere, commonly it doesn't directly feature a pure method, but rather inherits it from 'Applicative'. This is outside of the scope of this dojo though, so I've abstracted away applicatives and just put pure directly on the fucntor.
+
+**Aside - Functors Further Reading:**
+> [This](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) provides a good explanation of functors from basic concepts without going into too much detail.
+> A more heavyweight discussion can be found [here](https://hackernoon.com/functors-and-applicatives-b9af535b1440). Or if you want just the bare bones, then look no further than [here](https://tpolecat.github.io/2014/03/21/functor.html).
 
 #### Exercise
 Open AdvancedCodeballSpec and un-ignore and make pass the tests.
@@ -278,7 +284,7 @@ We'll go into the benefits of monads later, but even in the two examples listed 
 Hence, it should come as no surprise that flatMap is much more powerful than map. This is illustrated by the fact that it's possible to write map in terms of flatMap, but not vice-versa. If the two had a fight, flatMap would win everytime.
 [TODO: Flatmap Wins diagram]
 
-As before, be aware that there are additional mathemetical properties that should technically hold true for a monad, that I'll lightly touch (you can read about them in **General Category Theory** in **Further Reading** for more detail along with other fun monad facts):
+As before, be aware that there are additional mathemetical properties that should technically hold true for a monad, that I'll lightly touch:
 * *Left Identity:* Calling pure on a value then applying a a function to the result via flatMap is teh same as just applying the function to the value
 > pure(value).flatMap(f) == f(value)
 * *Right Identity:* Passing pure to flatMap has no effect
@@ -305,7 +311,6 @@ Cats is a huge topic unto itself. If you want to learn about it, I recommend [Ad
 That said, it's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad, Functor etc. Since they're used in a wider context though, they're built up slightly differently.
 For example, cats Functor only includes map and not pure, which it gets from extending Applicative. You can take a look at their heirrarchy [here](https://github.com/typelevel/cats/tree/master/core/src/main/scala/cats).
 This is in contrast to standard Scala where most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors). However, they don't implement any common interface that marks them as such - a la the traits we've created.
-
 
 #### Exercise
 Open ImprovedWildCodemonCaptureSpec and un-ignore and make pass the tests.
@@ -375,19 +380,3 @@ This extra behaviour is commonly called the monad's 'effect'. Examples include:
 * As monads are also Functors 'map' and 'pure' will also be available.
 * A monad must adhere to three laws: Left Identity, Right Identity and Associativity.
 * Combining monads with flatMap defines sequencing and introduces some additional effect that is the particular monad's defining characteristic.
-
-## Further Reading
-
-#### 2-General Category Theory
-I've tried to inline links to the general concepts that the dojo covers as I've gone along. If you're interested in a more complete discussion of parts of category theory that apply to programming though, then I'd single out [this for special mention](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/).
-
-If you're after a more accessible, but less thorough, take on most of the material that the dojo covers, then I'd recommend [this](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html).
-
-Finally, if you're after a balance between the two [then this is good](http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala). As is [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/).
-
-#### 3-Functors
-[This](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) provides a good explanation of functors from basic concepts without going into too much detail.
-
-A more heavyweight discussion can be found [here](https://hackernoon.com/functors-and-applicatives-b9af535b1440). Or if you want just the bare bones, then look no further than [here](https://tpolecat.github.io/2014/03/21/functor.html).
-
-TODO: Work in - * Functor is very similar to morphisms as we described them before (functions). The major difference is that it is a morphism between categories (sometimes called a structure preserving map) instead of objects (lifted from http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala)
