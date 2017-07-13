@@ -3,7 +3,7 @@ A crash course in the basics (taught by a learner driver).
 
 ## Introduction
 Functional programming (FP) has been around for a long time. Recent findings have revealed that the T-Rex probably programmed in Lisp.
-During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus), which is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. (see **Lambda Notes** in **Further Reading** for more detail). Essentially lambda calculus *is functional programming*.
+During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus), which is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. (see **Lambda Notes** in **Further Reading** for more detail). Essentially *functional programming is lambda calculus*.
 
 Recently though, concepts from another area of mathematics have increasingly become prevalent in the FP-scence: Category Theory (CT).
 We work in an industry that is subject to subject to swings in what's fashionable and CT concepts are most certainly bang-on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
@@ -113,7 +113,7 @@ Additional notes:
 #### Take Home
 We've not gone into great depth on what categories are. We've created an example object and morphism within the category of finite sets and maps. How does this relate to programming?
 Here's the reveal: when we're developing in a typed language, the class hierarchy itself forms a category within which:
-* *Objects are the types*: classes, traits, interfaces etc and the morphisms either
+* *Objects are the types*: classes, traits, interfaces et.
 * *Morphisms are the two relationships between types*: subtyping and functions
 
 We have our objects - the types. Check. The morphisms - functions and subtypes. Check. And they follow the rules of morphisms - in particular, they compose! For example:
@@ -158,7 +158,7 @@ Open BeginnersCodeballSpec and un-ignore and make pass the tests.
 Here we establish a basic endofunctor (functor that only maps between instances of the same type).
 
 Additional Notes:
-* Note that calling *EmptyBeginnersCodeball.codemon* has no meaning in the empty codeball and so we have no choice but to throw an exception. This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala's Option does too, so I think there's no way around it short of replacing the 'get' method with a 'getOrElse(<some value to return if there isn't one present>)'. However, this would make subsequent exercises more long-winded to write, so we'll stick with the anti-pattern it for now. 
+* Note that calling *EmptyBeginnersCodeball.codemon* has no meaning in the empty codeball and so we have no choice but to throw an exception. In keeping with the Codeball (aka Option) being a box analogy, this is equivalent to our EmptyCodeball being like the Ark of the Covenant from Indian Jones - you *could* open it if you want, but I wouldn't recommend it... This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala's Option does too, so I think there's no way around it short of replacing the 'get' method with a 'getOrElse(<some value to return if there isn't one present>)' or fold or similar. However, this would make subsequent exercises more long-winded to write, so we'll stick with the anti-pattern it for now. 
 * Being able to map across a collection that may contain either something or nothing without having to differentiate between the two cases is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called *railway-orientated programming*.
 * In the exercise the map method is defined on the type itself. I've done this as it's more familiar and is how I'd write it in practice. In future exercises though, I've segregated data and functionality by putting the methods on their respective companion objects.
 
@@ -200,12 +200,15 @@ We can see that:
 * It features a way of taking a value and turning it into a functor - the *pure* method.
 * It features a method that applies a function to a wrapped value and produces a new functor of the resultant type. This is usually called *map*.
 
-In addition to satisfying this interace, there are certain properties that any map method should adhere to. I won't dwell on them, but I'll mention them here for completeness:
+
+In addition to satisfying this interface, there are certain properties that any map method should adhere to. I won't dwell on them, but I'll mention them here for completeness:
 * *Identity:* Calling map with the identity function has no effect.
 * *Composition:* Assuming two functions f and g, then calling mapping over f then g is the same as applying the composite function g(f(_)) e.g.
 ```
 fa.map(f).map(g) === fa.map(a=> g(f(a))
 ```
+
+If you see the interface that defines a functor elsewhere, commonly it doesn't directly feature a pure method, but rather inherits it from 'Applicative'. This is outside of the scope of this dojo though, so I've abstracted away applicatives and just put pure directly on the fucntor.
 
 #### Exercise
 Open AdvancedCodeballSpec and un-ignore and make pass the tests.
@@ -277,13 +280,6 @@ As before, be aware that there are additional mathemetical properties that shoul
 * *Associativity:* calling flatMap on consecutive functions is the same as flatMapping over two functions
 > monad.flatMap(f).flatMap(g) == monad.flatMap(value => f(value).flatMap(g))
 
-**Aside - Cats:**
->Most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors), however, they don't implement any common interface that marks them as such - a la the traits we've created.
-The idea of using category-theory-derived methods as a core extension to the Scala language is something that's been done already. Initially by [Scalaz](https://github.com/scalaz/scalaz), that I'll not expand on further, and more recently, and accessibly, by [Cats](https://github.com/typelevel/cats).
-Cats is a huge topic unto itself. If you want to learn about it, I recommend [Advanced Scala with Cats](http://underscore.io/books/advanced-scala/) by Underscore.io, which is now available for free.
-That said, it's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad, Functor etc. Since they're used in a wider context though, they're built up slightly differently.
-For example, cats Functor only includes map and not pure, which it gets from extending Applicative. You can take a look at their heirrarchy [here](https://github.com/typelevel/cats/tree/master/core/src/main/scala/cats).
-
 #### Exercise
 Open MasterCodeballSpec and un-ignore and make pass the tests.
 
@@ -295,6 +291,15 @@ Additional notes:
 * We now have the ability to change the outer context. A 'Some' can become a None, which was impossible before with just 'map' - all we could do was change the type of what was inside.
 * For any given context, you could potentially define multiple monads (or functors)  , since it's up to the implementor to decide what the 'sensible' implementation is. In practice though, there's usually only one that makes sense.
 * Having the flatten operation on the interface isn't a requirement of monad (can you think why?). But it's usually handy to have access to it.
+
+
+**Aside - Cats:**
+>The idea of using category-theory-derived methods as a core extension to the Scala language is something that's been done already. Initially by [Scalaz](https://github.com/scalaz/scalaz), which I'll not expand on further, and more recently (and accessibly), by [Cats](https://github.com/typelevel/cats).
+Cats is a huge topic unto itself. If you want to learn about it, I recommend [Advanced Scala with Cats](http://underscore.io/books/advanced-scala/) by Underscore.io, which is now available for free.
+That said, it's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad, Functor etc. Since they're used in a wider context though, they're built up slightly differently.
+For example, cats Functor only includes map and not pure, which it gets from extending Applicative. You can take a look at their heirrarchy [here](https://github.com/typelevel/cats/tree/master/core/src/main/scala/cats).
+This is in contrast to standard Scala where most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors). However, they don't implement any common interface that marks them as such - a la the traits we've created.
+
 
 #### Exercise
 Open ImprovedWildCodemonCaptureSpec and un-ignore and make pass the tests.
@@ -326,7 +331,18 @@ Additional notes:
 TODO: Write this and do the solution (see example https://stackoverflow.com/questions/35761043/how-to-make-your-own-for-comprehension-compliant-scala-monad).
   
 #### Monad Usage
-TODO: Write about famous monads
+There are a lots of mainstream monads out there in the world of FP. Throughout the dojo, we've focused on Option and mentioned List and Future several times. A few other mainstream moands that are worth knowing about (and that the cats library provides default implementations of) include:
+* *Identity:* Dreary, but useful. The identity monad simply wraps a value into a monad. Unlike all other monads, it doesn't add any special behaviour, but it does let you trivially wrap a value into a monad, so you can use it in a context that expects a monad. 
+* *Either:* The Either monad allows you to encapsulate two values, one of which represents a success case and one of which represents a failure. There's a interesting discussion on this in the [Pink Book](http://underscore.io/books/advanced-scala/). Essentially, it didn't used to be a monad until Scala 2.12, when it became **biased** - the right side was given the semantics of being the correct value, which allowed for map and flatMap to be defied on it.
+* *Eval:* Provides an abstraction layer over a function that allows us to control when it is evaluated. This may be immediate (like val), on use (like def), or just after the first usage then cached (like lazy val).
+* *Writer:* Allows us to associate a continuous log with computations. This is particularly useful in the case when we're producing a log across across multiple concurrent threads, whereby traditional logging techniques run the risk of interleaving messages. 
+* *Reader:* Used to compose operations that depend on some single dependency. The typical usecase is some configuration object that is needed in multiple areas. The reader can be used to compose all the dependant operations into one composite operation that we can then pass the configuration too and will execute in order. In essence, this gives us a form of basic functional DI.
+* *State:* The state monad is similar to the reader monad, but instead of being limited to reading from a dependency, in this case, the state, it also allows for it to be altered. The power of the monad comes from the ability to then combine multiple state monads taht each represent atomic operations on the state then and seamlessly convey the resultant state between them. This provides a way of encapsulating mutation in a functional way.
+
+You can find much more detailed explaanations on these monad types in these places:
+* [The Pink Book](http://underscore.io/books/advanced-scala/): Detailed listings for these monads, with an emphasis on Scala and Cats.
+* [Writer, Reader and State](http://adit.io/posts/2013-06-10-three-useful-monads.html): Some nice pictographic examples for these three monad types.
+* [The Haskell Wiki](https://wiki.haskell.org/All_About_Monads): As you might expect, the focus is on Haskell, but regardless, it features a pretty comprehensive monad listing, along with an overview, definition motivation and example for each.
 
 #### Exercise (OPTIONAL)
 Open CodeboxSpec and un-ignore and make pass the tests.
@@ -335,7 +351,24 @@ This is an optional (read: bit rough) additional exercise to implement a differe
 
 Additional notes:
 * Depending on the time you have you could implement a list from scratch or piggyback on top of the existing list type. If you go for the piggyback option, then don't just delegate to the existing list's map/flatMap methods!
-* This exercise provides more evidence of the limitations of map as compared to flatMap. Using only map, there is no way to change the number of elements in a List. It is only possible to modify the type or value of the available element,s, but the number of elements will remain the same.
+* This exercise provides more evidence of the limitations of map as compared to flatMap. Using only map, there is no way to change the number of elements in a List. It is only possible to modify the type or value of the available elements, but the number of elements will remain the same.
+
+### Sequencing
+The way that this dojo has approached the Codeball, aka Options, has put a lot of emphasis on the 'flatten' operation - the ability for monads to reconcile a level of nesting into a single flat structure.
+All monads do this (it's a consequence of the Right identity law), although they may not actually feature a flatten operation that they expose as such.
+We saw with the ImprovedWildCodemonCaptureSpec exercise how when we make multiple calls to flatMap, we'll execute each in order and then flatten them out in reverse order after all of the functions have executed.
+This behaviour hints at the defining behaviour that people talk about when they're discussing monads which is *their ability to sequence computations*.
+When you combine monads with flatMap, you're specifying an execution order, along with some dealing some other extra complication that is the defining characteristic to the particular monad in question.
+This extra behaviour is commonly called the monad's 'effect'. Examples include:
+* *Option:* The effect is that it models a sequence of operations that may fail.
+* *Future:* The effect is that the operations may be executed asyncronously in different computational contexts.
+* *Writer*: The effect is that a provided parameter is made available to all the operations.
+
+#### Take Home
+* A monad is a value in context that provides a method - usually called 'flatMap' - that allows a function to be applied that itself returns a monad.
+* As monads are also Functors 'map' and 'pure' will also be available.
+* A monad must adhere to three laws: Left Identity, Right Identity and Associativity.
+* Combining monads with flatMap defines sequencing and introduces some additional effect that is the particular monad's defining characteristic.
 
 ## Further Reading
 #### 1-Lambda Notes
@@ -361,17 +394,5 @@ TODO: Work in - * Functor is very similar to morphisms as we described them befo
 #### 4-Monads
 TOTO: Write me.
   
-  TODO: Have map on monad too. Double-check type
+TODO: Have map on monad too. Double-check type
   
-  Open Links:
-  https://medium.com/@sinisalouc/demistifying-the-monad-in-scala-part-2-a-category-theory-approach-2f0a6d370eff
-  https://hackernoon.com/functors-and-applicatives-b9af535b1440
-  http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala
-  http://eed3si9n.com/herding-cats/Functor.html
-  https://www.scala-exercises.org/cats/functor
-  https://tpolecat.github.io/2014/03/21/functor.html
-  https://en.wikipedia.org/wiki/Monad_(functional_programming)#fmap_and_join
-  https://raw.githubusercontent.com/dojonorth/planet-survey-akka/master/README.md
-  https://alissapajer.github.io/conferenceslides/craftconf2014/#/40
-  https://github.com/lord/slate/wiki/Markdown-Syntax
-  http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/
