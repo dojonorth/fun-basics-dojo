@@ -5,6 +5,12 @@ A crash course in the basics (taught by a learner driver).
 Functional programming (FP) has been around for a long time. Recent findings have revealed that the T-Rex probably programmed in Lisp.
 During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus), which is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. (see **Lambda Notes** in **Further Reading** for more detail). Essentially *functional programming is lambda calculus*.
 
+**Lambda Calculus - Skippable Extra Notes:**
+>See [here](https://medium.com/javascript-scene/the-rise-and-fall-and-rise-of-functional-programming-composable-software-c2d91b424c8c) as a starting point for more detail on the relationship between Lambda Calculus and programming languages. Few interesting nuggets to whet your appetite:
+> * The 'calculus' in Lambda Calculus has nothing to do with integration and differentiation that we all know and love. Rather, it refers to the more general meaning of calculus, which defines a 'method or system for calculation or reasoning'.
+> * Lisp, that we also all know and love, was heavily influenced by lambda calculus. [Lisp dates from 1958 and is the second oldest prograaming language still in widespread use](https://en.wikipedia.org/wiki/Lisp_(programming_language)), only Fortran edges it out by a year.
+
+
 Recently though, concepts from another area of mathematics have increasingly become prevalent in the FP-scence: Category Theory (CT).
 We work in an industry that is subject to subject to swings in what's fashionable and CT concepts are most certainly bang-on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
 I don't think that's the case. FP is still at it's core about functions and their interactions, just as it's always been. Instead, CT concepts provide us with a number approaches that build on top of normal FP and allow for really slick solutions to many common problems.
@@ -371,10 +377,6 @@ This extra behaviour is commonly called the monad's 'effect'. Examples include:
 * Combining monads with flatMap defines sequencing and introduces some additional effect that is the particular monad's defining characteristic.
 
 ## Further Reading
-#### 1-Lambda Notes
-See [here](https://medium.com/javascript-scene/the-rise-and-fall-and-rise-of-functional-programming-composable-software-c2d91b424c8c) as a starting point for more detail on the relationship between Lambda Calculus and programming languages. Few interesting nuggets to whet your appetite:
-* The 'calculus' in Lambda Calculus has nothing to do with integration and differentiation that we all know and love. Rather, it refers to the more general meaning of calculus, which defines a 'method or system for calculation or reasoning'.
-* Lisp, that we also all know and love, was heavily influenced by lambda calculus. [Lisp dates from 1958 and is the second oldest prograaming language still in widespread use](https://en.wikipedia.org/wiki/Lisp_(programming_language)), only Fortran edges it out by a year.
 
 #### 2-General Category Theory
 I've tried to inline links to the general concepts that the dojo covers as I've gone along. If you're interested in a more complete discussion of parts of category theory that apply to programming though, then I'd single out [this for special mention](https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/).
@@ -389,10 +391,3 @@ Finally, if you're after a balance between the two [then this is good](http://ww
 A more heavyweight discussion can be found [here](https://hackernoon.com/functors-and-applicatives-b9af535b1440). Or if you want just the bare bones, then look no further than [here](https://tpolecat.github.io/2014/03/21/functor.html).
 
 TODO: Work in - * Functor is very similar to morphisms as we described them before (functions). The major difference is that it is a morphism between categories (sometimes called a structure preserving map) instead of objects (lifted from http://www.cakesolutions.net/teamblogs/category-theory-patterns-in-scala)
-
-
-#### 4-Monads
-TOTO: Write me.
-  
-TODO: Have map on monad too. Double-check type
-  
