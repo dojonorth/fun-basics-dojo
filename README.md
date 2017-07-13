@@ -302,7 +302,7 @@ Additional notes:
 **Aside - Cats:**
 >The idea of using category-theory-derived methods as a core extension to the Scala language is something that's been done already. Initially by [Scalaz](https://github.com/scalaz/scalaz), which I'll not expand on further, and more recently (and accessibly), by [Cats](https://github.com/typelevel/cats).
 Cats is a huge topic unto itself. If you want to learn about it, I recommend [Advanced Scala with Cats](http://underscore.io/books/advanced-scala/) by Underscore.io, which is now available for free.
-
+>
 >It's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad, Functor etc. Since they're used in a wider context though, they're built up slightly differently.
 For example, cats Functor only includes map and not pure, which it gets from extending Applicative. You can take a look at their heirrarchy [here](https://github.com/typelevel/cats/tree/master/core/src/main/scala/cats).
 This is in contrast to standard Scala where most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors). However, they don't implement any common interface that marks them as such - a la the traits we've created.
