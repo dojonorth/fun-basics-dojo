@@ -87,7 +87,6 @@ plays: C → G
 ```
 This is all super amenable to being pictographically depicted, so let's do it:
 
-**Stunning Illustrative Diagram:**
 ![Plays Diagram](Diagrams/Category_Diagram.jpg)
 
 There are a few things to take from the diagram:
@@ -143,7 +142,6 @@ def composition(value: String): Boolean = isListEmpty(makeList(value)) // AKA (m
 Why is this important? The thing that really matters is that we can show we're in a category. It doesn't matter what the category is. The fact that we're in a category means that category theory applies and so we have access to hundreds of years of hard work mathematicians have put in understanding and formalising a number of useful concepts that we can now freely pillage and use for our own devices!
 The concepts that come up is this dojo form a small selection of examples of these ((see [this](http://nikgrozev.com/2016/03/14/functional-programming-and-category-theory-part-1-categories-and-functors/) or [this](https://alissapajer.github.io/conferenceslides/craftconf2014/) for more detail).
 
-**Pillaged Concepts:**
 ![Pillaged Concepts Diagram](Diagrams/Pillaged_Concepts.jpg)
 
 ## 2. Functors
@@ -169,7 +167,6 @@ Additional Notes:
 * Being able to map across a collection that may contain either something or nothing without having to differentiate between the two cases is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called *railway-orientated programming*.
 * In the exercise the map method is defined on the type itself. I've done this as it's more familiar and is how I'd write it in practice. In future exercises though, I've segregated data and functionality by putting the methods on their respective companion objects.
 
-**Don't Open the Empty Codeball:**
 ![Don't Open the Empty Codeball](Diagrams/Don't_Open_the_Empty_Codeball.jpg)
 
 #### Functors in Type Constructors
@@ -284,7 +281,6 @@ We'll go into the benefits of monads later, but even in the two examples listed 
 
 Hence, it should come as no surprise that flatMap is much more powerful than map. This is illustrated by the fact that it's possible to write map in terms of flatMap, but not vice-versa. If the two had a fight, flatMap would win everytime.
 
-**FlatMap Wins:**
 ![Pillaged Concepts Diagram](Diagrams/Flatmap_Wins.jpg)
 
 As before, be aware that there are additional mathemetical properties that must hold true for a monad, that I'll lightly touch:
