@@ -7,7 +7,7 @@ trait Codeball[+A] {
 }
 
 object EmptyCodeball extends Codeball[Nothing] {
-  override def get: Nothing = throw new RuntimeException("Cannot grab the contents of an Empty Advanced Ball")
+  override def get: Nothing = throw new RuntimeException("Cannot grab the contents of an Empty Ball")
 }
 
 case class OccupiedCodeball[A](contents: A) extends Codeball[A] {
