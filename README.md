@@ -163,9 +163,9 @@ Open BeginnersCodeballSpec and un-ignore and make pass the tests.
 Here we establish a basic endofunctor (functor that only maps between instances of the same type).
 
 Additional Notes:
-* Note that calling *EmptyBeginnersCodeball.codemon* has no meaning for the empty codeball and so we have no choice but to throw an exception. In keeping with the Codeball (aka Option) being a box analogy, this is equivalent to our EmptyCodeball being like the Ark of the Covenant from Indian Jones - you *could* open it if you want, but I wouldn't recommend it... This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala's Option does too, so I think there's no way around it short of replacing the 'get' method with a 'getOrElse(<some value to return if there isn't one present>)' or fold or similar. However, this would make subsequent exercises more long-winded to write, so we'll stick with the anti-pattern for now. 
 * Being able to map across a collection that may contain either something or nothing without having to differentiate between the two cases is a very powerful pattern that allows for the streamlining of programming to single logical pipes that don't feature continuous branching - so-called *railway-orientated programming*.
 * In the exercise the map method is defined on the type itself. I've done this as it's more familiar and is how I'd write it in practice. In future exercises though, I've segregated data and functionality by putting the methods on their respective companion objects.
+* Note that calling *EmptyBeginnersCodeball.codemon* has no meaning for the empty codeball and so we have no choice but to throw an exception. In keeping with the Codeball (aka Option) being a box analogy, this is equivalent to our EmptyCodeball being like the Ark of the Covenant from Indiana Jones - you *could* open it if you want, but I wouldn't recommend it... This is a bit of wrinkle in pure functional terms and shows a little of Scala's OO/imperative roots. It's actually what Scala's Option does too, so I think there's no way around it short of replacing the 'get' method with a 'getOrElse(<some value to return if there isn't one present>)' or fold or similar. However, this would make subsequent exercises more long-winded to write, so we'll stick with the anti-pattern for now. 
 
 ![Don't Open the Empty Codeball](Diagrams/Don't_Open_the_Empty_Codeball.jpg)
 
@@ -196,15 +196,12 @@ Additional notes:
 With all of this in hand, we are now in a position to better define what a functor is in practical terms:
 ```
 trait Functor[T[_]] {
-  def pure[A](value: A): T[A]
-  
   def map[A, B](x: T[A])(f: A => B): T[B]
 }
 ```
 
 We can see that:
 * It is a type constructor that is defined for a generic type.
-* It features a way of taking a value and turning it into a functor - the *pure* method.
 * It features a method that applies a function to a wrapped value and produces a new functor of the resultant type. This is usually called *map*.
 
 In addition to satisfying this interface, there are certain properties that any map method should adhere to. I won't dwell on them, but I'll mention them here for completeness:
@@ -270,6 +267,8 @@ In practical terms, a monad is always also a functor, and features a map method,
 The type signature of monad is:
 ```
 trait Monad[T[_]] extends Functor[T] {
+ def pure[A](value: A): T[A]
+
  def flatMap[A, B](x: T[A])(f: A => T[B]): T[B]
 }
 ```
@@ -299,7 +298,7 @@ Here we create a fully-fledged monad!
 Additional notes:
 * As we can see from the type, it only makes sense to flatten instances of the same monadic type.
 * We now have the ability to change the outer context. A 'Some' can become a None, which was impossible before with just 'map' - all we could do was change the type of what was inside.
-* For any given context, you could potentially define multiple monads (or functors) , since it's up to the implementor to decide what the 'sensible' implementation is. In practice though, there's usually only one that makes sense.
+* For any given context, you could potentially define multiple monads (or functors), since it's up to the implementor to decide what the 'sensible' implementation is. In practice though, there's usually only one that makes sense.
 * Having the flatten operation on the interface isn't a requirement of monad. But it's usually handy to have access to it.
 
 **Aside - Cats:**
@@ -307,7 +306,7 @@ Additional notes:
 Cats is a huge topic unto itself. If you want to learn about it, I recommend [Advanced Scala with Cats](http://underscore.io/books/advanced-scala/) by Underscore.io, which is now available for free.
 >
 >It's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad and Functor. Since they're part of a wider ecosystem in Cats though, they're built up slightly differently.
-For example, cats Functor only includes map and not pure, which it gets from extending Applicative. You can take a look at their heirrarchy [here](https://github.com/typelevel/cats/tree/master/core/src/main/scala/cats).
+For example, cats Monad only includes flatMap and not pure, which it gets from extending Applicative. You can take a look at their heirrarchy [here](https://github.com/typelevel/cats/tree/master/core/src/main/scala/cats).
 This is in contrast to standard Scala where most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors). However, they don't implement any common interfaces that mark them as such - a la the traits we've created.
 
 #### Exercise
@@ -362,18 +361,19 @@ Additional notes:
 * This exercise provides more evidence of the limitations of map as compared to flatMap. Using only map, there is no way to change the number of elements in a List. It is only possible to modify the type or value of the available elements, but the number of elements will remain the same.
 
 ### Sequencing the Heart of the Monad
-The way that this dojo has approached the Codeball, aka Options, has put a lot of emphasis on the 'flatten' operation - the ability for monads to reconcile a level of nesting into a single flat structure. Taking this tact, hopefully made for an easier introduction and helped better couch the exercises. It is true that all monads will perform some sort of internal flattening (it's a consequence of the Right identity law) - although they may not actually expose it - however, it'd be a msitake to come away thinking that this is the essence of how to think about them.
+The way that this dojo has approached the Codeball, aka Options, has put a lot of emphasis on the 'flatten' operation - the ability for monads to reconcile a level of nesting into a single flat structure. Taking this tact, hopefully made for an easier introduction and helped better couch the exercises. It is true that all monads will perform some sort of internal flattening (it's a consequence of the Right identity law) - although they may not actually expose it - however, it'd be a mistake to come away thinking that this is the essence of how to think about them.
 
 We saw with the ImprovedWildCodemonCaptureSpec exercise how when we make multiple calls to flatMap, they execute each in order and then are flattened out in reverse order once all of the functions have executed. This behaviour hints at the defining behaviour that people talk about when they're discussing monads which is actually *their ability to sequence computations*.
 When you combine monads with flatMap, you're specifying an execution order. FlatMap always has to deal with this along with handling some extra complexity that is the defining charcteristic of the particular monad you're dealing with. This extra behaviour is commonly called the monad's 'effect'. Examples include:
 * *Option:* The effect is that it models a sequence of operations that may fail.
 * *Future:* The effect is that the operations may be executed asyncronously in different computational contexts.
-* *Writer*: The effect is that a provided parameter is made available to all the operations.
+* *Reader*: The effect is that a provided parameter is made available to all the operations.
 
 #### Take Home
-* A monad is a value in context that provides a method - usually called 'flatMap' - that allows a function to be applied that itself returns a monad.
-* As monads are also Functors 'map' and 'pure' will also be available.
+* A monad is a value in context that provides methods to convert a value into a monad - usually called 'pure' - and that allows a function to be to the value applied that itself returns a monad - usually called 'flatMap'.
+* As monads are also functors 'map' will also be available.
 * A monad must adhere to three laws: Left Identity, Right Identity and Associativity.
+* Ultimately, monads are just the sum of the interface and the monad laws, but the implications these laws is hard to reason about and leads to them instead being associated wth other simpler abstractions, the most common being the emphasis on them as a tool for sequencing operation.
 * Combining monads with flatMap defines sequencing and introduces some additional effect that is the particular monad's defining characteristic.
 
 #### Exercise (OPTIONAL)
