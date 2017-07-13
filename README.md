@@ -5,30 +5,27 @@ A crash course in the basics (taught by a learner driver).
 Functional programming (FP) has been around for a long time. Recent findings have revealed that the T-Rex probably programmed in Lisp.
 During this time, the set of core concepts associated with FP has remained reasonably constant. These concepts are strongly rooted in [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus), which is primarily concerned with the application of functions - their composition; higher-order functions; currying etc. Essentially *functional programming is lambda calculus*.
 
+Recently though, concepts from another area of mathematics have increasingly become prevalent in the FP-scence: Category Theory (CT).
+We work in an industry that is subject to swings in what's fashionable and CT concepts are most certainly bang-on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
+I wouldn't go that far. FP is still at its core about functions and their interactions, just as it's always been. Instead, CT concepts provide us with a number of approaches that build on top of normal FP and allow for really slick solutions to many common problems - they provide the 'Design Patterns' for the functional domain - and for this reason, they're a useful tool have in the box and are here to stay.
+
 **Aside - Skippable Extra Lambda Calculus Notes:**
 >See [here](https://medium.com/javascript-scene/the-rise-and-fall-and-rise-of-functional-programming-composable-software-c2d91b424c8c) as a starting point for more detail on the relationship between Lambda Calculus and programming languages. Few interesting nuggets to whet your appetite:
 > * The 'calculus' in Lambda Calculus has nothing to do with integration and differentiation that we all know and love. Rather, it refers to the more general meaning of calculus, which defines a 'method or system for calculation or reasoning'.
 > * Lisp, that we also all know and love, was heavily influenced by lambda calculus. [Lisp dates from 1958 and is the second oldest prograaming language still in widespread use](https://en.wikipedia.org/wiki/Lisp_(programming_language)), only Fortran edges it out by a year.
 
-Recently though, concepts from another area of mathematics have increasingly become prevalent in the FP-scence: Category Theory (CT).
-We work in an industry that is subject to subject to swings in what's fashionable and CT concepts are most certainly bang-on-trend at the moment, to the point where CT's sometimes overstated as is if it's an integral part of what defines the FP paradigm.
-I don't think that's the case. FP is still at it's core about functions and their interactions, just as it's always been. Instead, CT concepts provide us with a number approaches that build on top of normal FP and allow for really slick solutions to many common problems.
-It is because of this that my favourite description of the relationship between CT and FP is that CT provides the 'Design Patterns' for the functional domain.
-
-Category Theory itself is a vast and *crushingly* abstract field of mathematics. I only understand - or at least have managed to convince myself that I understand - a very small portion of it.
-That's fine though, as my goal here isn't to provide you with a complete exposition into category theory, replete with the required mathematical rigour, but instead to concentrate on the application of a few core concepts, without getting too bogged down in the underlying theory.
-The goal is that I'll try and present a simplified view of the underlying mathematics: there will be omissions, but what's left should be 99% correct, I hope...  
+Category Theory itself is a vast and *crushingly abstract* field of mathematics. I only understand - or at least have managed to convince myself that I understand - a tiny portion of it.
+That's fine though, as my aim here isn't to provide you with a complete exposition into CT, replete with the required mathematical rigour, but instead to concentrate on the application of a few core concepts, without getting too bogged down in the underlying theory.
+The goal is that I'll try and present a simplified view of the underlying mathematics: there will be omissions, but what's left should be 99% correct; I hope...  
 
 **Disclaimer:**
->I'm *far* from a CT expert. I learnt about it myself for the dojo, and have a decent inkling in a programming context, but feel that I'm still lacking a full comprehension of these concepts in a more abstract mathematical sense.
-If you notice any inconsistencies or errors, then flag me up and gladly correct it.
+>As you've probably picked up on by now, I'm *far* from a CT expert. I learnt about it myself whilst writing this dojo, and have a decent inkling as to its application in a programming context, but I'm still lacking a full comprehension of these concepts in a more abstract mathematical sense. Hopefully the vast majority of what I've said here us sound, and I've included copious references you use to confirm / clarify the content, but if you notice any inconsistencies or errors, then flag me up and gladly correct them.
 
 ## Dojo Format
 The dojo takes a workshop-type format. Generally, for each concept, this document provides a little prose, giving some background to the concept and then there'll be a few exercises to complete based around it.
-These exercises take the format of code that needs writing to make the provided failing tests pass. Initially, all of the failing tests are set to be ignored, so you'll want to un-ignore them as you go along.
+These exercises mainly take the format of code that needs writing to make the provided failing tests pass. Initially, all of the failing tests are set to be ignored, so you'll want to un-ignore them as you go along.
 
-The exercises build on each other and share a narrative thread. You could possibly skip this prose and just do the exercises or vice-versa, but I'd recommend going through it in order.
-Similarly, it's strongly advisable to ensure they pass before moving on to the next. If needs be, I've included the answers, so if you get really stuck then just copy the answer in and move on.
+The exercises build on each other and share a narrative thread. You could possibly skip this prose and just do the exercises or vice-versa, but I'd recommend going through it in order. Similarly, it's strongly advisable to ensure that you make all the pass before moving on to the next exercise. If needs be, I've included the answers, so if you get really stuck then just copy the answer and move on.
 
 ## Setup
 Assuming you work within Scala, then you should be able to skip this section, as getting the tests running is just a question of cloning this repo, opening the code in IntelliJ and then using SBT to run the tests.
@@ -38,17 +35,17 @@ If you're not familiar with Scala, then the following guide should get you up an
 ```
 brew install sbt
 ```
-* Ensure the Java 8 **JDK** (not just the JRE) is installed (it's required by the latest version of Akka). It can be downloaded from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
-* Clone to repo locally:
+* Ensure the Java 8 **JDK** (not just the JRE) is installed (earlier versions may work, but I've not tested them). It can be downloaded from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
+* Clone the repo locally:
 ```
 git clone git@github.com:dojonorth/fun-basics-dojo.git
 ```
 * Open the code in your favourite IDE. If you have IntelliJ, then you should just be able to import the build.sbt. At a push, any text editor that lets you navigate the code should be fine.
-* Compile and run the tests. If you're using IntelliJ, then it should be easy to do this from there. Otherwise, running the tests directly from the command line is fine. The easist way to check that everything is fine is to navigate to the planet-survey-akka folder and then run:
+* Compile and run the tests. If you're using IntelliJ, then it should be easy to do this from there. Otherwise, running the tests directly from the command line is fine. The easist way to check that everything is fine is to navigate to the test root folder and then run:
 ```
 sbt test
 ```
-**NOTE: The first time you run the tests, they'll be slow for a couple of reasons: SBT will have to download and locally cache all of Akka's dependencies and the the Pi Calculation single threaded test that runs is intentionally slow. So don't worry if it appears to have frozen for 30 seconds or so.**
+**NOTE: The first time you run the tests, they'll be slow for a couple of reasons: SBT will have to download and locally cache all of the dependencies and build all of the source code. Subsequent runs should be faster**
 
 Within the cloned directory, the full test suite can be run via:
 ```
@@ -60,20 +57,20 @@ Individual test files can be run using the following format:
 ```
 
 ## 1. Categories
-**Aside - It doesn't really matter...:**
->Before we get started, it's worth noting that I've included this section for completeness: it seemed remiss to talk about CT concepts without first talking about a category is.
-That said, understanding them in detail *isn't actually that important*. It isn't that necessary to then understand the subsequent concepts.
+**Aside - It doesn't really matter...**
+>Before we get started, it's worth noting that I've included this section for completeness: it seemed remiss to talk about CT concepts without first talking about what a category is.
+That said, understanding them in detail *isn't actually that important*. It isn't required to understand subsequent concepts.
 So read this section and complete the exercises, but if you don't understand it all, don't get hung up on it. Just concentrate on the take-home.
 
-Unsurprisingly, at the heart of category theory, are categories. A category is a simple algebraic data structure that consists of two main collections:
+Unsurprisingly, at the heart of category theory, are categories. A category is a 'simple' algebraic data structure that consists of two main collections:
 1. **Objects -** the 'things' within the category. These can be thought of as the actual data. They're commonly represented using capital letters e.g. *A*, *B*, *C* etc.
 2. **Morphisms -** the relationships within the category. These are mappings go from one source object (A) to another target object (B) and are usually represented using arrows e.g. A → B.
 
-You'll notice though that these are incredibly general concepts. Normally, at this stage I'd like to give some concrete examples to help clear things up, but CT really doesn't make this easy.
-In fact, CT sets out to describe things in such extreme generality that other entire disciplines of mathematics fall within into it and it's sometimes called [Abstract Nonsense](https://en.wikipedia.org/wiki/Abstract_nonsense) by other mathematicians.
+You'll notice that these are incredibly general concepts. Normally, at this stage of explaining something, I'd like to give some concrete examples to help clear things up, but CT really doesn't make this easy.
+In fact, CT sets out to describe things in such extreme generality that other entire disciplines of mathematics fall within into it and so  it's sometimes called [Abstract Nonsense](https://en.wikipedia.org/wiki/Abstract_nonsense) by other mathematicians.
 
-I think a lot of the difficulty stems from the fact that as a developer you've probably already equated objects with types and instances and morphisms as functions, which is generally true when we're applying CT within the context of code.
-However, this is a specific application of it and in the more general sense, it operates at a level above the types you're used to as we'll see.
+I think a lot of the difficulty stems from the fact that, as a developer your preconceptions have probably already lead to you you equated objects with types and instances and morphisms as functions, which is generally true when we're applying CT within the context of code.
+However, this is a specific application of it and in the more general sense, it operates at a level above the types you're used todealing with, as we'll see.
 
 The most accessible common example of a category is the *category of finite sets and maps*, although there are [many others](http://eed3si9n.com/learning-scalaz/Examples+of+categories.html).
 Within this category an object is a finite set or collection. For example, these sets drawn from my youth:
@@ -84,7 +81,7 @@ and
 ```
 Console Cartridges = {Super Mario World, Alex Kidd in Miracle World, Road Rash II}
 ```
-We'll call the set Classic Consoles Russ Owned 'C' and the set Console Cartridges 'G', then we can define a morphism:
+We'll call the set Classic Consoles 'C' and the set Console Cartridges 'G', then we can define a morphism:
 ```
 plays: C → G
 ```
