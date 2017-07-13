@@ -87,7 +87,7 @@ plays: C → G
 ```
 This is all super amenable to being pictographically depicted, so let's do it:
 
-![Plays Diagram](Diagrams/Category_Diagram.jpg)
+![Plays Diagram](Diagrams/Category_Diagram.jpg |width=400)
 
 There are a few things to take from the diagram:
 * For each dot in the domain of Classic Consoles, there is exactly one arrow leaving that runs to the codomain of Console Cartridges.
