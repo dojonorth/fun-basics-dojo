@@ -246,7 +246,7 @@ Additional notes:
 > "A monad is just a monoid in the category of endofunctors, what's the probleⅿ?"
 
 And people wonder why this stuff is considered inacessible. Anyhow, monads have a semi-mythical status in computing, in particular for being hard to understand.
-During the course of researching this dojo I read a few posts by people freaking out that it was impossible to understand them without a total grasp of the underlying maths. I'm going to try anyway...
+During the course of researching this dojo I read a few posts by people freaking out that it was impossible to understand them without a total grasp of the underlying maths, so don't even try. I'm going to try anyway...
 
 As [has been pointed out](https://bartoszmilewski.com/2016/11/21/monads-programmers-definition/) people end to overestimate their complexity, as they conflate the myriad of applications with the concept itself.
 A good analogy I read compared them to duct tape: If you tried to describe duct tape in terms of it's applications then you might say things along the lines of:
@@ -259,7 +259,7 @@ Just like how a functor boiled down to something that has a map operation on it,
 * **Pure -** a method that takes a value of a plain type and puts it into a monad creating a monadic value. This is effectively the monad constructor. It goes by many aliases across the programming world: return in Haskell, unit in Scala, sometimes pure elsewhere, occasionally zero
 * **Bind -** a method that performs as per the functor map operation in that it contextually applies the function to the contents of the monad, but then performs an additional flattening step that will be described in more detail later. Again, this operation goes by other names >>= in Haskell and flatMap in Scala.
 
-I prefer the Scala name for bind, which is flatMap, as it describes what the operation does: it maps over the monad's values and then flattens the result. As with functors, just what this flatten operation does is contextual to the monad in question, but in essence it takes any nested instances within the Monad and then 'flattens' them out into a single monad. For example:
+I prefer the Scala name flatMap, as it describes what the operation does: it maps over the monad's values and then flattens the result. As with functors, just what this flatten operation does is contextual to the monad in question, but in essence it takes any nested instances within the Monad and then 'flattens' them out into a single monad. For example:
 * *The List Monad -* List(List(1,2,3), List(4), List(5,6,7)).flatten() would give List(1,2,3,4,5,6,7)
 * *The Option Monad -* Some(Some(x)).flatten would give Some(x), whereas Some(None) gives None
 
@@ -280,8 +280,8 @@ We'll go into the benefits of monads later, but even in the two examples listed 
 Hence, it should come as no surprise that flatMap is much more powerful than map. This is illustrated by the fact that it's possible to write map in terms of flatMap, but not vice-versa. If the two had a fight, flatMap would win everytime.
 [TODO: Flatmap Wins diagram]
 
-As before, be aware that there are additional mathemetical properties that should technically hold true for a monad, that I'll lightly touch:
-* *Left Identity:* Calling pure on a value then applying a a function to the result via flatMap is teh same as just applying the function to the value
+As before, be aware that there are additional mathemetical properties that must hold true for a monad, that I'll lightly touch:
+* *Left Identity:* Calling pure on a value then applying a a function to the result via flatMap is the same as just applying the function to the value
 > pure(value).flatMap(f) == f(value)
 * *Right Identity:* Passing pure to flatMap has no effect
 > monad.flatMap(pure) == monad
@@ -294,17 +294,16 @@ Open MasterCodeballSpec and un-ignore and make pass the tests.
 Here we create a fully-fledged monad!
 
 Additional notes:
-* Just as a functor is a value wrapped in context, so is a Monad. The key operation is flatten, that needs to be contextually defined for the type.
 * As we can see from the type, it only makes sense to flatten instances of the same monadic type.
 * We now have the ability to change the outer context. A 'Some' can become a None, which was impossible before with just 'map' - all we could do was change the type of what was inside.
-* For any given context, you could potentially define multiple monads (or functors)  , since it's up to the implementor to decide what the 'sensible' implementation is. In practice though, there's usually only one that makes sense.
-* Having the flatten operation on the interface isn't a requirement of monad (can you think why?). But it's usually handy to have access to it.
-
+* For any given context, you could potentially define multiple monads (or functors) , since it's up to the implementor to decide what the 'sensible' implementation is. In practice though, there's usually only one that makes sense.
+* Having the flatten operation on the interface isn't a requirement of monad. But it's usually handy to have access to it.
 
 **Aside - Cats:**
 >The idea of using category-theory-derived methods as a core extension to the Scala language is something that's been done already. Initially by [Scalaz](https://github.com/scalaz/scalaz), which I'll not expand on further, and more recently (and accessibly), by [Cats](https://github.com/typelevel/cats).
 Cats is a huge topic unto itself. If you want to learn about it, I recommend [Advanced Scala with Cats](http://underscore.io/books/advanced-scala/) by Underscore.io, which is now available for free.
-That said, it's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad, Functor etc. Since they're used in a wider context though, they're built up slightly differently.
+
+>It's worth pointing out that within Cats, similar traits exist to the ones that we've created for Monad, Functor etc. Since they're used in a wider context though, they're built up slightly differently.
 For example, cats Functor only includes map and not pure, which it gets from extending Applicative. You can take a look at their heirrarchy [here](https://github.com/typelevel/cats/tree/master/core/src/main/scala/cats).
 This is in contrast to standard Scala where most (all?) higher-kinded types in Scala feature map and flatMap methods and are effectively Monads (and so also Functors). However, they don't implement any common interface that marks them as such - a la the traits we've created.
 
